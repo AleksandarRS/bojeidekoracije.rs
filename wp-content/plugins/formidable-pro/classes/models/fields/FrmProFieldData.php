@@ -255,7 +255,7 @@ class FrmProFieldData extends FrmFieldType {
 	 * @since 3.0
 	 *
 	 * @param array|string|int $value
-	 * @param array $ids
+	 * @param array            $atts
 	 *
 	 * @return array|string|int
 	 */

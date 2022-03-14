@@ -1,1 +1,88 @@
 @import "../../../node_modules/slick-carousel/slick/slick.scss";
+
+.products-slider-wrapper {
+    .slider__counter,
+    > .slick-dots {
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .slider__counter {
+        text-align: left;
+        margin-top: -35px;
+        z-index: 1;
+        position: relative;
+        padding-left: 12px;
+        font-size: $font-size-large;
+        span {
+            color: $white;
+            padding-left: 3px;
+        }
+    }
+    > .slick-dots {
+        padding-left: 0;
+        list-style: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: -150px;
+        > li {
+            color: $white;
+            flex: 0 0 25%;
+            font-size: $font-size-xsmall;
+            max-width: 25%;
+            transition: all .5s;
+            &.slick-active {
+                flex: 0 0 50%;
+                font-size: $font-size-large;
+                max-width: 50%;
+                .products-featured-thumbnail {
+                    &:after {
+                        background-color: $primary-color;
+                    }
+                }
+            }
+        }
+        .products-featured-thumbnail {
+            height: 150px;
+            padding: 20px;
+            position: relative;
+            cursor: pointer;
+            &:after {
+                @extend %after-full;
+            }
+            .pagination-title {
+                position: relative;
+                z-index: 1;
+            }
+        }
+    }
+    .slick-arrow {
+        color: $white;
+        position: absolute;
+        bottom: -15px;
+        z-index: 2;
+        &:hover {
+            color: $secondary-color;
+        }
+        &.pull-right {
+            right: calc(50vw - 35px);
+        }
+        &.pull-left {
+            left: calc(50vw - 35px);
+        }
+    }
+}
+.slick-arrow {
+    border: none;
+    background-color: transparent;
+    padding: 10px;
+    i {
+        &:before {
+            font-size: $font-size-xlarge + 6;
+            @extend %transition-color;
+        }
+    }
+    
+
+}

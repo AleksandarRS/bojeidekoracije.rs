@@ -115,8 +115,8 @@ class FrmProForm {
 	}
 
 	/**
-	 * @param int $form_id
-	 * @return array
+	 * @param array<int> $file_ids
+	 * @return array<string>
 	 */
 	private static function get_all_file_folders_for_form( $file_ids ) {
 		$file_folders = array();

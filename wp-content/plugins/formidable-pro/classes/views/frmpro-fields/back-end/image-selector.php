@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<img id="frm_image_preview_<?php echo esc_attr( $field['id'] . '-' . $opt_key ); ?>" src="<?php echo esc_attr( empty( $image['url'] ) ? '' : $image['url'] ); ?>" class="frm_image_preview" alt="<?php echo esc_attr( $opt ); ?>" />
 			<div class="frm_image_data">
 				<div class="frm_image_preview_title"><?php echo esc_attr( $image['filename'] ); ?></div>
-				<div href="javascript:void(0)" class="frm_remove_image_option" title="<?php esc_attr_e( 'Remove image', 'formidable' ); ?>">
+				<div href="javascript:void(0)" class="frm_remove_image_option" title="<?php esc_attr_e( 'Remove image', 'formidable-pro' ); ?>">
 					<?php FrmAppHelper::icon_by_class( 'frm_icon_font frm_delete_icon' ); ?>
 					<?php esc_attr_e( 'Delete', 'formidable-pro'); ?>
 				</div>

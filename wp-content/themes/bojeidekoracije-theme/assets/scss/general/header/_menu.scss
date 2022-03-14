@@ -32,7 +32,7 @@
 	.main-navigation {
 		min-width: 270px;
 		top: 0;
-		margin: auto;
+		margin: 0;
 		@include max-mq($responsive-toggle-breakpoint) {
 			background-color: $white;
 			position: fixed;
@@ -100,14 +100,14 @@
 					}
 	
 					a {
-						padding: 10px 20px;
+						padding: 10px 12px;
 						display: block;
 						position: relative;
 						color: inherit;
 						width: 100%;
 
 						@include max-mq($mac) {
-							padding: 15px;
+							padding: 8px;
 							// font-size: $font-size-small;
 						}
 					}

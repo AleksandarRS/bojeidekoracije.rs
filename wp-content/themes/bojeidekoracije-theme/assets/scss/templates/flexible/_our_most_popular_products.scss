@@ -1,0 +1,15 @@
+.most-popular-products-section-wrapper {
+    @extend %left-calc;
+}
+.most-popular-products-slider {
+    padding-right: 0;
+    .slick-slide {
+        width: 400px;
+    }
+}
+.most-popular-products-item {
+    padding-right: 30px;
+    .most-popular-products-featured-img {
+        height: 300px;
+    }
+}

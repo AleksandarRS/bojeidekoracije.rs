@@ -74,7 +74,7 @@ class FrmProEntryMeta {
 			FrmEntriesHelper::get_posted_value($field, $value, $args);
 		}
 
-		if ( $field->type == 'form' || FrmField::is_repeating_field( $field ) ) {
+		if ( $field->type === 'form' || FrmField::is_repeating_field( $field ) ) {
 			self::validate_embedded_form( $errors, $field, $args['exclude'] );
 
 			// get any values updated during nested validation
@@ -113,8 +113,7 @@ class FrmProEntryMeta {
 		$field_is_hidden = false;
 
 		// Don't require fields hidden with shortcode fields="25,26,27"
-		global $frm_vars;
-		if ( self::is_field_hidden_by_shortcode( $field, $errors ) ) {
+		if ( isset( $errors[ 'field' . $field->temp_id ] ) && self::is_field_hidden_by_shortcode( $field ) ) {
 			unset( $errors[ 'field' . $field->temp_id ] );
 			$value           = '';
 			$field_is_hidden = true;
@@ -393,9 +392,8 @@ class FrmProEntryMeta {
 			return;
 		}
 
-		//Don't require fields hidden with shortcode fields="25,26,27"
-		global $frm_vars;
-		if ( isset( $frm_vars['show_fields'] ) && ! empty( $frm_vars['show_fields'] ) && is_array( $frm_vars['show_fields'] ) && $field->required == '1' && ! in_array( $field->id, $frm_vars['show_fields'] ) && ! in_array( $field->field_key, $frm_vars['show_fields'] ) ) {
+		// Don't require fields hidden with shortcode fields="25,26,27"
+		if ( self::is_field_hidden_by_shortcode( $field ) ) {
 			unset( $errors[ 'field' . $field->temp_id ] );
 			$value = '';
 		}
@@ -403,12 +401,13 @@ class FrmProEntryMeta {
 
 	/**
 	 * @since 2.0.6
+	 *
+	 * @param stdClass $field
+	 * @return bool
 	 */
-	private static function is_field_hidden_by_shortcode( $field, $errors ) {
-		global $frm_vars;
-		return ( isset( $frm_vars['show_fields'] ) && ! empty( $frm_vars['show_fields'] ) && is_array( $frm_vars['show_fields'] ) && $field->required == '1' && isset( $errors[ 'field' . $field->temp_id ] ) && ! in_array( $field->id, $frm_vars['show_fields'] ) && ! in_array( $field->field_key, $frm_vars['show_fields'] ) );
+	private static function is_field_hidden_by_shortcode( $field ) {
+		return $field->required == '1' && ! FrmProGlobalVarsHelper::get_instance()->field_is_visible( $field );
 	}
-
 
 	/**
 	 * Clear a field's errors and value when it is conditionally hidden
@@ -643,13 +642,13 @@ class FrmProEntryMeta {
 			$get_table = $wpdb->prefix . 'frm_item_metas em INNER JOIN ' . $wpdb->prefix . 'frm_items e ON (e.id=em.item_id)';
 			$where['em.field_id'] = $field->id;
 
-		} else if ( $field->field_options['post_field'] == 'post_custom' ) {
+		} elseif ( $field->field_options['post_field'] === 'post_custom' ) {
 			// If field is a custom field
 			$get_field = 'pm.meta_value';
 			$get_table = $wpdb->postmeta . ' pm INNER JOIN ' . $wpdb->prefix . 'frm_items e ON pm.post_id=e.post_id';
 			$where['pm.meta_key'] = $field->field_options['custom_field'];
 
-		} else if ( $field->field_options['post_field'] != 'post_category' ) {
+		} elseif ( $field->field_options['post_field'] !== 'post_category' ) {
 			// If field is a non-category post field
 			$get_field = 'p.' . sanitize_title( $field->field_options['post_field'] );
 			$get_table = $wpdb->posts . ' p INNER JOIN ' . $wpdb->prefix . 'frm_items e ON p.ID=e.post_id';

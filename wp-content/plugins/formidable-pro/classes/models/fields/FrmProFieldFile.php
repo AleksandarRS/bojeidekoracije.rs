@@ -31,12 +31,15 @@ class FrmProFieldFile extends FrmFieldType {
 		return $settings;
 	}
 
+	/**
+	 * @return array
+	 */
 	protected function extra_field_opts() {
 		return array(
-			'ftypes' => array(),
-			'attach' => false,
-			'delete' => false,
-			'restrict' => 0,
+			'ftypes'     => array(),
+			'attach'     => false,
+			'delete'     => false,
+			'restrict'   => 0,
 			'resize'     => false,
 			'new_size'   => '600',
 			'resize_dir' => 'width',
@@ -47,13 +50,68 @@ class FrmProFieldFile extends FrmFieldType {
 
 	/**
 	 * @since 4.0
+	 *
+	 * @param array $args
+	 * @return void
 	 */
 	public function show_primary_options( $args ) {
-		$field = $args['field'];
-		$mimes = $this->get_mime_options( $field );
-		include( FrmProAppHelper::plugin_path() . '/classes/views/frmpro-fields/back-end/file-options.php' );
+		$field   = $args['field'];
+		$form_id = absint( $field['form_id'] );
+		$mimes   = $this->get_mime_options( $field );
+
+		$public_files_tooltip = self::maybe_get_public_files_tooltip( $form_id );
+		if ( $public_files_tooltip ) {
+			$settings_url = admin_url( 'admin.php?page=formidable&frm_action=settings&id=' . $form_id . '&t=permissions_settings_settings' );
+		}
+
+		include FrmProAppHelper::plugin_path() . '/classes/views/frmpro-fields/back-end/file-options.php';
 
 		parent::show_primary_options( $args );
+	}
+
+	/**
+	 * @param int $form_id
+	 * @return string
+	 */
+	private static function maybe_get_public_files_tooltip( $form_id ) {
+		$form_is_protected = FrmProFileField::get_option( $form_id, 'protect_files', 0 );
+
+		if ( $form_is_protected ) {
+			$protect_files_roles = FrmProFileField::get_option( $form_id, 'protect_files_role', 0 );
+			$uploads_are_public  = ! $protect_files_roles || in_array( '', $protect_files_roles, true );
+		} else {
+			$uploads_are_public = true;
+		}
+
+		if ( ! $uploads_are_public ) {
+			return false;
+		}
+
+		$form_is_indexed = ! FrmProFileField::get_option( $form_id, 'noindex_files', 0 );
+		return self::get_public_files_tooltip( $form_is_protected, $form_is_indexed );
+	}
+
+	/**
+	 * @param bool $form_is_protected
+	 * @param bool $form_is_indexed
+	 * @return string
+	 */
+	private static function get_public_files_tooltip( $form_is_protected, $form_is_indexed ) {
+		$tooltip = sprintf(
+			/* translators: %s a conditional additional string (and could be indexed by search engines) if indexing is not turned off. */
+			__( 'Files uploaded with this field can be viewed by anyone with access to a link%s.', 'formidable-pro' ),
+			$form_is_indexed ? ' and could be indexed by search engines' : ''
+		);
+
+		$recommendation = $form_is_protected ? __( 'changing who can access the file', 'formidable-pro' ) : __( 'enabling file protection', 'formidable-pro' );
+		if ( $form_is_indexed ) {
+			$recommendation .= __( ' and turning off indexing', 'formidable-pro' );
+		}
+
+		/* translators: %s recommendation. Can be a few things (changing who can access the file, enabling file protection and turning off indexing) */
+		$recommendation = sprintf( __( ' If this is a concern, we recommend %s.' ), $recommendation );
+
+		return $tooltip . $recommendation;
 	}
 
 	/**
@@ -71,6 +129,7 @@ class FrmProFieldFile extends FrmFieldType {
 	 */
 	private function get_mime_options( $field ) {
 		$mimes = get_allowed_mime_types();
+		ksort( $mimes );
 		$selected_mimes = $field['ftypes'];
 
 		$ordered = array();
@@ -262,8 +321,7 @@ class FrmProFieldFile extends FrmFieldType {
 			}
 
 			$img = $this->get_file_display( $id, $atts );
-
-			if ( isset( $img ) ) {
+			if ( $img ) {
 				$img_html[] = $img;
 			}
 		}
@@ -469,11 +527,8 @@ class FrmProFieldFile extends FrmFieldType {
 		$form              = FrmForm::getOne( $this->field->form_id );
 		$form_is_protected = FrmProFileField::get_option( $form->parent_form_id ? $form->parent_form_id : $form->id, 'protect_files', 0 );
 
-		if ( ! $form_is_protected ) {
-			return;
-		}
-
-		$stop_sanitizing = apply_filters( 'frm_stop_file_switching', false, array( 'form_id' => $this->field->form_id ) );
+		$stop_sanitizing = ! $form_is_protected;
+		$stop_sanitizing = apply_filters( 'frm_stop_file_switching', $stop_sanitizing, array( 'form_id' => $this->field->form_id, 'field_id' => $this->field->id ) );
 
 		if ( $stop_sanitizing ) {
 			return;
@@ -530,33 +585,40 @@ class FrmProFieldFile extends FrmFieldType {
 	 * @return array
 	 */
 	private function get_assigned_file_ids( $unsafe_file_ids ) {
-		$assigned_ids = array();
-		$conditions   = array( 'or' => 1 );
-		foreach ( $unsafe_file_ids as $file_id ) {
-			$conditions[] = array(
-				'or'              => 1,
-				'meta_value'      => $file_id,
-				'meta_value LIKE' => array( 'i:' . $file_id . ';', ':"' . $file_id . '"' ),
-			);
-		}
-
 		$item_ids   = FrmDb::get_col( 'frm_items', array( 'parent_item_id' => $this->entry_id ) );
 		$item_ids[] = $this->entry_id;
 
-		$where = array(
-			'field_id' => $this->field->id,
-			'item_id'  => $item_ids,
-			$conditions,
+		$metas = FrmProEntryMeta::get_all_metas_for_field(
+			$this->field,
+			array(
+				'entry_ids' => $item_ids,
+			)
 		);
-		$metas = FrmDb::get_col( 'frm_item_metas', $where, 'meta_value' );
 
-		foreach ( $metas as $meta ) {
-			FrmProAppHelper::unserialize_or_decode( $meta );
-			$meta_file_ids = array_map( 'intval', (array) $meta );
-			$assigned_ids  = array_merge( array_intersect( $meta_file_ids, $unsafe_file_ids ), $assigned_ids );
-		}
+		// Flatten meta, convert to integers, with unique values, and only include intersecting "unsafe_file_ids" values.
+		return array_values(
+			array_reduce(
+				$metas,
+				function( $total, $meta ) use ( $unsafe_file_ids ) {
+					if ( is_numeric( $meta ) ) {
+						$meta_file_ids = array( (int) $meta );
+					} elseif ( is_array( $meta ) ) {
+						$meta_file_ids = array_map( 'absint', $meta );
+					} else {
+						return $total;
+					}
 
-		return $assigned_ids;
+					foreach ( $meta_file_ids as $file_id ) {
+						if ( in_array( $file_id, $unsafe_file_ids, true ) ) {
+							$total[ $file_id ] = $file_id;
+						}
+					}
+
+					return $total;
+				},
+				array()
+			)
+		);
 	}
 
 	/**

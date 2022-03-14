@@ -163,8 +163,8 @@ class FrmProHooksController {
 
 		add_action( 'wp_head', 'FrmProFormsController::head' );
 		add_action( 'formidable_shortcode_atts', 'FrmProFormsController::formidable_shortcode_atts', 10, 2 );
-		add_action( 'frm_pre_get_form', 'FrmProFormsController::add_submit_conditions_to_frm_vars', 10 );
-		add_filter( 'frm_show_submit_button', 'FrmProFormsController::maybe_hide_submit_button', 10, 2 );
+		add_action( 'frm_pre_get_form', 'FrmProFormsController::pre_get_form', 10 );
+		add_filter( 'frm_submit_button_html', 'FrmProFormsController::maybe_hide_submit_button', 10, 2 );
 		add_filter( 'frm_replace_content_shortcodes', 'FrmProFormsController::replace_content_shortcodes', 10, 3 );
 		add_filter( 'frm_conditional_shortcodes', 'FrmProFormsController::conditional_options' );
 		add_filter( 'frm_helper_shortcodes', 'FrmProFormsController::add_pro_field_helpers', 10, 2 );
@@ -467,7 +467,7 @@ class FrmProHooksController {
 		add_filter( 'frm_is_field_required', 'FrmProFieldsController::maybe_make_field_optional', 10, 2 );
 
 		// Fields Helper
-		add_filter( 'frm_get_default_value', 'FrmProFieldsHelper::get_default_value', 10, 4 );
+		add_filter( 'frm_get_default_value', 'FrmProFieldsHelper::get_default_value', 10, 5 );
 		add_filter( 'frm_get_default_value', 'FrmProFieldsHelper::get_dynamic_field_default_value', 11, 4 );
 		add_filter( 'frm_filter_default_value', 'FrmProFieldsHelper::get_default_value', 10, 3 );
 		add_filter( 'frm_setup_new_fields_vars', 'FrmProFieldsHelper::setup_new_vars', 10, 2 );
@@ -486,6 +486,7 @@ class FrmProHooksController {
 		add_action( 'frm_entry_form', 'FrmProFormsController::form_hidden_fields', 10, 2 );
 		add_filter( 'frm_submit_button', 'FrmProFormsController::submit_button_label', 5, 2 );
 		add_filter( 'frm_form_replace_shortcodes', 'FrmProFormsController::replace_shortcodes', 10, 3 );
+		add_filter( 'frm_add_form_style_class', 'FrmProFormsController::add_form_style_class', 10, 3 );
 	}
 
 	public static function load_view_hooks() {

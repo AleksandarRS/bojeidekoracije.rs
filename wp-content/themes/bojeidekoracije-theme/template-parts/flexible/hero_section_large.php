@@ -12,61 +12,58 @@
                     <div class="products-slider-wrapper">
                         <?php foreach( $featured_products_posts as $post ): 
                             setup_postdata($post); 
-                            $slider_short_description = get_field('slider_short_description'); ?>
+                            $slider_short_description = get_field('hero_short_description'); ?>
                             <div class="products-slider-item">
-                                <div class="row">
-                                    <div class="col-md-6 product-hero-image-section">
-                                        <?php if( get_the_post_thumbnail() ): ?>
-                                            <div class="products-featured-img-wrap" style="background-image: url('<?php the_post_thumbnail_url(); ?>')">
-                                            </div>
-                                        <?php else: ?>
-                                            <div class="products-featured-img-wrap" style="background-image: url('<?php echo get_template_directory_uri(); ?>/assets/images/default-image.jpg')">
-                                            </div>
-                                        <?php endif; ?>
-                                    </div>
-                                    <div class="col-md-6 product-hero-text-description-section">
-                                        <div class="products-heading-excerpt-wrap">
-                                            <a href="<?php the_permalink(); ?>">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-md-6 product-hero-image-section">
+                                            <?php if( get_the_post_thumbnail() ): ?>
+                                                <div class="products-featured-img-wrap" style="background-image: url('<?php the_post_thumbnail_url(); ?>')">
+                                                </div>
+                                            <?php else: ?>
+                                                <div class="products-featured-img-wrap" style="background-image: url('<?php echo get_template_directory_uri(); ?>/assets/images/default-image.jpg')">
+                                                </div>
+                                            <?php endif; ?>
+                                        </div>
+                                        <div class="col-md-6 product-hero-text-description-section">
+                                            <div class="products-heading-excerpt-wrap">
                                                 <header class="products-title entry-header">
-                                                    <span class="title-label"><?php _e('Proizvod', 'mwns') ?></span>
+                                                    <span class="title-label">
+                                                        <?php $terms = get_the_terms($post->ID, 'kategorija-proizvoda');
+                                                            if ($terms) {
+                                                                $out = array();
+                                                                foreach ($terms as $term) {
+                                                                    $out[] = '<a class="' .$term->slug .'" href="' .get_term_link( $term->slug, 'kategorija-proizvoda') .'">' .$term->name .'</a>';
+                                                                }
+                                                                echo join( ', ', $out );
+                                                        } ?>
+                                                    </span>
                                                     <h2 class="entry-title"><?php the_title(); ?></h2>
                                                     <?php if( $slider_short_description ): ?>
                                                         <div class="products-description entry-content">
                                                             <?php echo $slider_short_description; ?>
                                                         </div>
-                                                    <?php else: ?>
-                                                        <div class="products-description entry-content">
-                                                            <?php $term_list = wp_get_post_terms($post->ID, 'kategorija-proizvoda', ['fields' => 'all']);
-                                                                foreach($term_list as $term) {
-                                                                    if( get_post_meta($post->ID, '_yoast_wpseo_primary_kategorija-proizvoda',true) == $term->term_id ) { ?>
-                                                                        <?php print $term->name ; ?>
-                                                                    <?php }
-                                                                }
-                                                            ?>
-                                                        </div>
                                                     <?php endif; ?>
                                                 </header>
                                                 <span class="products-product-read-more read-more-button-wrap button-wrap">
-                                                    <a href="<?php the_permalink(); ?>" class="button button-transparent button-arrow"><span><?php _e('Pročitaj više','mwns'); ?> <i class="icon icon-arrow-right"></i></span></a>
+                                                    <a href="<?php the_permalink(); ?>" class="button button-secondary button-arrow"><span><?php _e('Pročitaj više','arteco'); ?> <i class="icon icon-arrow-right"></i></span></a>
                                                 </span>
-                                            </a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                    
-                                    <div class="products-heading-excerpt-button-wraper">
-                                        <div class="container">
-                                            <div class="row products-row">
-                                                <div class="col-md-12 product-details-wrap">
-                                                    
-                                                    
-                                                </div> <!-- /.col-md-12 product-details-wrap -->
-                                            </div> <!-- /.row products-row -->
-                                        </div> <!-- /.container -->
-                                    </div> <!-- /.products-heading-excerpt-button-wraper -->
-                                    <div class="slick-slider-dots">
-                                        <p class="pagination-title"><span><?php the_title(); ?></span></p>
-                                    </div>
+                                
+                                <div class="slick-slider-dots">
+                                    <?php if( get_the_post_thumbnail() ): ?>
+                                        <div class="products-featured-thumbnail" style="background-image: url('<?php the_post_thumbnail_url(); ?>')">
+                                            <p class="pagination-title"><span><?php the_title(); ?></span></p>
+                                        </div>
+                                    <?php else: ?>
+                                        <div class="products-featured-thumbnail" style="background-image: url('<?php echo get_template_directory_uri(); ?>/assets/images/default-image.jpg')">
+                                            <p class="pagination-title"><span><?php the_title(); ?></span></p>
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
                             </div> <!-- /.products-slider-item -->
                             
                         <?php endforeach; ?>

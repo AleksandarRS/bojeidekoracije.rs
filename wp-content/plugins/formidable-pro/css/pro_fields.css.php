@@ -281,6 +281,7 @@ if ( ! empty( $vars ) && is_callable( 'FrmStylesHelper::output_vars' ) ) {
 	-webkit-box-sizing:border-box;
 	-moz-box-sizing:border-box;
 	box-sizing:border-box;
+	display: inline;
 }
 
 <?php if ( $use_default_date ) { ?>
@@ -328,6 +329,22 @@ if ( ! empty( $vars ) && is_callable( 'FrmStylesHelper::output_vars' ) ) {
 .with_frm_style .frm_scale input{
 	display:block;
 	margin:0;
+}
+
+.with_frm_style .frm_scale input[type=radio]:before {
+	content: '';
+	width: 13px;
+	height: 13px;
+	border-radius: 50%;
+	transform: scale(0);
+	transition: 120ms transform ease-in-out;
+	box-shadow: inset 10px 10px var(--text-color);
+	display: block;
+	margin: 2px 0 0 2px;
+}
+
+.with_frm_style .frm_scale input[type=radio]:checked:before {
+	transform: scale(1);
 }
 
 /* Star ratings */
@@ -849,6 +866,10 @@ $text_color = '#ffffff' . $important;
 	border-bottom-right-radius:0;
 }
 
+.with_frm_style .vertical_radio.frm_image_options .frm_image_option > label {
+    text-indent: 0;
+}
+
 .frm_show_images.frm_image_option_container {
 	display: inline-flex;
 	flex-wrap: nowrap;
@@ -960,6 +981,32 @@ input[type="checkbox"]:checked + .frm_image_option_container .frm_selected_check
 	margin-left: 0;
 	min-height: 0;
 	visibility: visible<?php echo esc_html( $important ); ?>; /* Overrides grid classes */
+}
+
+/**
+ * Background image
+ */
+.frm_with_bg_image .frm_form_fields > fieldset {
+	position: relative;
+}
+
+.frm_with_bg_image .frm_form_fields > fieldset:before {
+	content: ' ';
+	display: block;
+	position: absolute;
+	top: 0;
+	height: 100%;
+	background-position: 50% 0;
+	left: 0;
+	width: 100%;
+	background-image: var(--bg-image-url);
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+.frm_with_bg_image .frm_form_fields > fieldset > *:not(.frm_screen_reader) {
+	z-index: 1;
+	position: relative;
 }
 
 /**
@@ -1165,6 +1212,12 @@ ul.frm_inline_list li{
 
 .frm_tiles h3{
 	margin-top:5px;
+}
+
+/* Submit Button Position */
+
+.frm_forms.frm_full_submit .frm_submit button {
+	width: 100%;
 }
 
 /* Slide in */

@@ -19,7 +19,7 @@ class FrmProSimpleBlocksController {
 		wp_register_script(
 			'formidable-view-selector',
 			FrmProAppHelper::plugin_url() . '/js/frm_blocks.js',
-			array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-components', 'wp-editor' ),
+			array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-components', 'wp-block-editor' ),
 			$version,
 			true
 		);

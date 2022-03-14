@@ -25,6 +25,16 @@ class FrmProField {
 					$field_data['field_options']['form_select'] = self::create_repeat_form( 0, array( 'parent_form_id' => $field_data['form_id'], 'field_name' => $field_data['name'] ) );
 				}
 				break;
+			case 'file':
+				$field_data['field_options']['restrict'] = 1;
+				if ( ! $field_data['field_options']['ftypes'] ) {
+					$field_data['field_options']['ftypes'] = array(
+						'jpg|jpeg|jpe' => 'image/jpeg',
+						'png'          => 'image/png',
+						'gif'          => 'image/gif',
+					);
+				}
+				break;
 		}
 		return $field_data;
 	}
@@ -60,21 +70,25 @@ class FrmProField {
 	}
 
 	public static function update( $field_options, $field, $values ) {
-
 		foreach ( $field_options['hide_field'] as $i => $f ) {
 			if ( empty( $f ) ) {
 				unset( $field_options['hide_field'][ $i ], $field_options['hide_field_cond'][ $i ] );
-				if ( isset($field_options['hide_opt']) && is_array($field_options['hide_opt']) ) {
+				if ( isset($field_options['hide_opt']) && is_array( $field_options['hide_opt'] ) ) {
 					unset( $field_options['hide_opt'][ $i ] );
 				}
 			}
 			unset($i, $f);
 		}
 
-		if ( $field->type == 'hidden' && isset($field_options['required']) && $field_options['required'] ) {
+		if ( $field->type === 'hidden' && ! empty( $field_options['required'] ) ) {
 			$field_options['required'] = false;
-		} else if ( $field->type == 'file' ) {
+		} elseif ( $field->type === 'file' ) {
 			self::format_mime_types( $field_options, $field->id );
+		}
+
+		$field_options['custom_currency'] = ! empty( $field_options['custom_currency'] ) ? 1 : 0;
+		if ( isset( $field_options['custom_decimals'] ) ) {
+			$field_options['custom_decimals'] = absint( $field_options['custom_decimals'] );
 		}
 
 		return $field_options;

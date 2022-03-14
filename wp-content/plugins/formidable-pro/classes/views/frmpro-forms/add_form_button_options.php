@@ -42,6 +42,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<option value="center" <?php selected( $values['submit_align'], 'center' ); ?>>
 				<?php esc_html_e( 'Center', 'formidable-pro' ); ?>
 			</option>
+			<?php if ( version_compare( FrmAppHelper::plugin_version(), '5.0.17', '>=' ) ) { ?>
+				<option value="full" <?php selected( $values['submit_align'], 'full' ); ?>>
+					<?php esc_html_e( 'Full Width', 'formidable-pro' ); ?>
+				</option>
+			<?php } ?>
 			<option value="inline" <?php selected( $values['submit_align'], 'inline' ); ?>>
 				<?php esc_html_e( 'Inline', 'formidable-pro' ); ?>
 			</option>

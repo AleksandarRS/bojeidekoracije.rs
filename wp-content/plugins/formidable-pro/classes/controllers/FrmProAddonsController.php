@@ -18,8 +18,9 @@ class FrmProAddonsController extends FrmAddonsController {
 			return;
 		}
 
+		$addon = self::get_addon( $plugin );
 		$atts = array(
-			'addon'         => self::get_addon( $plugin ),
+			'addon'         => $addon,
 			'license_type'  => self::get_license_type(),
 			'plan_required' => FrmFormsHelper::get_plan_required( $addon ),
 			'upgrade_link'  => FrmAppHelper::admin_upgrade_link( $upgrade_link_args ),
@@ -118,7 +119,7 @@ class FrmProAddonsController extends FrmAddonsController {
 	 */
 	public static function get_readable_license_type() {
 		$license_type = self::license_type( true );
-		if ( 'personal' === $license_type ) {
+		if ( in_array( $license_type, array( 'personal', 'creator' ), true ) ) {
 			$license_type = 'plus';
 		} elseif ( ! in_array( $license_type, array( 'basic', 'elite', 'business', 'plus' ), true ) ) {
 			$license_type = 'premium';
@@ -241,12 +242,18 @@ class FrmProAddonsController extends FrmAddonsController {
 		global $hook_suffix;
 		set_current_screen();
 
-		$download_urls = FrmAppHelper::get_param( 'plugin', '', 'post' );
-		$download_urls = explode( ',', $download_urls );
+		$free_plugin_supports_current_plugin_var = is_callable( 'self::get_current_plugin' );
+
+		$download_urls = explode( ',', FrmAppHelper::get_param( 'plugin', '', 'post' ) );
 		FrmAppHelper::sanitize_value( 'esc_url_raw', $download_urls );
 
 		foreach ( $download_urls as $download_url ) {
-			$_POST['plugin'] = $download_url;
+			if ( $free_plugin_supports_current_plugin_var ) {
+				self::$plugin = $download_url;
+			} else {
+				$_POST['plugin'] = $download_url;
+			}
+
 			if ( strpos( $download_url, 'http' ) !== false ) {
 				// Installing.
 				self::maybe_show_cred_form();

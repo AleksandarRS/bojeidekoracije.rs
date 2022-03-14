@@ -49,7 +49,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	// Don't show individual field errors when there is a combo field error
 	if ( ! empty( $errors ) && isset( $errors[ 'field' . $temp_id . '-' . $key ] ) && ! isset( $errors[ 'field' . $field['id'] ] ) ) {
 	?>
-	<div class="frm_error"><?php echo esc_html( $errors[ 'field' . $temp_id . '-' . $key ] ); ?></div>
+	<div class="frm_error" role="alert"><?php echo esc_html( $errors[ 'field' . $temp_id . '-' . $key ] ); ?></div>
 	<?php } ?>
 </div>
 <?php } ?>

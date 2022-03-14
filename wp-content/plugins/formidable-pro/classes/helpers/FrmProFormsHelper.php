@@ -187,7 +187,7 @@ echo $custom_options;
 
 			if ( ! empty( $options['locale'] ) && ! $load_lang ) {
 				$load_lang         = true;
-				$base_url          = FrmAppHelper::jquery_ui_base_url();
+				$base_url          = FrmProAppHelper::jquery_ui_base_url();
 				$jquery_ui_version = FrmAppHelper::script_version( 'jquery-ui-core', '1.11.4' );
 
 				if ( version_compare( $jquery_ui_version, '1.12.0', '>=' ) ) {
@@ -241,10 +241,11 @@ echo $custom_options;
 		);
 
 		$triggers = array();
+		$options  = array();
 
 		foreach ( $frm_vars['calc_fields'] as $result => $field ) {
 			$calc_rules['fieldsWithCalc'][ $field['field_id'] ] = $result;
-			$calc = $field['calc'];
+			$calc                                               = $field['calc'];
 			FrmProFieldsHelper::replace_non_standard_formidable_shortcodes( array( 'field' => $field['field_id'] ), $calc );
 
 			preg_match_all("/\[(.?)\b(.*?)(?:(\/))?\]/s", $calc, $matches, PREG_PATTERN_ORDER);
@@ -253,7 +254,21 @@ echo $custom_options;
 			$calc_fields = array();
 
 			foreach ( $matches[0] as $match_key => $val ) {
-				$val = trim(trim($val, '['), ']');
+				$val  = trim( trim( $val, '[' ), ']' );
+				$show = false !== strpos( $val, ' show=' );
+				if ( $show ) {
+					$before = $val;
+					$val    = preg_replace( '/ show=("|\'){0,1}label("|\'){0,1}/', '', $val, 1 );
+					if ( $val !== $before ) {
+						$show = 'label';
+					}
+
+					if ( ! is_string( $show ) ) {
+						$show = false; // fallback to value if the show value did not match a previous check.
+						$val  = preg_replace( '/ show=("|\'){0,1}value("|\'){0,1}/', '', $val, 1 ); // treat show="value" as if no attribute was set.
+					}
+				}
+
 				$calc_fields[ $val ] = FrmField::getOne( $val );
 				if ( ! $calc_fields[ $val ] ) {
 					unset( $calc_fields[ $val ] );
@@ -264,10 +279,16 @@ echo $custom_options;
 
 				$calc_rules['fieldKeys'] = $calc_rules['fieldKeys'] + $field_keys;
 
-				$calc = str_replace( $matches[0][ $match_key ], '[' . $calc_fields[ $val ]->id . ']', $calc );
+				if ( $show && is_array( reset( $calc_fields[ $val ]->options ) ) ) {
+					$calc                                = str_replace( $matches[0][ $match_key ], '[' . $calc_fields[ $val ]->id . ' show=' . $show . ']', $calc );
+					$options[ $calc_fields[ $val ]->id ] = array_column( $calc_fields[ $val ]->options, 'label', 'value' );
+				} else {
+					$calc = str_replace( $matches[0][ $match_key ], '[' . $calc_fields[ $val ]->id . ']', $calc );
+					$show = false;
+				}
 
 				// Prevent invalid decrement error for -- in calcs
-				if ( $field['calc_type'] != 'text' ) {
+				if ( $field['calc_type'] !== 'text' ) {
 					$calc = str_replace( '-[', '- [', $calc );
 				}
 			}
@@ -277,8 +298,8 @@ echo $custom_options;
 				$calc = do_shortcode( $calc );
 			}
 
-			$triggers[] = reset($field_keys);
-			$calc_rules['calc'][ $result ] = self::get_calc_rule_for_field(
+			$triggers[]                              = reset( $field_keys );
+			$calc_rules['calc'][ $result ]           = self::get_calc_rule_for_field(
 				array(
 					'field'    => $field,
 					'calc'     => $calc,
@@ -318,6 +339,10 @@ echo $custom_options;
 			$calc_rules['triggers'] = array_values( $triggers );
 		}
 
+		if ( $options ) {
+			$calc_rules['options'] = $options;
+		}
+
 		echo 'var frmcalcs=' . json_encode( $calc_rules ) . ";\n";
 		echo 'if(typeof __FRMCALC == "undefined"){__FRMCALC=frmcalcs;}';
 		echo 'else{__FRMCALC=jQuery.extend(true,{},__FRMCALC,frmcalcs);}';
@@ -336,18 +361,34 @@ echo $custom_options;
 			'in_embed_form' => isset( $field['in_embed_form'] ) ? $field['in_embed_form'] : '0',
 		);
 
-		$rule['inSection'] = $rule['in_section'];
+		$rule['inSection']   = $rule['in_section'];
 		$rule['inEmbedForm'] = $rule['in_embed_form'];
 
 		if ( isset( $atts['parent_form_id'] ) ) {
 			$rule['parent_form_id'] = $atts['parent_form_id'];
 		}
 
-		if ( isset( $field['is_currency'] ) && $field['is_currency'] ) {
+		if ( ! empty( $field['is_currency'] ) ) {
 			$rule['is_currency'] = true;
+			if ( ! empty( $field['custom_currency'] ) ) {
+				$rule['custom_currency'] = self::prepare_custom_currency( $field );
+			}
 		}
 
 		return $rule;
+	}
+
+	/**
+	 * @since 5.0.16
+	 *
+	 * @param array $field
+	 * @return array
+	 */
+	private static function prepare_custom_currency( $field ) {
+		if ( is_array( $field['custom_currency'] ) ) {
+			return $field['custom_currency'];
+		}
+		return FrmProCurrencyHelper::get_custom_currency( $field );
 	}
 
 	/**
@@ -381,6 +422,21 @@ echo $custom_options;
 	}
 
 	/**
+	 * @since 5.0.10
+	 *
+	 * @param array $frm_vars
+	 * @return void
+	 */
+	public static function load_rte_js( $frm_vars ) {
+		if ( empty( $frm_vars['rte_reqmessages'] ) ) {
+			return;
+		}
+		echo 'var rteReqmessages = ' . json_encode( $frm_vars['rte_reqmessages'] ) . ";\n";
+		echo 'if(typeof __FRMRTEREQMESSAGES == "undefined"){__FRMRTEREQMESSAGES=rteReqmessages;}';
+		echo 'else{__FRMRTEREQMESSAGES=jQuery.extend(true,{},__FRMRTEREQMESSAGES,rteReqmessages);}';
+	}
+
+	/**
 	 * Check if a field has a variable HTML ID
 	 *
 	 * @since 2.03.07
@@ -408,9 +464,12 @@ echo $custom_options;
 
 	/**
 	 * @since 4.04
+	 *
+	 * @param array $frm_vars
+	 * @return void
 	 */
 	public static function load_currency_js( $frm_vars ) {
-		if ( ! isset( $frm_vars['currency'] ) || empty( $frm_vars['currency'] ) ) {
+		if ( empty( $frm_vars['currency'] ) ) {
 			return;
 		}
 
@@ -447,7 +506,7 @@ echo $custom_options;
 	public static function get_default_opts() {
 		$frmpro_settings = FrmProAppHelper::get_settings();
 
-		return array(
+		$settings = array(
 			'edit_value'           => $frmpro_settings->update_value,
 			'edit_msg'             => $frmpro_settings->edit_msg,
 			'edit_action'          => 'message',
@@ -484,12 +543,18 @@ echo $custom_options;
 			'close_date'           => '',
 			'max_entries'          => '',
 			'protect_files'        => 0,
+			'noindex_files'        => 0,
 			'rootline'             => '',
 			'rootline_titles_on'   => 0,
 			'rootline_titles'      => array(),
 			'rootline_lines_off'   => 0,
 			'rootline_numbers_off' => 0,
 		);
+
+		/**
+		 * @since 5.0.15
+		 */
+		return apply_filters( 'frm_pro_default_form_settings', $settings );
 	}
 
 	public static function get_taxonomy_count( $taxonomy, $post_categories, $tax_count = 0 ) {

@@ -3,39 +3,51 @@ $container-width: 1170px;
 $container-narrow-width: 990px;
 
 // Colors
-$primary-color:		#000000;
-$secondary-color:	blue;
-$tertiary-color:	red;
+$primary-color:		#1E2227;
+$secondary-color:	#F8A116;
+$tertiary-color:	#F2F2EF;
 $white:				#ffffff;
 $black:				#000000;
 $gray:				#aeaeae;
 
 // Fonts
-$primary-font: serif;
-$secondary-font: sans-serif;
+$primary-font: 'Quicksand', sans-serif;
+$secondary-font: 'Quicksand', sans-serif;
 
 // Font Sizes
-$font-size-xsmall:	12px;
+$font-size-xsmall:	10px;
 $font-size-small:	14px;
 $font-size-base:	16px;
 $font-size-large:	18px;
 $font-size-xlarge:	20px;
 
+// Font Weight
+$font-weight-l: 300;
+$font-weight-r: 400;
+$font-weight-m: 500;
+$font-weight-sb: 600;
+$font-weight-b: 700;
+$font-weight-xb: 900;
+
 // Heading sizes
-$font-size-h1: 50px;
-$font-size-h2: 36px;
-$font-size-h3: 24px;
+$font-size-h1-large: 56px;
+$font-size-h1: 37px;
+$font-size-h2: 37px;
+$font-size-h3: 20px;
 $font-size-h4: 20px;
-$font-size-h5: 18px;
-$font-size-h6: 15px;
+$font-size-h5: 19px;
+$font-size-h6: 17px;
 
 // Breakpoints
+$mac_l: 1660px;
 $mac: 1440px;
 $lt: 1366px;
 $ls: 1280px;
 $lg: 1199px;
 $md: 991px;
+$tab: 800px;
 $sm: 767px;
+$mb_p: 640px;
 $mb: 480px;
 $ip: 420px;
 $xs: 350px;

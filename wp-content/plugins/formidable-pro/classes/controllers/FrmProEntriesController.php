@@ -2334,20 +2334,21 @@ class FrmProEntriesController {
 
         foreach ( $entries as $entry ) {
             $value = self::entry_link_meta_value($entry, $atts);
-            $link = self::entry_link_href($entry, $atts);
+            $link  = self::entry_link_href($entry, $atts);
 
-            $new_year = strftime('%G', strtotime($entry->created_at));
-            $new_month = strftime('%B', strtotime($entry->created_at));
+			$timestamp = strtotime( $entry->created_at );
+            $new_year  = date_i18n( 'Y', $timestamp );
+            $new_month = date_i18n( 'F', $timestamp );
             if ( $new_year != $year ) {
                 if ( $prev_year ) {
                     if ( $prev_month ) {
                         $content[] = '</ul></div>';
                     }
-                    $content[] = '</div>';
+                    $content[]  = '</div>';
                     $prev_month = false;
                 }
-				$class = $prev_year ? ' frm_hidden' : '';
-                $triangle = $prev_year ? 'e' : 's';
+				$class     = $prev_year ? ' frm_hidden' : '';
+                $triangle  = $prev_year ? 'e' : 's';
 				$content[] = "\n" . '<div class="frm_year_heading frm_year_heading_' . esc_attr( $atts['id'] ) . '">
 					<span class="ui-icon ui-icon-triangle-1-' . esc_attr( $triangle ) . '"></span>' . "\n" .
                     '<a>' . sanitize_text_field( $new_year ) . '</a></div>' . "\n" .
@@ -2359,9 +2360,9 @@ class FrmProEntriesController {
                 if ( $prev_month ) {
                     $content[] = '</ul></div>';
                 }
-				$class = $prev_month ? ' frm_hidden' : '';
-                $triangle = $prev_month ? 'e' : 's';
-				$content[] = '<div class="frm_month_heading frm_month_heading_' . esc_attr( $atts['id'] ) . '">
+				$class      = $prev_month ? ' frm_hidden' : '';
+                $triangle   = $prev_month ? 'e' : 's';
+				$content[]  = '<div class="frm_month_heading frm_month_heading_' . esc_attr( $atts['id'] ) . '">
 					<span class="ui-icon ui-icon-triangle-1-' . esc_attr( $triangle ) . '"></span>' . "\n" .
 					'<a>' . sanitize_text_field( $new_month ) . '</a>' . "\n" . '</div>' . "\n" .
 					'<div class="frm_toggle_container frm_month_listing' . esc_attr( $class ) . '"><ul>' . "\n";
@@ -2373,7 +2374,7 @@ class FrmProEntriesController {
 				$content[] = ' <a href="' . esc_url( add_query_arg( array( 'frm_action' => 'destroy', 'entry' => $entry->id ), $atts['permalink'] ) ) . '" class="frm_delete_list" data-frmconfirm="' . esc_attr( $atts['confirm'] ) . '">' . $atts['show_delete'] . '</a>' . "\n";
             }
             $content[] = "</li>\n";
-            $year = $new_year;
+            $year  = $new_year;
             $month = $new_month;
         }
 
@@ -2774,7 +2775,8 @@ class FrmProEntriesController {
 		}
 
 		if ( $truncate ) {
-			$value = FrmAppHelper::truncate( $value, $truncate );
+			$more_text = isset( $atts['more_text'] ) ? sanitize_text_field( $atts['more_text'] ) : '...';
+			$value     = FrmAppHelper::truncate( $value, $truncate, 3, $more_text );
 		}
 
 		return $value;
@@ -3241,22 +3243,13 @@ class FrmProEntriesController {
 
 	/**
 	 * @param int $form_id
+	 * @return void
 	 */
 	public static function maybe_include_exclude_fields( $form_id ) {
 		$include_fields = FrmProFormState::get_from_request( 'include_fields', array() );
 		if ( $include_fields ) {
 			global $frm_vars;
 			$frm_vars['show_fields'] = $include_fields;
-		}
-
-		$exclude_fields = FrmProFormState::get_from_request( 'exclude_fields', array() );
-		if ( $exclude_fields ) {
-			FrmProFormsController::set_included_fields(
-				array(
-					'id'             => $form_id,
-					'exclude_fields' => $exclude_fields,
-				)
-			);
 		}
 	}
 

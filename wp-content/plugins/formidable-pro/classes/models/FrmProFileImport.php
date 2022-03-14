@@ -98,6 +98,7 @@ class FrmProFileImport {
 		$user_agent = apply_filters( 'http_headers_useragent', 'WordPress/' . get_bloginfo( 'version' ) . '; ' . get_bloginfo( 'url' ) );
 		curl_setopt( $ch, CURLOPT_USERAGENT, $user_agent );
 		curl_setopt( $ch, CURLOPT_REFERER, FrmAppHelper::site_url() );
+		curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, true );
 		$result = curl_exec( $ch );
 		curl_close( $ch );
 		fclose( $fp );

@@ -6,7 +6,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class FrmProFieldsHelper {
 
-	public static function get_default_value( $value, $field, $dynamic_default = true, $allow_array = false ) {
+	/**
+	 * @param mixed     $value
+	 * @param stdClass  $field
+	 * @param bool      $dynamic_default
+	 * @param bool      $allow_array
+	 * @param array     $args
+	 * bool|null $args['replace_field_id_shortcodes'] default true but should be set to false for calculations as they process field id shortcodes dynamically.
+	 * bool|null $args['is_calc'] only gets set when processing a calculation. set to true.
+	 * @return mixed
+	 */
+	public static function get_default_value( $value, $field, $dynamic_default = true, $allow_array = false, $args = array() ) {
 		$dynamic_value = self::get_dynamic_default( $field, $dynamic_default );
 
 		$unserialized = $value;
@@ -42,8 +52,12 @@ class FrmProFieldsHelper {
 			'prev_val'    => $prev_val,
 		);
 
+		$replace_field_id_shortcodes = ! isset( $args['replace_field_id_shortcodes'] ) || $args['replace_field_id_shortcodes'];
+
 		self::replace_non_standard_formidable_shortcodes( $pass_args, $value );
-		self::replace_field_id_shortcodes( $value, $pass_args );
+		if ( $replace_field_id_shortcodes ) {
+			self::replace_field_id_shortcodes( $value, $pass_args );
+		}
 		self::do_shortcode( $value, $allow_array );
 		self::maybe_force_array( $value, $field, $allow_array );
 
@@ -456,12 +470,17 @@ class FrmProFieldsHelper {
 		return $has_nested;
 	}
 
+	/**
+	 * @param mixed $value
+	 * @param array $args
+	 * @return void
+	 */
 	private static function replace_field_id_shortcodes( &$value, $args ) {
-		if ( empty($value) ) {
+		if ( ! $value ) {
 			return;
 		}
 
-		if ( is_array($value) ) {
+		if ( is_array( $value ) ) {
 			foreach ( $value as $k => $v ) {
 				self::replace_each_field_id_shortcode( $v, $args );
 				$value[ $k ] = $v;
@@ -484,9 +503,9 @@ class FrmProFieldsHelper {
 		foreach ( $matches[0] as $match_key => $val ) {
 			$conditional = preg_match( '/^\[if/s', $matches[0][ $match_key ] ) ? true : false;
 			$foreach     = preg_match( '/^\[foreach/s', $matches[0][ $match_key ] ) ? true : false;
-			$shortcode = $matches[1][ $match_key ];
-			$atts      = FrmShortcodeHelper::get_shortcode_attribute_array( $matches[3][ $match_key ] );
-			$shortcode = FrmShortcodeHelper::get_shortcode_tag( $matches, $match_key, compact( 'conditional', 'foreach' ) );
+			$shortcode   = $matches[1][ $match_key ];
+			$atts        = FrmShortcodeHelper::get_shortcode_attribute_array( $matches[3][ $match_key ] );
+			$shortcode   = FrmShortcodeHelper::get_shortcode_tag( $matches, $match_key, compact( 'conditional', 'foreach' ) );
 
 			if ( ! is_numeric( $shortcode ) ) {
 				continue;
@@ -502,22 +521,41 @@ class FrmProFieldsHelper {
 
 			$new_value = FrmAppHelper::get_param( 'item_meta[' . $shortcode . ']', false, 'post', 'wp_kses_post' );
 			if ( false === $new_value && isset( $atts['default'] ) ) {
-				$new_value = $atts['default'];
-			} elseif ( ! is_array( $new_value ) ) {
-				// escape any shortcodes in the value input to prevent them from processing
-				$new_value = str_replace( '[', '&#91;', $new_value );
+				$new_value     = $atts['default'];
+				$using_default = true;
 			}
 
-			if ( is_array($new_value) && ! $return_array ) {
-				$new_value = implode(', ', $new_value);
+			if ( is_array( $new_value ) && ! $return_array ) {
+				$new_value = self::maybe_get_combo_field_value( $new_value, $shortcode );
 			}
 
-			if ( is_array($new_value) ) {
+			if ( is_array( $new_value ) ) {
 				$value = $new_value;
 			} else {
-				$value = str_replace($val, $new_value, $value);
+				if ( empty( $using_default ) ) {
+					// escape any shortcodes in the value input to prevent them from processing
+					$new_value = str_replace( '[', '&#91;', $new_value );
+				}
+				$value = str_replace( $val, $new_value, $value );
 			}
 		}
+	}
+
+	/**
+	 * Maybe get combo field value from an array value.
+	 *
+	 * @since 5.2.02
+	 *
+	 * @param array $value    The value.
+	 * @param int   $field_id Field ID.
+	 * @return string
+	 */
+	private static function maybe_get_combo_field_value( $value, $field_id ) {
+		$field_obj = FrmFieldFactory::get_field_object( $field_id );
+		if ( $field_obj && 'name' === $field_obj->get_field()->type ) {
+			return $field_obj->get_display_value( $value );
+		}
+		return implode( ', ', $value );
 	}
 
 	/**
@@ -530,6 +568,9 @@ class FrmProFieldsHelper {
 	private static function get_user_id_if_value_is_current_user( $value ) {
 		if ( 'current_user' === $value ) {
 			$value = get_current_user_id();
+			if ( 0 === $value ) {
+				$value = -1; // avoid 0 so logged out users do not match a "current user" check when there is no user id associated with the entry.
+			}
 		}
 		return $value;
 	}
@@ -598,18 +639,33 @@ class FrmProFieldsHelper {
 		$field_name .= '[' . $field['id'] . ']';
 	}
 
+	/**
+	 * @param array    $values
+	 * @param stdClass $field
+	 * @return array
+	 */
 	public static function setup_new_vars( $values, $field ) {
 		$values['entry_id'] = 0;
 
 		self::fill_field_options( $field, $values, false );
 		self::prepare_field_array( $field, $values );
 
-		if ( $values['type'] == 'user_id' || $values['original_type'] == 'user_id' ) {
+		if ( $values['type'] === 'user_id' || $values['original_type'] === 'user_id' ) {
 			$show_admin_field = FrmAppHelper::is_admin() && current_user_can('frm_edit_entries') && ! FrmAppHelper::is_admin_page('formidable' );
 			if ( $show_admin_field && self::field_on_current_page( $field ) ) {
-				$user_ID = get_current_user_id();
+				$user_ID         = get_current_user_id();
 				$values['value'] = ( $_POST && isset($_POST['item_meta'][ $field->id ] ) ) ? $_POST['item_meta'][ $field->id ] : $user_ID;
 			}
+		}
+
+		if ( empty( $field->default_value ) && isset( $values['calc'] ) ) {
+			$dynamic_default = false;
+			$allow_array     = false;
+			$args            = array(
+				'replace_field_id_shortcodes' => false,
+				'is_calc'                     => true,
+			);
+			$values['calc']  = (string) apply_filters( 'frm_get_default_value', $values['calc'], $field, $dynamic_default, $allow_array, $args );
 		}
 
 		self::maybe_use_default_value( $values );
@@ -842,36 +898,43 @@ class FrmProFieldsHelper {
 		$frm_settings = FrmAppHelper::get_settings();
 
 		return array(
-			'align'        => 'block',
-			'form_select'  => '',
-			'show_hide'    => 'show',
-			'any_all'      => 'any',
-			'hide_field'   => array(),
-			'hide_field_cond' => array( '==' ),
-			'hide_opt'     => array(),
-			'post_field'   => '',
-			'custom_field' => '',
-			'taxonomy'     => 'category',
-			'exclude_cat'  => 0,
-			'read_only'    => 0,
-			'admin_only'   => '',
-			'unique'       => 0,
-			'unique_msg'   => $frm_settings->unique_msg,
-			'calc'         => '',
-			'calc_dec'     => '',
-			'calc_type'    => '',
-			'is_currency'  => 0,
-			'dyn_default_value' => '',
-			'multiple'     => 0,
-			'autocom'      => 0,
-			'conf_field'   => '',
-			'conf_input'   => '',
-			'conf_desc'    => '',
-			'conf_msg'     => __( 'The entered values do not match', 'formidable-pro' ),
-			'other'        => 0,
-			'in_section'   => 0,
-			'prepend'      => '',
-			'append'       => '',
+			'align'                     => 'block',
+			'form_select'               => '',
+			'show_hide'                 => 'show',
+			'any_all'                   => 'any',
+			'hide_field'                => array(),
+			'hide_field_cond'           => array( '==' ),
+			'hide_opt'                  => array(),
+			'post_field'                => '',
+			'custom_field'              => '',
+			'taxonomy'                  => 'category',
+			'exclude_cat'               => 0,
+			'read_only'                 => 0,
+			'admin_only'                => '',
+			'unique'                    => 0,
+			'unique_msg'                => $frm_settings->unique_msg,
+			'calc'                      => '',
+			'calc_dec'                  => '',
+			'calc_type'                 => '',
+			'is_currency'               => 0,
+			'custom_currency'           => 0,
+			'custom_thousand_separator' => ',',
+			'custom_decimal_separator'  => '.',
+			'custom_decimals'           => 2,
+			'custom_symbol_left'        => '',
+			'custom_symbol_right'       => '',
+			'dyn_default_value'         => '',
+			'multiple'                  => 0,
+			'autocom'                   => 0,
+			'conf_field'                => '',
+			'conf_input'                => '',
+			'conf_desc'                 => '',
+			'conf_msg'                  => __( 'The entered values do not match', 'formidable-pro' ),
+			'other'                     => 0,
+			'in_section'                => 0,
+			'prepend'                   => '',
+			'append'                    => '',
+			'auto_grow'                 => 0,
 		);
 	}
 
@@ -3627,7 +3690,6 @@ class FrmProFieldsHelper {
 	* @since 2.0.8
 	* @param array $field
 	* @param string|int|boolean $opt_key
-	* @param string $html_id
 	*/
 	private static function insert_hidden_other_fields( $field, $opt_key ) {
 		$other_id = FrmFieldsHelper::get_other_field_html_id( $field['original_type'], $field['html_id'], $opt_key );
@@ -3821,7 +3883,7 @@ class FrmProFieldsHelper {
 	 * @codeCoverageIgnore
 	 *
 	 * @param array $field
-	 * @param string $disabled
+	 * @param array $args
 	 */
 	public static function maybe_get_hidden_dynamic_field_inputs( $field, $args ) {
 		_deprecated_function( __FUNCTION__, '3.0', 'FrmFieldType::maybe_include_hidden_values' );

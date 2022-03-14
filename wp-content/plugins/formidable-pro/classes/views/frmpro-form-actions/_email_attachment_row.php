@@ -47,7 +47,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				'<a style="%s" class="frm_email_remove_attachment frm_remove_image_option" href="#" title="%s">%s %s</a>',
 				( $has_attachment ? 'display: block;' : 'display: none;' ),
 				esc_attr__( 'Remove file', 'formidable-pro' ),
-				FrmAppHelper::icon_by_class( 'frm_icon_font frm_delete_icon', array( 'echo' => false ) ),
+				FrmAppHelper::icon_by_class( 'frm_icon_font frm_delete_icon', array( 'echo' => false ) ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				esc_html__( 'Delete', 'formidable' )
 			);
 			?>
@@ -55,5 +55,23 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<input class="frm_email_attachment" type="hidden" name="<?php echo esc_attr( $pass_args['action_control']->get_field_name( 'email_attachment_id' ) ); ?>" value="<?php echo esc_attr( isset( $form_action->post_content['email_attachment_id'] ) ? $form_action->post_content['email_attachment_id'] : '' ); ?>" />
 	</div>
 	<!-- Attachment control container end. -->
-</div>
+
+	<?php
+	if ( ! empty( $can_generate_csv_file ) ) {
+		FrmProHtmlHelper::toggle(
+			'frm_attach_csv',
+			$pass_args['action_control']->get_field_name( 'attach_csv' ),
+			array(
+				'div_class' => 'with_frm_style frm_toggle',
+				'checked'   => ! empty( $form_action->post_content['attach_csv'] ),
+				'echo'      => true,
+			)
+		);
+		?>
+		<label id="frm_attach_csv_label" for="frm_attach_csv">
+			<?php esc_html_e( 'Attach CSV export of entry to email', 'formidable-pro' ); ?>
+		</label>
+		<?php
+	}
+	?>
 <!-- Add email attachment row end. -->

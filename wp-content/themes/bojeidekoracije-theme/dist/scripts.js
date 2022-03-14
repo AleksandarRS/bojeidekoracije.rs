@@ -439,11 +439,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
    	# Cache dom and strings
    -------------------------------------------------------------------------------*/
 			$dom: {
-				slickSliderProducts: $(".products-slider-wrapper")
-				// slickSliderTestimonials: $(".testimonials-slider"),
+				slickSliderProducts: $(".products-slider-wrapper"),
+				slickSliderPopularProducts: $(".most-popular-products-slider"),
 				// slickSliderPagination: $(".slick-slider-dots"),
 
-				// slickSliderSingleMain: $(".single-page-main-slider"),
+				slickSliderOurProjects: $(".our-potfolio-projects-logos-slider")
 				// slickSliderSingleThumb: $(".single-page-thumbnail-slider"),
 
 				// slickSliderSingleinstructions: $(".instructions-slider"),
@@ -497,7 +497,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 						slidesToScroll: 1,
 						slidesToShow: 1,
 						dots: true,
-						arrows: false,
+						arrows: true,
+						prevArrow: "<button type='button' class='slick-prev pull-left'><i class='icon icon-angle-left' aria-hidden='true'></i></button>",
+						nextArrow: "<button type='button' class='slick-next pull-right'><i class='icon icon-angle-right' aria-hidden='true'></i></button>",
 						customPaging: function customPaging(slider, i) {
 							var thumb = $(slider.$slides[i]).find('.slick-slider-dots');
 							return thumb;
@@ -505,16 +507,29 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 					});
 				}
 
-				// this.$dom.slickSliderTestimonials.slick({
-				// 	slidesToScroll: 1,
-				// 	slidesToShow: 4,
-				// 	infinite: true,
-				// 	variableWidth: true,
-				// 	dots: false,
-				// 	arrows: true,
-				// 	prevArrow: "<button type='button' class='slick-prev pull-left'><i class='icon icon-arrow-left' aria-hidden='true'></i></button>",
-				// 	nextArrow: "<button type='button' class='slick-next pull-right'><i class='icon icon-arrow-right' aria-hidden='true'></i></button>",
-				// });
+				this.$dom.slickSliderPopularProducts.slick({
+					slidesToScroll: 1,
+					slidesToShow: 4,
+					infinite: true,
+					variableWidth: true,
+					dots: false,
+					arrows: true,
+					prevArrow: "<button type='button' class='slick-prev pull-left'><i class='icon icon-angle-left' aria-hidden='true'></i></button>",
+					nextArrow: "<button type='button' class='slick-next pull-right'><i class='icon icon-angle-right' aria-hidden='true'></i></button>"
+				});
+
+				this.$dom.slickSliderOurProjects.slick({
+					slidesToScroll: 1,
+					slidesToShow: 3,
+					infinite: true,
+					variableWidth: false,
+					centerMode: true,
+					centerPadding: 100,
+					dots: true,
+					arrows: true,
+					prevArrow: "<button type='button' class='slick-prev pull-left'><i class='icon icon-angle-left' aria-hidden='true'></i></button>",
+					nextArrow: "<button type='button' class='slick-next pull-right'><i class='icon icon-angle-right' aria-hidden='true'></i></button>"
+				});
 
 				// this.$dom.slickSliderSingleinstructions.slick({
 				// 	slidesToScroll: 1,

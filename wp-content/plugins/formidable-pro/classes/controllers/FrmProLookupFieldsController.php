@@ -992,11 +992,19 @@ class FrmProLookupFieldsController {
 			return;
 		}
 
-		if ( $order == 'ascending' || $order == 'descending' ) {
-			natcasesort( $final_values );
-			if ( $order == 'descending' ) {
+		if ( $order === 'ascending' || $order === 'descending' ) {
+			if ( class_exists( 'Collator' ) ) {
+				$locale   = get_locale();
+				$collator = new Collator( $locale );
+				$collator->sort( $final_values );
+			} else {
+				natcasesort( $final_values );
+			}
+
+			if ( $order === 'descending' ) {
 				$final_values = array_reverse( $final_values );
 			}
+
 			$final_values = array_values( $final_values );
 		}
 

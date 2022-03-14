@@ -28,37 +28,37 @@ class FrmProFormActionsController {
 
 	public static function form_action_settings( $form_action, $atts ) {
         global $wpdb;
-		extract($atts);
+		extract( $atts );
 
         $show_logic = self::has_valid_conditions( $form_action->post_content['conditions'] );
 
         // Text for different actions
-        if ( $form_action->post_excerpt == 'email' ) {
+        if ( $form_action->post_excerpt === 'email' ) {
 			/**
 			 * Adds fields to add email attachment.
 			 */
 			self::add_file_attachment_field( $form_action, $atts );
 
-            $send = __( 'Send', 'formidable-pro' );
-            $stop = __( 'Stop', 'formidable-pro' );
+            $send           = __( 'Send', 'formidable-pro' );
+            $stop           = __( 'Stop', 'formidable-pro' );
             $this_action_if = __( 'this notification if', 'formidable-pro' );
-        } if ( $form_action->post_excerpt == 'wppost' ) {
-            $send = __( 'Create', 'formidable-pro' );
-            $stop = __( 'Don\'t create', 'formidable-pro' );
+        } if ( $form_action->post_excerpt === 'wppost' ) {
+            $send           = __( 'Create', 'formidable-pro' );
+            $stop           = __( 'Don\'t create', 'formidable-pro' );
             $this_action_if = __( 'this post if', 'formidable-pro' );
-        } else if ( $form_action->post_excerpt == 'register' ) {
-            $send = __( 'Register', 'formidable-pro' );
-            $stop = __( 'Don\'t register', 'formidable-pro' );
+        } elseif ( $form_action->post_excerpt === 'register' ) {
+            $send           = __( 'Register', 'formidable-pro' );
+            $stop           = __( 'Don\'t register', 'formidable-pro' );
             $this_action_if = __( 'user if', 'formidable-pro' );
         } else {
-            $send = __( 'Do', 'formidable-pro' );
-            $stop = __( 'Don\'t do', 'formidable-pro' );
+            $send           = __( 'Do', 'formidable-pro' );
+            $stop           = __( 'Don\'t do', 'formidable-pro' );
             $this_action_if = __( 'this action if', 'formidable-pro' );
         }
 
         $form_fields = $atts['values']['fields'];
-        unset($atts['values']['fields']);
-        include(FrmProAppHelper::plugin_path() . '/classes/views/frmpro-form-actions/_form_action.php');
+        unset( $atts['values']['fields'] );
+        include FrmProAppHelper::plugin_path() . '/classes/views/frmpro-form-actions/_form_action.php';
 	}
 
 	/**
@@ -70,9 +70,10 @@ class FrmProFormActionsController {
 	 * @since 4.06.02
 	 */
 	private static function add_file_attachment_field( $form_action, $pass_args ) {
-		$has_attachment = ! empty( $form_action->post_content['email_attachment_id'] );
+		$has_attachment        = ! empty( $form_action->post_content['email_attachment_id'] );
+		$can_generate_csv_file = is_callable( 'FrmXMLController::get_fields_for_csv_export' );
 
-		include( FrmProAppHelper::plugin_path() . '/classes/views/frmpro-form-actions/_email_attachment_row.php' );
+		include FrmProAppHelper::plugin_path() . '/classes/views/frmpro-form-actions/_email_attachment_row.php';
 	}
 
 	/**

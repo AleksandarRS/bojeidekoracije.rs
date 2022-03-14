@@ -6,24 +6,27 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class FrmProFieldsController {
 
+	/**
+	 * @var array|null $visible_embedded_form_ids used to determine if a field has been made visible by its embedded form parent.
+	 */
+	private static $visible_embedded_form_ids;
+
 	public static function &change_type( $type, $field ) {
 		global $frm_vars;
 
-		remove_filter('frm_field_type', 'FrmFieldsController::change_type');
+		remove_filter( 'frm_field_type', 'FrmFieldsController::change_type' );
 
 		// Don't change user ID fields or repeating sections to hidden
-		if ( ! ( $type == 'divider' && FrmField::is_option_true( $field, 'repeat' ) ) && $type != 'user_id' && ( isset( $frm_vars['show_fields'] ) && ! empty( $frm_vars['show_fields'] ) ) && ! in_array( $field->id, $frm_vars['show_fields'] ) && ! in_array( $field->field_key, $frm_vars['show_fields'] ) ) {
+		if ( ! ( $type === 'divider' && FrmField::is_option_true( $field, 'repeat' ) ) && $type !== 'user_id' && ! FrmProGlobalVarsHelper::get_instance()->field_is_visible( $field ) ) {
 			$type = 'hidden';
 		}
 
-		if ( $type == '10radio' ) {
+		if ( $type === '10radio' ) {
 			$type = 'scale';
 		}
 
-		if ( ! FrmAppHelper::is_admin() && $type != 'hidden' && $type != 'divider' ) {
-			if ( ! FrmProFieldsHelper::is_field_visible_to_user( $field ) ) {
-				$type = 'hidden';
-			}
+		if ( ! FrmAppHelper::is_admin() && $type !== 'hidden' && $type !== 'divider' && ! FrmProFieldsHelper::is_field_visible_to_user( $field ) ) {
+			$type = 'hidden';
 		}
 
 		return $type;
@@ -403,6 +406,10 @@ class FrmProFieldsController {
 			include( FrmProAppHelper::plugin_path() . '/classes/views/frmpro-fields/back-end/repeat-options.php' );
 		}
 
+		if ( 'textarea' === $field['type'] ) {
+			include( FrmProAppHelper::plugin_path() . '/classes/views/frmpro-fields/back-end/auto-grow.php' );
+		}
+
 		if ( isset( $display['visibility'] ) && $display['visibility'] ) {
 			self::show_visibility_option( $args['field'] );
 		}
@@ -666,28 +673,32 @@ class FrmProFieldsController {
 	}
 
 	public static function date_field_js( $field_id, $options ) {
-		if ( ! isset($options['unique']) || ! $options['unique'] ) {
+		if ( empty( $options['unique'] ) ) {
 			return;
 		}
 
 		$defaults = array(
-			'entry_id' => 0, 'start_year' => '-10', 'end_year' => '+10',
-			'locale' => '', 'unique' => 0, 'field_id' => 0,
+			'entry_id'   => 0,
+			'start_year' => '-10',
+			'end_year'   => '+10',
+			'locale'     => '',
+			'unique'     => 0,
+			'field_id'   => 0,
 		);
 
-		$options = wp_parse_args($options, $defaults);
+		$options = wp_parse_args( $options, $defaults );
 
 		global $wpdb;
 
-		$field = FrmField::getOne($options['field_id']);
+		$field = FrmField::getOne( $options['field_id'] );
 
-		if ( isset($field->field_options['post_field']) && $field->field_options['post_field'] != '' ) {
+		if ( isset( $field->field_options['post_field'] ) && $field->field_options['post_field'] != '' ) {
 			$query = array( 'post_status' => array( 'publish', 'draft', 'pending', 'future', 'private' ) );
-			if ( $field->field_options['post_field'] == 'post_custom' ) {
-				$get_field = 'meta_value';
-				$get_table = $wpdb->postmeta . ' pm LEFT JOIN ' . $wpdb->posts . ' p ON (p.ID=pm.post_id)';
+			if ( $field->field_options['post_field'] === 'post_custom' ) {
+				$get_field             = 'meta_value';
+				$get_table             = $wpdb->postmeta . ' pm LEFT JOIN ' . $wpdb->posts . ' p ON (p.ID=pm.post_id)';
 				$query['meta_value !'] = '';
-				$query['meta_key'] = $field->field_options['custom_field'];
+				$query['meta_key']     = $field->field_options['custom_field'];
 			} else {
 				$get_field = sanitize_title( $field->field_options['post_field'] );
 				$get_table = $wpdb->posts;
@@ -696,7 +707,7 @@ class FrmProFieldsController {
 			$post_dates = FrmDb::get_col( $get_table, $query, $get_field );
 		}
 
-		if ( ! is_numeric($options['entry_id']) ) {
+		if ( ! is_numeric( $options['entry_id'] ) ) {
 			$disabled = wp_cache_get($options['field_id'], 'frm_used_dates');
 		}
 
@@ -717,6 +728,39 @@ class FrmProFieldsController {
 		$selectable_response = apply_filters( 'frm_selectable_dates', 'true', compact( 'field', 'options' ) );
 
 		$disabled = apply_filters('frm_used_dates', $disabled, $field, $options);
+
+		if ( ! is_numeric( $options['entry_id'] ) && ! empty( $disabled ) ) {
+			wp_cache_set( $options['field_id'], $disabled, 'frm_used_dates' );
+		}
+
+		// This function is added in v1.04 of the Dates add on. Before that version, these filters are not supported.
+		if ( is_callable( 'FrmDatesAppHelper::plugin_version' ) ) {
+
+			add_filter(
+				'frm_dates_selectable_response',
+				function( $is_enabled, $filter_field ) use ( $selectable_response, $field ) {
+
+					if ( ! $field->field_options['unique'] ) {
+						return $is_enabled;
+					}
+					return $filter_field->field_key !== $field->field_key ? $is_enabled : $selectable_response;
+				},
+				10,
+				2
+			);
+
+			add_filter(
+				'frm_dates_disabled',
+				function( $blackout_dates, $filter_field ) use ( $disabled, $field ) {
+					return $filter_field->field_key !== $field->field_key ? $blackout_dates : array_merge( $blackout_dates, $disabled );
+				},
+				10,
+				2
+			);
+
+			return;
+		}
+
 		$js_vars = 'var m=(date.getMonth()+1),d=date.getDate(),y=date.getFullYear(),day=date.getDay();';
 		if ( empty( $disabled ) ) {
 			if ( $selectable_response != 'true' ) {
@@ -727,21 +771,16 @@ class FrmProFieldsController {
 			return;
 		}
 
-		if ( ! is_numeric($options['entry_id']) ) {
-			wp_cache_set($options['field_id'], $disabled, 'frm_used_dates');
-		}
-
 		$formatted = array();
-		foreach ( $disabled as $dis ) { //format to match javascript dates
+		foreach ( $disabled as $dis ) {
+			// format to match javascript dates
 			$formatted[] = gmdate( 'Y-n-j', strtotime( $dis ) );
 		}
 
 		$disabled = $formatted;
-		unset($formatted);
+		unset( $formatted );
 
 		echo ',beforeShowDay: function(date){' . $js_vars . 'var disabled=' . json_encode( $disabled ) . ';if($.inArray(y+"-"+m+"-"+d,disabled) != -1){return [false];} return [' . $selectable_response . '];}';
-
-		//echo ',beforeShowDay: $.datepicker.noWeekends';
 	}
 
 	/**
@@ -1083,7 +1122,7 @@ class FrmProFieldsController {
 	public static function redirect_attachment() {
 		global $post;
 
-		if ( ! is_attachment() || absint( $post->post_parent ) >= 1 || ! FrmProFileField::is_formidable_file( $post->ID ) ) {
+		if ( ! is_object( $post ) || ! is_attachment() || absint( $post->post_parent ) >= 1 || ! FrmProFileField::is_formidable_file( $post->ID ) ) {
 			return;
 		}
 
@@ -1125,8 +1164,7 @@ class FrmProFieldsController {
 
 		foreach ( $old_uploads as $upload ) {
 			// double check in case other plugins have changed the query
-			$is_temp = get_post_meta( $upload->ID, '_frm_temporary', true );
-			if ( $is_temp ) {
+			if ( FrmProFileField::file_is_temporary( $upload->ID ) ) {
 				wp_delete_attachment( $upload->ID, true );
 			}
 		}

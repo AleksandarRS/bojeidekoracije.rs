@@ -266,16 +266,13 @@ DEFAULT_HTML;
 		$classes = '';
 
 		// If the top margin needs to be removed from a section heading
-		if ( $this->field['label'] == 'none' ) {
+		if ( $this->field['label'] === 'none' ) {
 			$classes .= ' frm_hide_section';
 		}
 
 		// If this is a repeating section that should be hidden with exclude_fields or fields shortcode, hide it
-		if ( $this->field['repeat'] ) {
-			global $frm_vars;
-			if ( isset( $frm_vars['show_fields'] ) && ! empty( $frm_vars['show_fields'] ) && ! in_array( $this->field['id'], $frm_vars['show_fields'] ) && ! in_array( $this->field['field_key'], $frm_vars['show_fields'] ) ) {
-				$classes .= ' frm_hidden';
-			}
+		if ( $this->field['repeat'] && ! FrmProGlobalVarsHelper::get_instance()->field_is_visible( $this->field ) ) {
+			$classes .= ' frm_hidden';
 		}
 
 		return $classes;

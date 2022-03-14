@@ -85,7 +85,7 @@ class FrmProFormsController {
 			wp_enqueue_script('jquery-chosen');
 		}
 
-		if ( isset( $frm_vars['dropzone_loaded'] ) && ! empty( $frm_vars['dropzone_loaded'] ) ) {
+		if ( ! empty( $frm_vars['dropzone_loaded'] ) ) {
 			wp_enqueue_script( 'dropzone' );
 		}
 
@@ -150,10 +150,17 @@ class FrmProFormsController {
 				$keep_styles  = array();
 			} else {
 				$keep_scripts = array(
-					'recaptcha-api', 'jquery-frm-rating', 'jquery-chosen',
-					'google_jsapi', 'dropzone', 'jquery-maskedinput',
+					'recaptcha-api',
+					'jquery-frm-rating',
+					'jquery-chosen',
+					'google_jsapi',
+					'dropzone',
+					'jquery-maskedinput',
 				);
-				$keep_styles = array( 'dashicons', 'jquery-theme' );
+				$keep_styles  = array(
+					'dashicons',
+					'jquery-theme',
+				);
 
 				if ( is_array( $keep ) ) {
 					$keep_scripts = array_merge( $keep_scripts, $keep );
@@ -161,12 +168,12 @@ class FrmProFormsController {
 			}
 
 			global $wp_scripts, $wp_styles;
-			$keep_scripts = apply_filters( 'frm_ajax_load_scripts', $keep_scripts );
+			$keep_scripts       = apply_filters( 'frm_ajax_load_scripts', $keep_scripts );
 			$registered_scripts = (array) $wp_scripts->registered;
 			$registered_scripts = array_diff( array_keys( $registered_scripts ), $keep_scripts );
 			self::mark_scripts_as_loaded( $registered_scripts );
 
-			$keep_styles = apply_filters( 'frm_ajax_load_styles', $keep_styles );
+			$keep_styles       = apply_filters( 'frm_ajax_load_styles', $keep_styles );
 			$registered_styles = (array) $wp_styles->registered;
 			$registered_styles = array_diff( array_keys( $registered_styles ), $keep_styles );
 			if ( ! empty( $registered_styles ) ) {
@@ -409,19 +416,14 @@ class FrmProFormsController {
         $frm_vars['editing_entry'] = false;
         $frm_vars['show_fields'] = array();
 
-		if ( ! is_array( $atts['fields'] ) ) {
-			$frm_vars['show_fields'] = explode( ',', $atts['fields'] );
-			FrmProFormState::set_initial_value( 'include_fields', $frm_vars['show_fields'] );
-		}
+		self::set_included_fields( $atts );
 
-        self::set_included_fields( $atts );
-
-        if ( $atts['entry_id'] && $atts['entry_id'] == 'last' ) {
+        if ( $atts['entry_id'] && $atts['entry_id'] === 'last' ) {
             $user_ID = get_current_user_id();
             if ( $user_ID ) {
 				$frm_vars['editing_entry'] = FrmDb::get_var( $wpdb->prefix . 'frm_items', array( 'form_id' => $atts['id'], 'user_id' => $user_ID ), 'id', array( 'order_by' => 'created_at DESC' ) );
             }
-        } else if ( $atts['entry_id'] ) {
+        } elseif ( $atts['entry_id'] ) {
             $frm_vars['editing_entry'] = $atts['entry_id'];
         }
 
@@ -432,10 +434,10 @@ class FrmProFormsController {
             unset($unset, $val);
         }
 
-        if ( is_array($all_atts) ) {
+        if ( is_array( $all_atts ) ) {
             foreach ( $all_atts as $att => $val ) {
                 $_GET[ $att ] = $val;
-                unset($att, $val);
+                unset( $att, $val );
             }
         }
     }
@@ -445,60 +447,12 @@ class FrmProFormsController {
 	 * that should be included.
 	 *
 	 * @since 4.03.03
+	 *
+	 * @param array $atts
+	 * @return void
 	 */
 	public static function set_included_fields( $atts ) {
-		global $frm_vars;
-		if ( empty( $atts['exclude_fields'] ) ) {
-			self::add_included_parent( $atts );
-			return;
-		}
-
-		if ( ! is_array( $atts['exclude_fields'] ) ) {
-			$atts['exclude_fields'] = explode(',', $atts['exclude_fields']);
-		}
-
-		FrmProFormState::set_initial_value( 'exclude_fields', $atts['exclude_fields'] );
-
-		$fields = FrmField::get_all_for_form( (int) $atts['id'], '', 'include' );
-		$exclude_id  = array_filter( $atts['exclude_fields'], 'is_numeric' );
-		$exclude_key = array_filter( $atts['exclude_fields'], 'is_string' );
-
-		$include_ids = array();
-		foreach ( $fields as $field ) {
-			if ( ! in_array( $field->id, $exclude_id ) && ! in_array( $field->field_key, $exclude_key ) ) {
-				$include_ids[] = $field->id;
-			}
-			unset( $field );
-		}
-
-		$frm_vars['show_fields'] = $include_ids;
-	}
-
-	/**
-	 * If fields are included in the 'fields' option in the form shortcode,
-	 * include the parent section as well.
-	 *
-	 * @since 4.03.05
-	 */
-	private static function add_included_parent( $atts ) {
-		if ( empty( $atts['fields'] ) ) {
-			return;
-		}
-
-		global $frm_vars;
-
-		$field_ids = $frm_vars['show_fields'];
-		$fields    = FrmField::get_all_for_form( (int) $atts['id'] );
-
-		$include_id  = array_filter( $field_ids, 'is_numeric' );
-		$include_key = array_filter( $field_ids, 'is_string' );
-
-		foreach ( $fields as $field ) {
-			$included = in_array( $field->id, $include_id ) || in_array( $field->field_key, $include_key );
-			if ( $included && isset( $field->field_options['in_section'] ) && ! empty( $field->field_options['in_section'] ) && ! in_array( $field->field_options['in_section'], $frm_vars['show_fields'] ) ) {
-				$frm_vars['show_fields'][] = $field->field_options['in_section'];
-			}
-		}
+		FrmProGlobalVarsHelper::get_instance( true )->set_included_fields( $atts );
 	}
 
 	public static function add_form_classes( $form ) {
@@ -512,6 +466,11 @@ class FrmProFormsController {
 
 		if ( current_user_can( 'activate_plugins' ) && current_user_can( 'frm_edit_forms' ) ) {
 			echo ' frm-admin-viewing ';
+		}
+
+		$style = FrmStylesController::get_form_style( $form->id );
+		if ( is_object( $style ) && ! empty( $style->post_content['bg_image_id'] ) ) {
+			echo ' frm_with_bg_image ';
 		}
 
 		self::add_transitions( $form );
@@ -632,6 +591,21 @@ class FrmProFormsController {
 		return FrmProContent::replace_shortcodes( $content, $entry, $shortcodes );
     }
 
+	/**
+	 * @since 5.0.17
+	 *
+	 * @param string $class
+	 * @param string $style
+	 * @param array  $args
+	 * @return string
+	 */
+	public static function add_form_style_class( $class, $style, $args = array() ) {
+		if ( empty( $args['form'] ) || empty( $args['form']['submit_align'] ) || 'full' !== $args['form']['submit_align'] ) {
+			return $class;
+		}
+		return $class . ' frm_full_submit';
+	}
+
 	public static function conditional_options( $options ) {
         $cond_opts = array(
             'equals'       => __( 'Equals', 'formidable-pro' ),
@@ -690,15 +664,26 @@ class FrmProFormsController {
     }
 
 	/**
+	 * Handles frm_pre_get_form action.
+	 *
+	 * @since 5.2.02
+	 *
+	 * @param stdClass $form
+	 * @return void
+	 */
+	public static function pre_get_form( $form ) {
+		self::add_submit_conditions_to_frm_vars( $form );
+		self::add_honeypot_globals_to_frm_vars( $form );
+	}
+
+	/**
 	 * Add submit conditions to $frm_vars for inclusion in Conditional Logic processing
 	 *
-	 * @param $atts
-	 * @param $form
+	 * @param stdClass $form
+	 * @return void
 	 */
 	public static function add_submit_conditions_to_frm_vars( $form ) {
-		if ( ! isset( $form->options['submit_conditions'] ) ||
-             ! isset( $form->options['submit_conditions']['hide_field'] ) ||
-             empty( $form->options['submit_conditions']['hide_field'] ) ) {
+		if ( ! isset( $form->options['submit_conditions'] ) || empty( $form->options['submit_conditions']['hide_field'] ) ) {
 			return;
 		}
 
@@ -720,15 +705,47 @@ class FrmProFormsController {
 	}
 
 	/**
-	 * @param bool     $show
+	 * @since 5.2.02
+	 *
 	 * @param stdClass $form
-	 * @return bool
+	 * @return void
 	 */
-	public static function maybe_hide_submit_button( $show, $form ) {
-		if ( $show && isset( $form->options['submit_align'] ) && 'none' === $form->options['submit_align'] ) {
-			$show = false;
+	private static function add_honeypot_globals_to_frm_vars( $form ) {
+		global $frm_vars;
+
+		if ( ! array_key_exists( 'honeypot', $frm_vars ) ) {
+			$frm_vars['honeypot'] = array();
 		}
-		return $show;
+
+		if ( class_exists( 'FrmHoneypot' ) ) {
+			$honeypot = isset( $form->options['honeypot'] ) ? $form->options['honeypot'] : 'basic';
+		} else {
+			$honeypot = 'strict';
+		}
+
+		$frm_vars['honeypot'][ $form->id ] = $honeypot;
+	}
+
+	/**
+	 * @param string $button
+	 * @param array  $args
+	 * @return string
+	 */
+	public static function maybe_hide_submit_button( $button, $args ) {
+		if ( ! is_array( $args ) || empty( $args['form'] ) ) {
+			return $button;
+		}
+
+		$form = $args['form'];
+		if ( ! isset( $form->options['submit_align'] ) || 'none' !== $form->options['submit_align'] ) {
+			return $button;
+		}
+
+		if ( ! FrmProFormsHelper::is_final_page( $form->id ) ) {
+			return $button;
+		}
+
+		return preg_replace( '/frm_button_submit/', 'frm_hidden frm_button_submit', $button, 1 );
 	}
 
 	/**
