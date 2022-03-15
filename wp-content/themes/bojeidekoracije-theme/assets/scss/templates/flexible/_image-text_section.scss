@@ -1,6 +1,6 @@
 .image-text-section {
     padding-bottom: 50px;
-    padding-top: 50px;
+    padding-top: 30px;
     position: relative;
     &:after {
         @extend %after-full;
@@ -34,9 +34,9 @@
         background-size: cover;
     }
     .image-text-section-main-text-content-description {
-        padding: 45px;
+        padding: 60px 45px;
         @include min-mq ($mac) {
-            padding: 55px 75px;
+            padding: 128px 105px;
         }
     }
     .image-text-section-read-more-button-wrap {

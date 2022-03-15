@@ -4709,6 +4709,8 @@ fieldset {
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+  padding-left: 0;
+  padding-right: 0;
   padding-top: 35px;
 }
 
@@ -4798,7 +4800,7 @@ fieldset {
 
 .image-text-section {
   padding-bottom: 50px;
-  padding-top: 50px;
+  padding-top: 30px;
   position: relative;
 }
 
@@ -4848,12 +4850,12 @@ fieldset {
 }
 
 .image-text-section .image-text-section-main-text-content-description {
-  padding: 45px;
+  padding: 60px 45px;
 }
 
 @media (min-width: 1440px) {
   .image-text-section .image-text-section-main-text-content-description {
-    padding: 55px 75px;
+    padding: 128px 105px;
   }
 }
 
@@ -4875,7 +4877,7 @@ fieldset {
 }
 
 .latest-posts-item .latest-posts-main-content-wrapper {
-  padding-top: 10px;
+  padding-top: 19px;
 }
 
 .latest-posts-item .latest-posts-item-title {
