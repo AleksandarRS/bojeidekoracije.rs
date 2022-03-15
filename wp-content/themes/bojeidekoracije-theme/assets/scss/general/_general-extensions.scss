@@ -1,5 +1,5 @@
 %left-calc {
-    padding-left: calc(50vw - ( #{$container-width} / 2 ) + 10px);
+    padding-left: calc(50vw - ( #{$container-width} / 2 ) - 10px);
     width: 100%;
     @include max-mq ($ls + 10) {
         padding-left: 15px;
@@ -7,7 +7,7 @@
 }
 
 %right-calc {
-    padding-right: calc(50vw - ( #{$container-width} / 2 ) + 5px);
+    padding-right: calc(50vw - ( #{$container-width} / 2 ) - 5px);
     width: 100%;
     @include max-mq ($ls + 10) {
         padding-right: 15px;
@@ -23,17 +23,34 @@
 }
 
 %after-full {
+    background-color: rgba($color: $primary-color, $alpha: 0.2);
+    bottom: 0;
+    content: '';
+    height: 100%;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 100%;
+    z-index: 0;
+    @extend %transition-global;
+}
+
+%after-gradient {
     content: '';
     position: absolute;
+    background-color: $primary-color;
+    background: -webkit-linear-gradient(to top, $primary-color 0%, transparent 100%);
+    background: -moz-linear-gradient(to top, $primary-color 0%, transparent 100%);
+    background: linear-gradient(to top, $primary-color 0%, transparent 100%);
+    bottom: 0;
+    height: 100%;
     left: 0;
     right: 0;
     top: 0;
-    bottom: 0;
-    height: 100%;
     width: 100%;
-    background-color: rgba($color: $primary-color, $alpha: 0.2);
-    @extend %transition-global;
     z-index: 0;
+    @extend %transition-global;
 }
 
 

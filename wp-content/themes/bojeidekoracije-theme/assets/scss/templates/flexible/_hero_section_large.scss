@@ -11,13 +11,18 @@
             }
         }
     }
+    .entry-header {
+        .entry-title {
+            font-size: $font-size-h1-large;
+        }
+    }
     .products-title {
         a {
             @extend %transition-color;
         }
     }
     .products-product-read-more {
-        margin-top: 35px;
+        margin-top: 25px;
     }
 }
 
@@ -26,16 +31,29 @@
     padding: 0;
 }
 .product-hero-text-description-section {
+    align-self: center;
     order: 0;
     .products-heading-excerpt-wrap {
         @extend %left-calc;
     }
-
+    .products-description {
+        max-width: 80%;
+        width: 100%;
+        @include min-mq ($mac) {
+            max-width: 67%;
+        }
+        p {
+            margin-bottom: 1.7em;
+            &:last-of-type {
+                margin-bottom: 1.25em;
+            }
+        }
+    }
 }
 .products-featured-img-wrap {
     min-height: 750px;
     width: 100%;
-    height: 90vh;
+    height: 91.5vh;
 }
 .products-featured-img-wrap,
 .products-featured-thumbnail {

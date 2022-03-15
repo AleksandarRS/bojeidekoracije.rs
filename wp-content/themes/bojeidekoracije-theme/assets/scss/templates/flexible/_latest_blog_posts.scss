@@ -1,0 +1,25 @@
+
+.latest-posts-section {
+    padding-bottom: 80px;
+    padding-top: 80px;
+}
+.latest-posts-item-link {
+    @extend %transition-color;
+    &:hover {
+        .link {
+            color: $secondary-color;
+        }
+    }
+}
+.latest-posts-item {
+    .latest-posts-item-featured-img {
+        height: 312px;
+    }
+    .latest-posts-main-content-wrapper {
+        padding-top: 10px;
+    }
+    .latest-posts-item-title {
+        font-size: $font-size-large;
+        font-weight: $font-weight-sb;
+    }
+}

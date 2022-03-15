@@ -1,0 +1,46 @@
+.image-text-section {
+    padding-bottom: 50px;
+    padding-top: 50px;
+    position: relative;
+    &:after {
+        @extend %after-full;
+        background-color: $tertiary-color;
+        bottom: auto;
+        height: 50%;
+    }
+    &.image-first-text-second {
+        .image-text-section-main-image {
+            order: 0;
+        }
+        .image-text-section-main-text-content-description {
+            order: 1;
+        }
+    }
+    &.text-first-image-second {
+        .image-text-section-main-image {
+            order: 1;
+        }
+        .image-text-section-main-text-content-description {
+            order: 0;
+        }
+    }
+    .image-text-section-wrapper {
+        position: relative;
+        z-index: 1;
+    }
+    .image-text-section-main-image {
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+    .image-text-section-main-text-content-description {
+        padding: 45px;
+        @include min-mq ($mac) {
+            padding: 55px 75px;
+        }
+    }
+    .image-text-section-read-more-button-wrap {
+        padding-top: 25px;
+    }
+}
+

@@ -21,7 +21,21 @@
 				<?php if (get_theme_mod('footer_customizer_text') != ''): ?>
 					<div class="site-info">
 						<div class="container">
-							<div class="footer-copyright col-md-12 align-center"><?php echo get_theme_mod('footer_customizer_text'); ?></div>
+							<div class="footer-copyright row d-flex">
+								<div class="copy-right-content col-md-6">
+									<?php echo get_theme_mod('footer_customizer_text'); ?>
+								</div>
+								<div class="privacy-policy-menu col-md-6">
+									<?php wp_nav_menu(
+										array(
+											'theme_location' 		=> 	'privacy',
+											'menu_id' 				=> 	'privacy-menu',
+											'menu_class' 			=> 	'main-header-menu',
+											'container_class'		=>	'main-menu-container'
+										)
+									); ?>
+								</div>
+							</div>
 						</div>
 					</div><!-- .site-info -->
 				<?php endif; ?>

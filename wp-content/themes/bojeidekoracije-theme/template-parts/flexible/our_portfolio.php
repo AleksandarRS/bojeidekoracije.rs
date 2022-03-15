@@ -34,15 +34,13 @@ $link = get_sub_field('button_section');
                                     $project_excerpt = get_field('project_excerpt'); ?>
                                         <div class="our-potfolio-projects-item">
                                             <a href="<?php the_permalink() ?>" class="our-potfolio-projects-link">
-                                                <div class="our-potfolio-projects-image-wrapper">
-                                                    <?php if( get_the_post_thumbnail() ): ?>
-                                                        <div class="our-potfolio-projects-featured-img" style="background-image: url('<?php the_post_thumbnail_url(); ?>')">
-                                                        </div>
-                                                    <?php else: ?>
-                                                        <div class="our-potfolio-projects-featured-img" style="background-image: url('<?php echo get_template_directory_uri(); ?>/assets/images/default-image.jpg')">
-                                                        </div>
-                                                    <?php endif; ?>
-                                                </div>
+                                                <?php if( get_the_post_thumbnail() ): ?>
+                                                    <div class="our-potfolio-projects-featured-img" style="background-image: url('<?php the_post_thumbnail_url(); ?>')">
+                                                    </div>
+                                                <?php else: ?>
+                                                    <div class="our-potfolio-projects-featured-img" style="background-image: url('<?php echo get_template_directory_uri(); ?>/assets/images/default-image.jpg')">
+                                                    </div>
+                                                <?php endif; ?>
                                                 <div class="project-description-reference-logo-wrapper">
                                                     <div class="project-description">
                                                         <header class="entry-header">
@@ -55,19 +53,22 @@ $link = get_sub_field('button_section');
                                                                 </div>
                                                             <?php endif; ?>
                                                         </header>
-                                                        <span class="link link-secondary link-arrow"><?php _e('Pogledajte projekat', 'arteco') ?> <i class="icon icon-arrow-right"></i></span>
+                                                        <span class="link link-white link-arrow"><?php _e('Pogledajte projekat', 'arteco') ?> <i class="icon icon-arrow-right"></i></span>
                                                     </div>
-                                                    <img src="<?php echo esc_url($portfolio_logo['url']); ?>" alt="<?php echo esc_attr($portfolio_logo['alt']); ?>" />
+                                                    <div class="project-reference-logo">
+                                                        <img src="<?php echo esc_url($portfolio_logo['url']); ?>" alt="<?php echo esc_attr($portfolio_logo['alt']); ?>" />
+                                                    </div>
                                                 </div>
                                                 
                                             </a>
+                                            <div class="slick-slider-dots-projects"></div>
                                         </div> <!-- /.our-potfolio-projects-item -->
                                 <?php endforeach; ?>
                         </div> <!-- /.col-md-8 our-potfolio-projects-logos-items our-potfolio-projects-logos-slider -->
                     <?php wp_reset_postdata(); ?>
                 <?php endif; ?>
 
-                <div class="see-all-projects-button-wrapper align-center">
+                <div class="see-all-projects-button-wrapper align-center col-md-12">
                     <?php
                         if( $link ): 
                             $link_url = $link['url'];

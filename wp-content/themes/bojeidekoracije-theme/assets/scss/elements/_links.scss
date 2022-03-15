@@ -1,11 +1,36 @@
 .link {
-    .link-primary {
+    font-weight: $font-weight-sb;
+    @extend %transition-color;
+    &.link-primary {
         color: $primary-color;
+        &:hover {
+            color: $secondary-color;
+        }
     }
-    .link-secondary {
+    &.link-secondary {
         color: $secondary-color;
+        &:hover {
+            color: $primary-color;
+        }
     }
-    .link-tertiary {
+    &.link-tertiary {
         color: $tertiary-color;
+        &:hover {
+            color: $secondary-color;
+        }
+    }
+    &.link-white {
+        color: $white;
+        &:hover {
+            color: $secondary-color;
+        }
+    }
+    &.link-arrow {
+        i {
+			font-size: $font-size-xsmall + 1;
+			margin-left: 8px;
+			display: inline-block;
+			vertical-align: middle;
+		}
     }
 }

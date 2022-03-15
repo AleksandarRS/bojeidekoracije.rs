@@ -440,10 +440,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
    -------------------------------------------------------------------------------*/
 			$dom: {
 				slickSliderProducts: $(".products-slider-wrapper"),
-				slickSliderPopularProducts: $(".most-popular-products-slider"),
+				slickSliderPopularProducts: $(".most-popular-products-slider")
 				// slickSliderPagination: $(".slick-slider-dots"),
 
-				slickSliderOurProjects: $(".our-potfolio-projects-logos-slider")
 				// slickSliderSingleThumb: $(".single-page-thumbnail-slider"),
 
 				// slickSliderSingleinstructions: $(".instructions-slider"),
@@ -518,18 +517,39 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 					nextArrow: "<button type='button' class='slick-next pull-right'><i class='icon icon-angle-right' aria-hidden='true'></i></button>"
 				});
 
-				this.$dom.slickSliderOurProjects.slick({
-					slidesToScroll: 1,
-					slidesToShow: 3,
-					infinite: true,
-					variableWidth: false,
-					centerMode: true,
-					centerPadding: 100,
-					dots: true,
-					arrows: true,
-					prevArrow: "<button type='button' class='slick-prev pull-left'><i class='icon icon-angle-left' aria-hidden='true'></i></button>",
-					nextArrow: "<button type='button' class='slick-next pull-right'><i class='icon icon-angle-right' aria-hidden='true'></i></button>"
-				});
+				if ($(".our-potfolio-projects-logos-slider").length) {
+					var currentSlidePort;
+					var slidesCountPort;
+					var sliderCounterPort = document.createElement('div');
+					sliderCounterPort.classList.add('slider__counter__s');
+
+					var updateSliderCounterPort = function updateSliderCounterPort(slick) {
+						currentSlidePort = slick.slickCurrentSlide() + 1;
+						slidesCountPort = slick.slideCount;
+						$(sliderCounterPort).html('<span>' + currentSlidePort + '/</span>' + '<span>' + slidesCountPort + '</span>');
+					};
+
+					$(".our-potfolio-projects-logos-slider").on('init', function (event, slick) {
+						$(".our-potfolio-projects-logos-slider").append(sliderCounterPort);
+						updateSliderCounterPort(slick);
+					});
+
+					$(".our-potfolio-projects-logos-slider").on('afterChange', function (event, slick, currentSlidePort) {
+						updateSliderCounterPort(slick, currentSlidePort);
+					});
+					$(".our-potfolio-projects-logos-slider").slick({
+						slidesToScroll: 1,
+						slidesToShow: 3,
+						infinite: true,
+						variableWidth: true,
+						centerMode: true,
+						centerPadding: 100,
+						dots: true,
+						arrows: true,
+						prevArrow: "<button type='button' class='slick-prev pull-left'><i class='icon icon-angle-left' aria-hidden='true'></i></button>",
+						nextArrow: "<button type='button' class='slick-next pull-right'><i class='icon icon-angle-right' aria-hidden='true'></i></button>"
+					});
+				}
 
 				// this.$dom.slickSliderSingleinstructions.slick({
 				// 	slidesToScroll: 1,

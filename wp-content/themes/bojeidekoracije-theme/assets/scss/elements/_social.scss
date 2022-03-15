@@ -1,0 +1,16 @@
+.social-icons-wrapper {
+    .social-icon-menu-items {
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 10px;
+        @include min-mq ($mac) {
+            margin-right: 15px;
+        }
+        &:last-child {
+            margin-right: 0;
+        }
+        i {
+            font-size: $font-size-xlarge + 1;
+        }
+    }
+}

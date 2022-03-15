@@ -1,8 +1,19 @@
 .entry-header {
+    .title-label {
+        color: $secondary-color;
+        display: block;
+        font-weight: $font-weight-sb;
+        font-size: $font-size-small;
+        margin-bottom: 0.9em;
+    }
     .entry-title {
-        font-size: $font-size-h1-large;
+        font-size: $font-size-h1;
         margin-bottom: 0.5em;
         margin-top: 0.2em;
         line-height: 1.1;
     }
+}
+.entry-content {
+    line-height: 1.5;
+    
 }

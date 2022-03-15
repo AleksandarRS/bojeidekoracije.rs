@@ -37,29 +37,35 @@
 	@if $filename == arrow-right {
 		$char: "\E005";
 	}
-	@if $filename == facebook {
+	@if $filename == envelope {
 		$char: "\E006";
 	}
-	@if $filename == google-plus-g {
+	@if $filename == facebook {
 		$char: "\E007";
 	}
-	@if $filename == instagram {
+	@if $filename == google-plus-g {
 		$char: "\E008";
 	}
-	@if $filename == linkedin {
+	@if $filename == instagram {
 		$char: "\E009";
 	}
-	@if $filename == pinterest {
+	@if $filename == linkedin {
 		$char: "\E00A";
 	}
-	@if $filename == search {
+	@if $filename == phone {
 		$char: "\E00B";
 	}
-	@if $filename == twitter {
+	@if $filename == pinterest {
 		$char: "\E00C";
 	}
-	@if $filename == youtube {
+	@if $filename == search {
 		$char: "\E00D";
+	}
+	@if $filename == twitter {
+		$char: "\E00E";
+	}
+	@if $filename == youtube {
+		$char: "\E00F";
 	}
 
 	@return $char;
@@ -91,6 +97,9 @@
 .icon-arrow-right {
 	@include icon(arrow-right);
 }
+.icon-envelope {
+	@include icon(envelope);
+}
 .icon-facebook {
 	@include icon(facebook);
 }
@@ -102,6 +111,9 @@
 }
 .icon-linkedin {
 	@include icon(linkedin);
+}
+.icon-phone {
+	@include icon(phone);
 }
 .icon-pinterest {
 	@include icon(pinterest);

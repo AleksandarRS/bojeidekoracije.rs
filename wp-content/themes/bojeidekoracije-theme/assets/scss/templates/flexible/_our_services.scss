@@ -1,0 +1,82 @@
+.our-services-section-wrapper {
+    background-color: $tertiary-color;
+    padding-bottom: 50px;
+    padding-top: 70px;
+}
+.our-services-children-items {
+    display: flex;
+    padding-top: 35px;
+    .our-services-children-item {
+        flex: 0 0 25%;
+        max-width: 25%;
+        padding-left: 15px;
+        padding-right: 15px;
+        .child-page-link {
+            position: relative;
+            display: flex;
+            height: 300px;
+            width: 100%;
+            align-items: center;
+            &:hover {
+                .our-services-children-page-featured-img {
+                    &:after {
+                        // background-color: $primary-color;
+                        // background-image: none;
+                        opacity: 0;
+                    }
+                    &:before {
+                        background-color: $primary-color;
+                        opacity: 1;
+                    }
+                }
+                .title-label,
+                .entry-title,
+                .link {
+                    color: $secondary-color;
+                }
+            }
+        }
+        .our-services-children-page-featured-img {
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            bottom: 0;
+            height: 100%;
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 100%;
+            &:before {
+                @extend %after-full;
+                opacity: 0;
+            }
+            &:after {
+                @extend %after-gradient;
+                opacity: 0.8;
+            }
+        }
+        .our-services-header {
+            position: relative;
+            padding: 5px 15px;
+            width: 100%;
+        }
+        .title-label,
+        .entry-title {
+            color: $white;
+            @extend %transition-color;
+        }
+        .entry-title {
+            font-size: $font-size-large;
+            font-weight: $font-weight-sb;
+            position: relative;
+            padding-bottom: 15px;
+            &:after {
+                @extend %after-full;
+                background-color: $secondary-color;
+                height: 5px;
+                top: auto;
+            }
+        }
+    }
+}

@@ -45,9 +45,11 @@ $link = get_sub_field('button_section');
                                             <div class="product-featured-image-wrapper">
                                                 <?php if( get_the_post_thumbnail() ): ?>
                                                     <div class="most-popular-products-featured-img" style="background-image: url('<?php the_post_thumbnail_url(); ?>')">
+                                                        <span class="link link-white link-arrow"><?php _e('Pogledajte proizvod', 'arteco') ?><i class="icon icon-arrow-right"></i></span>
                                                     </div>
                                                 <?php else: ?>
                                                     <div class="most-popular-products-featured-img" style="background-image: url('<?php echo get_template_directory_uri(); ?>/assets/images/default-image.jpg')">
+                                                        <span class="link link-white link-arrow"><?php _e('Pogledajte proizvod', 'arteco') ?><i class="icon icon-arrow-right"></i></span>
                                                     </div>
                                                 <?php endif; ?>
                                             </div>
@@ -59,7 +61,7 @@ $link = get_sub_field('button_section');
                     <?php wp_reset_postdata(); ?>
                 <?php endif; ?>
 
-                <div class="see-all-products-button-wrapper align-center">
+                <div class="see-all-products-button-wrapper align-center col-md-12">
                     <?php
                         if( $link ): 
                             $link_url = $link['url'];

@@ -84,7 +84,6 @@
 					@include min-mq($lg) {
 						display: inline-block;
 					}
-
 					@include max-mq($responsive-toggle-breakpoint) {
 						border-bottom: 1px solid $gray;
 						&:after{
@@ -103,12 +102,15 @@
 						padding: 10px 12px;
 						display: block;
 						position: relative;
-						color: inherit;
+						color: $primary-color;
 						width: 100%;
-
+						@extend %transition-color;
 						@include max-mq($mac) {
 							padding: 8px;
 							// font-size: $font-size-small;
+						}
+						&:hover {
+							color: $secondary-color;
 						}
 					}
 

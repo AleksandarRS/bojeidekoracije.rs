@@ -1,0 +1,32 @@
+.site-footer {
+    font-size: $font-size-small;
+    a {
+        text-decoration: underline;
+    }
+    .menu-item {
+        padding-bottom: 8px;
+        a {
+            text-decoration: none;
+        }
+    }
+    .widget-title {
+        font-size: $font-size-large;
+        font-weight: $font-weight-sb;
+    }
+    .footer-column-1 {
+        font-size: $font-size-base;
+    }
+    ul {
+        list-style: none;
+        padding-left: 0;
+    }
+    a {
+        @extend %transition-color;
+        // &:hover {}
+    }
+    .current-menu-item {
+        > a {
+            color: $secondary-color;
+        }
+    }
+}

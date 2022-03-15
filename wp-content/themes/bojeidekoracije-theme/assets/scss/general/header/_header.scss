@@ -1,3 +1,73 @@
+.site-header-inner {
+  background-color: $tertiary-color;
+  padding-bottom: 5px;
+  padding-top: 5px;
+  .top-header-details {
+    align-items: center;
+    i {
+      display: inline-block;
+      vertical-align: middle;
+    }
+  }
+  .contact-details {
+    align-items: center;
+    display: flex;
+    font-size: $font-size-small;
+    flex-wrap: wrap;
+    .contact-details-item {
+      margin-right: 15px;
+      padding-right: 15px;
+      position: relative;
+      &:after {
+        @extend %after-full;
+        width: 2px;
+        left: auto;
+        background-color: $primary-color;
+      }
+      &:last-child {
+        margin-right: 0;
+        padding-right: 0;
+        &:after {
+          content: none;
+          display: none;
+        }
+      }
+      p {
+        margin: 0;
+      }
+      .icon {
+        margin-left: 5px;
+        margin-right: 5px;
+      }
+    }
+    .contact-details-phone-email-wrapper {
+      align-items: center;
+      display: flex;
+    }
+    .contact-details-title {
+      font-weight: $font-weight-sb;
+      padding-bottom: 3px;
+      padding-left: 3px;
+    }
+    .contact-details-phone {
+      margin-right: 10px;
+    }
+  }
+  a {
+    text-decoration: underline;
+    @extend %transition-color;
+  }
+}
+
+.logo-menu-wrapper {
+  padding-bottom: 15px;
+  padding-top: 15px;
+}
+
+.main-logo-nav-wrapper {
+  align-items: center;
+}
+
 .site-branding {
   max-width: 180px;
 }

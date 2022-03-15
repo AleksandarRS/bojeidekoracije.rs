@@ -1,8 +1,10 @@
 .button {
-	font-weight: $font-weight-sb;
 	@extend %transition-global;
-	padding: 8px 25px;
 	border-radius: 5px;
+	display: inline-block;
+	font-weight: $font-weight-sb;
+	padding: 11px 21px;
+	vertical-align: middle;
 	&.button-primary {
 		background-color: $primary-color;
 	}
@@ -12,8 +14,9 @@
 		background-color: $secondary-color;
 		color: $white;
 		&:hover {
-			background-color: $white;
-			color: $secondary-color;
+			border-color: $primary-color;
+			background-color: $primary-color;
+			color: $white;
 		}
 	}
 
@@ -23,8 +26,8 @@
 
 	&.button-arrow {
 		i {
-			font-size: $font-size-xsmall;
-			margin-left: 4px;
+			font-size: $font-size-xsmall + 1;
+			margin-left: 8px;
 			display: inline-block;
 			vertical-align: middle;
 		}

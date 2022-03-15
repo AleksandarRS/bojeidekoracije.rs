@@ -1,15 +1,120 @@
+.most-popular-products-section {
+    background-color: $tertiary-color;
+    padding-bottom: 75px;
+    padding-top: 75px;
+    position: relative;
+    &:after {
+        @extend %after-full;
+        background-color: $white;
+        height: 50%;
+        right: auto;
+        max-width: 50%;
+        top: auto;
+    }
+    .most-popular-products-title {
+        font-size: $font-size-large;
+        font-weight: $font-weight-sb;
+    }
+}
 .most-popular-products-section-wrapper {
     @extend %left-calc;
+    position: relative;
+    z-index: 1;
+    .most-popular-products-link {
+        @extend %transition-color;
+        &:hover {
+            .link {
+                &.link-white {
+                    color: $secondary-color;
+                }
+            }
+        }
+        
+    }
 }
 .most-popular-products-slider {
     padding-right: 0;
     .slick-slide {
-        width: 400px;
+        opacity: 0.5;
+        width: 389px;
+        &.slick-active {
+            opacity: 1;
+        }
+    }
+    .slick-arrow {
+        align-items: center;
+        background-color: $primary-color;
+        border-radius: 50%;
+        border: 1px solid $primary-color;
+        bottom: 0;
+        color: $white;
+        display: flex;
+        height: 35px;
+        justify-content: center;
+        margin: auto;
+        padding: 0;
+        top: 0;
+        width: 35px;
+        z-index: 2;
+        @extend %transition-global;
+        &:hover {
+            background-color: $secondary-color;
+        }
+        i {
+            display: block;
+            position: relative;
+            &:before {
+                display: block;
+            }
+        }
+        &.slick-next {
+            right: 150px;
+            i {
+                right: -1px;
+            }
+        }
+        &.slick-prev {
+            left: 50px;
+            i {
+                left: -1px;
+            }
+        }
     }
 }
+
+.most-popular-products-items {
+    padding-top: 67px;
+    .most-popular-products-excerpt {
+        margin-top: 0;
+        p {
+            margin-bottom: 0.9em;
+
+        }
+    }
+}
+
 .most-popular-products-item {
     padding-right: 30px;
     .most-popular-products-featured-img {
-        height: 300px;
+        background-repeat: no-repeat;
+        background-repeat: no-repeat;
+        background-size: cover;
+        height: 310px;
+        position: relative;
+        &:after {
+            @extend %after-gradient;
+            opacity: 0.9;
+        }
+        .link {
+            position: absolute;
+            bottom: 19px;
+            left: 19px;
+            z-index: 1;
+        }
     }
+}
+
+.see-all-products-button-wrapper {
+    padding-bottom: 3px;
+    padding-top: 45px;
 }

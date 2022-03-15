@@ -1,0 +1,129 @@
+.our-potfolio-projects-section {
+    padding-bottom: 40px;
+    padding-top: 82px;
+    position: relative;
+    &:after {
+        @extend %after-full;
+        background-color: $tertiary-color;
+        height: 50%;
+        left: auto;
+        max-width: 50%;
+        top: auto;
+    }
+    .our-potfolio-projects-section-wrapper {
+        position: relative;
+        z-index: 1;
+    }
+}
+.our-potfolio-projects-logos-slider {
+    padding-bottom: 74px;
+    .slick-slide {
+        width: 900px;
+    }
+    .our-potfolio-projects-item {
+        padding-left: 80px;
+        padding-right: 80px;
+    }
+    .slick-arrow {
+        position: absolute;
+        bottom: 0;
+        z-index: 1;
+        &.slick-next {
+            right: calc(33vw);
+        }
+        &.slick-prev {
+            right: calc(33vw + 35px);
+            left: auto;
+        }
+    }
+    .slick-dots {
+        position: absolute;
+        left: 33vw;
+        bottom: 0;
+        display: none !important;
+    }
+    .slider__counter__s {
+        bottom: 0;
+        font-size: $font-size-xlarge + 6;
+        font-weight: $font-weight-b;
+        left: 0;
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 700px;
+        position: absolute;
+        right: 0;
+        width: 100%;
+        z-index: 0;
+    }
+    
+}
+
+.our-potfolio-projects-logos-items {
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 38px;
+}
+.our-potfolio-projects-item  {
+    .our-potfolio-projects-link {
+        align-items: flex-end;
+        border: 1px solid $secondary-color;
+        display: flex;
+        min-height: 600px;
+        padding-top: 0;
+        position: relative;
+        @extend %transition-global;
+        &:hover {
+            border-color: $primary-color;
+            .project-description {
+                background-color: $primary-color;
+                
+            }
+        }
+    }
+    .our-potfolio-projects-featured-img {
+        bottom: 0;
+        height: 100%;
+        left: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 100%;
+        z-index: 0;
+    }
+    .project-description-reference-logo-wrapper {
+        background-color: $tertiary-color;
+        display: flex;
+        position: relative;
+        z-index: 1;
+    }
+    .project-description {
+        background-color: $secondary-color;
+        color: $white;
+        flex: 0 0 75%;
+        max-width: 75%;
+        padding: 27px;
+        @extend %transition-global;
+    }
+    .project-reference-logo {
+        align-self: center;
+        flex: 0 0 25%;
+        max-width: 25%;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    .our-potfolio-projects-title {
+        font-size: $font-size-xlarge;
+        font-weight: $font-weight-sb;
+    }
+    .portfolio-excerpt {
+        margin-top: 0;
+        p {
+            margin-bottom: 0.7em;
+        }
+    }
+}
+
+.see-all-projects-button-wrapper {
+    padding-bottom: 25px;
+    padding-top: 15px;
+}
