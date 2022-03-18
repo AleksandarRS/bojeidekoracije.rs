@@ -32,7 +32,7 @@ function arteco_register_post_type() {
         'rewrite'             => array('slug' => $slug),
         'menu_icon'           => 'dashicons-chart-bar',
         // 'menu_icon'           => '',
-        'supports'            => array( 'title', 'thumbnail', 'editor', 'excerpt' )
+        'supports'            => array( 'title', 'thumbnail', 'editor' )
     );
 
     register_post_type( $slug, $args );

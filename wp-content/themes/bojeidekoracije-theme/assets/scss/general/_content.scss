@@ -17,3 +17,16 @@
     line-height: 1.5;
     
 }
+
+.content-area {
+    width: 100%;
+}
+
+.right-calc {
+    @extend %right-calc;
+}
+
+::selection {
+    color: $white;
+    background: $secondary-color;
+}

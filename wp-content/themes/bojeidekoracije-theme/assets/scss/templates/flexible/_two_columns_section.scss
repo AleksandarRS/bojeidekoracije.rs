@@ -1,0 +1,29 @@
+.two-column-section {
+    background-color: $tertiary-color;
+    padding-bottom: 80px;
+    padding-top: 80px;
+    .contact-details-title {
+        margin-bottom: 0.55em;
+    }
+    .contact-details-phone-email-wrapper {
+        i {
+            display: inline-block;
+            vertical-align: middle;
+            width: 22px;
+            text-align: center;
+            &.icon-envelope {
+                font-size: $font-size-small - 1;
+            }
+        }
+        > div {
+            padding-bottom: 10px;
+        }
+        a {
+            text-decoration: underline;
+            @extend %transition-color;
+        }
+    }
+    .theme-contact-details-text-wrapper {
+        padding-top: 10px;
+    }
+}

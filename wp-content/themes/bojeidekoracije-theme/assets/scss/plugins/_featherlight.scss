@@ -1,1 +1,61 @@
-// @import '../../../node_modules/featherlight/release/featherlight.min';
+@import '../../../node_modules/featherlight/release/featherlight.min';
+.featherlight-content {
+    .featherlight-close-icon {
+        &.featherlight-close {
+            background-color: $primary-color;
+            color: $tertiary-color;
+            font-size: $font-size-xlarge;
+            line-height: 35px;
+            transition: all 0.5s;
+            width: 35px;
+            &:hover {
+                background-color: $secondary-color;
+                color: $white;
+            }
+        }
+    }
+    .featherlight-next,
+    .featherlight-previous {
+        align-items: center;
+        background-color: $primary-color;
+        border-radius: 50%;
+        border: 1px solid $primary-color;
+        bottom: 0;
+        color: $tertiary-color;
+        cursor: pointer;
+        display: flex;
+        font-size: 0;
+        height: 55px;
+        justify-content: center;
+        line-height: 0;
+        margin: auto;
+        padding: 0;
+        position: absolute;
+        top: 0;
+        transition: all .5s;
+        width: 55px;
+        z-index: 9;
+        &:before {
+            font-family: "font-icons";
+            font-size: $font-size-xlarge + 15;
+        }
+        &:hover {
+            background-color: $secondary-color;
+            border-color: $secondary-color;
+            color: $white;
+        }
+    }
+    .featherlight-next {
+        right: 8px;
+        &:before {
+            content: "";
+            
+        }
+    }
+    .featherlight-previous {
+        left: 8px;
+        &:before {
+            content: "";
+        }
+    }
+}

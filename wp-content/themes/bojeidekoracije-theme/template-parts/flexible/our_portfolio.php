@@ -59,7 +59,6 @@ $link = get_sub_field('button_section');
                                                         <img src="<?php echo esc_url($portfolio_logo['url']); ?>" alt="<?php echo esc_attr($portfolio_logo['alt']); ?>" />
                                                     </div>
                                                 </div>
-                                                
                                             </a>
                                             <div class="slick-slider-dots-projects"></div>
                                         </div> <!-- /.our-potfolio-projects-item -->

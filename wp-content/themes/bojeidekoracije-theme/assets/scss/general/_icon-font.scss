@@ -37,35 +37,44 @@
 	@if $filename == arrow-right {
 		$char: "\E005";
 	}
-	@if $filename == envelope {
+	@if $filename == check-solid {
 		$char: "\E006";
 	}
-	@if $filename == facebook {
+	@if $filename == envelope {
 		$char: "\E007";
 	}
-	@if $filename == google-plus-g {
+	@if $filename == facebook {
 		$char: "\E008";
 	}
-	@if $filename == instagram {
+	@if $filename == google-plus-g {
 		$char: "\E009";
 	}
-	@if $filename == linkedin {
+	@if $filename == instagram {
 		$char: "\E00A";
 	}
-	@if $filename == phone {
+	@if $filename == linkedin {
 		$char: "\E00B";
 	}
-	@if $filename == pinterest {
+	@if $filename == map-marker-alt {
 		$char: "\E00C";
 	}
-	@if $filename == search {
+	@if $filename == phone {
 		$char: "\E00D";
 	}
-	@if $filename == twitter {
+	@if $filename == pinterest {
 		$char: "\E00E";
 	}
-	@if $filename == youtube {
+	@if $filename == search {
 		$char: "\E00F";
+	}
+	@if $filename == times {
+		$char: "\E010";
+	}
+	@if $filename == twitter {
+		$char: "\E011";
+	}
+	@if $filename == youtube {
+		$char: "\E012";
 	}
 
 	@return $char;
@@ -97,6 +106,9 @@
 .icon-arrow-right {
 	@include icon(arrow-right);
 }
+.icon-check-solid {
+	@include icon(check-solid);
+}
 .icon-envelope {
 	@include icon(envelope);
 }
@@ -112,6 +124,9 @@
 .icon-linkedin {
 	@include icon(linkedin);
 }
+.icon-map-marker-alt {
+	@include icon(map-marker-alt);
+}
 .icon-phone {
 	@include icon(phone);
 }
@@ -120,6 +135,9 @@
 }
 .icon-search {
 	@include icon(search);
+}
+.icon-times {
+	@include icon(times);
 }
 .icon-twitter {
 	@include icon(twitter);

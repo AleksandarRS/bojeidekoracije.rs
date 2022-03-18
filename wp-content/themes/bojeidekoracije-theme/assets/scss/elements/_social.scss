@@ -1,4 +1,4 @@
-.social-icons-wrapper {
+.lf-social-wrapper {
     .social-icon-menu-items {
         display: inline-block;
         vertical-align: middle;
@@ -11,6 +11,9 @@
         }
         i {
             font-size: $font-size-xlarge + 1;
+        }
+        a {
+            text-decoration: none;
         }
     }
 }

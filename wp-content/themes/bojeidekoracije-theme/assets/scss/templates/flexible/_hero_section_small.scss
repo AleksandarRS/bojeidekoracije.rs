@@ -1,0 +1,22 @@
+.hero-section-small-image-wrap {
+    align-items: center;
+    color: $white;
+    display: flex;
+    height: 320px;
+    justify-content: center;
+    position: relative;
+    &:after {
+        @extend %after-full;
+        background-color: rgba($color: $primary-color, $alpha: 0.4);
+    }
+    .main-hero-title {
+        font-size: $font-size-h1 + 7;
+    }
+    .main-hero-description {
+        font-size: $font-size-large;
+    }
+    > div {
+        position: relative;
+        z-index: 1;
+    }
+}

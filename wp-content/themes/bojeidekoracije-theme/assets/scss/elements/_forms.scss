@@ -1,4 +1,35 @@
 
+div.frm_forms {
+  .frm_form_fields  {
+    input[type='text'],
+    input[type='email'],
+    input[type='url'],
+    input[type='password'],
+    input[type='search'],
+    input[type='number'],
+    input[type='tel'],
+    input[type='range'],
+    input[type='date'],
+    input[type='month'],
+    input[type='week'],
+    input[type='time'],
+    input[type='datetime'],
+    input[type='datetime-local'],
+    input[type='color'],
+    textarea {
+      border: 1px solid;
+      border-radius: 0;
+      font-size: $font-size-base;
+      line-height: 1em;
+      padding: 14px 10px;
+      vertical-align: middle;
+      height: 50px;
+    }
+  }
+}
+#primary textarea {
+  height: auto;
+}
 input[type='text'],
 input[type='email'],
 input[type='url'],

@@ -6,7 +6,14 @@
 	padding: 11px 21px;
 	vertical-align: middle;
 	&.button-primary {
+		border: 1px solid $primary-color;
 		background-color: $primary-color;
+		color: $white;
+		&:hover {
+			border: 1px solid $secondary-color;
+			background-color: $secondary-color;
+			color: $white;
+		}
 	}
 
 	&.button-secondary {

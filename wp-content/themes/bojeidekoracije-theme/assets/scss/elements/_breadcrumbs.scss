@@ -1,30 +1,13 @@
-// .breadcrumbs {
-
-//   p {
-//   }
-
-//   a {
-//     &:hover {
-//     }
-//   }
-
-//   .breadcrumb_last {
-//   }
-// }
-
-// .woocommerce .woocommerce-breadcrumb {
-
-//   p {
-//     margin: 0;
-//   }
-
-//   a {
-
-//     &:hover {
-      
-//     }
-//   }
-
-//   span {
-//   }
-// }
+#breadcrumbs {
+    padding-bottom: 20px;
+    padding-top: 5px;
+    font-size: $font-size-small;
+    font-weight: $font-weight-sb;
+    a {
+        color: $secondary-color;
+        @extend %transition-color;
+        &:hover {
+            color: $primary-color;
+        }
+    }
+}

@@ -75,6 +75,57 @@
         }
     }
 }
+.single-page-thumbnail-slider {
+    .slick-slide {
+        .single-page-thumbnail {
+            position: relative;
+            &:hover {
+                &:after {
+                    border: 3px solid $secondary-color;
+                    background-color: rgba($color: $primary-color, $alpha: 0.3);
+                }
+            }
+            &:after {
+                @extend %after-full;
+                background-color: rgba($color: $primary-color, $alpha: 0.1);
+                border: 3px solid transparent;
+            }
+        }
+        &.slick-current {
+            .single-page-thumbnail {
+                &:after {
+                    background-color: rgba($color: $primary-color, $alpha: 0.3);
+                    @extend %after-full;
+                    border: 3px solid $secondary-color;
+                }
+            }
+        }
+    }
+    .slick-arrow {
+        top: 0;
+        bottom: 0;
+        height: calc(100% - 4px);
+        background-color: $secondary-color;
+        color: $white;
+        z-index: 1;
+        padding: 0 8px;
+        @extend %transition-global;
+        &:hover {
+            background-color: $primary-color;
+            color: $white;
+        }
+        &.slick-next {
+            right: 0;
+            left: auto;
+        }
+        &.slick-prev {
+            right: auto;
+            left: 0;
+        }
+    }
+}
+
+
 .slick-arrow {
     border: none;
     background-color: transparent;

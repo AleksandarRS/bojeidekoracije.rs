@@ -117,4 +117,5 @@
 .see-all-products-button-wrapper {
     padding-bottom: 3px;
     padding-top: 45px;
+    @extend %right-calc;
 }
