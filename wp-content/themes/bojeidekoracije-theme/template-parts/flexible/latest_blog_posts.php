@@ -44,6 +44,7 @@
                         </div>
                     <?php endwhile; ?>
                 <?php endif; ?>
+                <?php wp_reset_query(); ?>
             </div> <!-- /.row -->
         </div> <!-- /.container container -->
     </div> <!-- /.image-text-section-wrapper -->

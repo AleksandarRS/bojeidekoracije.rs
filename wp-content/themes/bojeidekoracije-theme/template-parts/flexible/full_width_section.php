@@ -5,7 +5,6 @@ $main_content = get_sub_field('main_content');
 ?>
 <section class="full-width-section">
     <div class="full-width-section-wrapper">
-        <?php get_sidebar(); ?>
         <div class="container">
             <div class="row full-width-row">
                 <?php if ( $title_label || $main_title ) : ?>

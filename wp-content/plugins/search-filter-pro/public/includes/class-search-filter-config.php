@@ -4,10 +4,16 @@
  * 
  * @package   Search_Filter_Post_Data
  * @author    Ross Morsali
- * @link      http://www.designsandcode.com/
- * @copyright 2015 Designs & Code
+ * @link      https://searchandfilter.com
+ * @copyright 2018 Search & Filter
  */
- 
+
+// If this file is called directly, abort.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+
 class Search_Filter_Config
 {
 	private $plugin_slug = '';
@@ -159,7 +165,7 @@ class Search_Filter_Config
 	{
 		$filters = array();
 		
-		//var_dump($this->get_fields());
+
 		if(!empty($this->form_data['fields']))
 		{
 			foreach($this->form_data['fields'] as $key => $field)

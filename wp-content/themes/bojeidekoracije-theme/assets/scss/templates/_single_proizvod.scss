@@ -4,9 +4,10 @@
     background-repeat: no-repeat;
     background-size: cover;
 }
+
 .single-page-main-slider-wrapper,
 .single-page-main-content {
-    padding-bottom: 60px;
+    padding-bottom: 30px;
     padding-left: 0;
     @include max-mq ($md) {
         padding-bottom: 45px;
@@ -17,6 +18,8 @@
     }
 }
 .single-page-main-content {
+    padding-left: 30px;
+    padding-top: 30px;
     @include max-mq ($sm) {
         padding-bottom: 30px;
     }
@@ -46,20 +49,20 @@
             right: auto;
             bottom: auto;
         }
+        i {
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 7px;
+        }
         p {
             background-color: $primary-color;
             border: 1px solid $primary-color;
             color: $white;
             padding: 5px 11px;
             margin: 0;
-            font-size: $font-size-small;
-            transform: skewX(0);
-            // @include max-mq ($mac) {
-            //     padding: 8px 15px;
-            // }
+            font-size: $font-size-small + 1;
             span {
                 display: block;
-                transform: skewX(0);
                 @include max-mq ($mac) {
                     font-size: $font-size-small;
                 }
@@ -98,10 +101,8 @@
 }
 
 .single-page-thumbnail {
-    // border: 3px solid $white;
     height: 150px;
     width: 100%;
-    
     cursor: pointer;
     @include max-mq ($lt) {
         height: 140px;
@@ -138,32 +139,32 @@
     }
 }
 
-.order-form-activated {
-    + .tabs {
-        padding-top: 30px;
-    }
-}
+// .order-form-activated {
+//     + .tabs {
+//         padding-top: 30px;
+//     }
+// }
 
-.tabs {
-    @include max-mq ($sm) {
-        padding-left: 0;
-        padding-right: 0;
-    }
-}
+// .tabs {
+//     @include max-mq ($sm) {
+//         padding-left: 0;
+//         padding-right: 0;
+//     }
+// }
 
-.instructions-section-description-wrapper {
-    padding-bottom: 20px;
-    @include max-mq ($sm) {
-        padding-bottom: 0;
-        padding-left: 0;
-        padding-right: 0;
-    }
-    > p {
-        > img {
-            margin-top: 15px;
-        }
-    }
-}
+// .instructions-section-description-wrapper {
+//     padding-bottom: 20px;
+//     @include max-mq ($sm) {
+//         padding-bottom: 0;
+//         padding-left: 0;
+//         padding-right: 0;
+//     }
+//     > p {
+//         > img {
+//             margin-top: 15px;
+//         }
+//     }
+// }
 
 .single-page-button-wrap {
     padding-top: 25px;
@@ -399,6 +400,10 @@
     }
 }
 
+.all-products-section {
+    padding-bottom: 30px;
+    padding-top: 30px;
+}
 .single-half-section-inner {
     padding: 65px 0;
     border-bottom: 1px solid;

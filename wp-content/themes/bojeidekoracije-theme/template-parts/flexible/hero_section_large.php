@@ -29,21 +29,25 @@
                                             <div class="products-heading-excerpt-wrap">
                                                 <header class="products-title entry-header">
                                                     <span class="title-label">
-                                                        <?php $terms = get_the_terms($post->ID, 'kategorija-proizvoda');
+                                                        <?php 
+                                                        $terms = get_the_terms($post->ID, 'kategorija-proizvoda');
                                                             if ($terms) {
                                                                 $out = array();
                                                                 foreach ($terms as $term) {
                                                                     $out[] = '<a class="' .$term->slug .'" href="' .get_term_link( $term->slug, 'kategorija-proizvoda') .'">' .$term->name .'</a>';
                                                                 }
                                                                 echo join( ', ', $out );
-                                                        } ?>
+                                                        } 
+                                                        ?>
                                                     </span>
                                                     <h2 class="entry-title"><?php the_title(); ?></h2>
-                                                    <?php if( $slider_short_description ): ?>
+                                                    <?php
+                                                        $my_excerpt = get_the_excerpt();
+                                                        if($my_excerpt !='') { ?>
                                                         <div class="products-description entry-content">
-                                                            <?php echo $slider_short_description; ?>
+                                                            <?php the_excerpt(); ?>
                                                         </div>
-                                                    <?php endif; ?>
+                                                    <?php } ?>
                                                 </header>
                                                 <span class="products-product-read-more read-more-button-wrap button-wrap">
                                                     <a href="<?php the_permalink(); ?>" class="button button-secondary button-arrow"><span><?php _e('Pročitaj više','arteco'); ?> <i class="icon icon-arrow-right"></i></span></a>

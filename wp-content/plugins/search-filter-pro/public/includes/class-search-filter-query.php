@@ -4,13 +4,18 @@
  * 
  * @package   class Search_Filter_Query
  * @author    Ross Morsali
- * @link      http://www.designsandcode.com/
- * @copyright 2015 Designs & Code
+ * @link      https://searchandfilter.com
+ * @copyright 2018 Search & Filter
  */
- 
+
+// If this file is called directly, abort.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 // https://codex.wordpress.org/Creating_Tables_with_Plugins
 
-		
+
 class Search_Filter_Query {
 	
 	public $sfid 	= 0;
@@ -46,7 +51,9 @@ class Search_Filter_Query {
 	public $pagination_filter_type		= "";
 	public $sort_type 					= "";
 	public $add_meta_sort				= array();
-	
+
+	public $filter_next_skip            = 0;
+
 	
 	public function __construct($sfid, $settings, $fields, $filters)
 	{
@@ -70,11 +77,7 @@ class Search_Filter_Query {
 						
 			if(isset($this->form_settings['display_results_as']))
 			{
-				if($this->form_settings['display_results_as']=="custom_edd_store")
-				{
-					add_action( 'edd_downloads_query', array( $this, 'setup_edd_query' ), 200 );
-				}
-				else if($this->form_settings['display_results_as']=="archive")
+				if($this->form_settings['display_results_as']=="archive")
 				{
 					add_action( 'pre_get_posts', array( $this, 'setup_archive_query' ), 200 );
 				}			
@@ -99,8 +102,9 @@ class Search_Filter_Query {
 		
 		query_posts($args);
 	}
-	public function filter_next_query()
+	public function filter_next_query($skip = 0)
 	{
+		$this->filter_next_skip = $skip;
         add_action( 'pre_get_posts', array( $this, 'setup_next_query' ), 200 );
 	}
 
@@ -113,18 +117,18 @@ class Search_Filter_Query {
 	{
 		global $searchandfilter;
 		$searchform = $searchandfilter->get($this->sfid);
-		
+
 		remove_filter( 'template_redirect', 'redirect_canonical' );
 		$this->prep_query();
-		
+
 		if(!$searchandfilter->has_pagination_init())
 		{
 			add_filter('get_pagenum_link', array($this, 'pagination_fix_pagenum'), 100);
-			add_filter('paginate_links', array($this, 'pagination_fix_paginate'), 100); 
-			
+			add_filter('paginate_links', array($this, 'pagination_fix_paginate'), 100);
+
 			do_action("search_filter_pagination_init");
 		}
-					
+
 		//convert already init args and set under pre_get_posts
 		foreach ($this->query_args as $key => $val)
         {
@@ -137,7 +141,7 @@ class Search_Filter_Query {
 			$query->set('is_search', true);
 			$query->is_search = true;
 		}
-		
+
 		$force_is_archive = $searchform->settings("force_is_archive");
 		if($force_is_archive==1)
 		{
@@ -148,10 +152,22 @@ class Search_Filter_Query {
 	
 	public function setup_next_query($query)
     {
-        $this->setup_custom_query($query);
+    	if($this->filter_next_skip==0) {
+		    $this->setup_custom_query( $query );
+		    remove_action( 'pre_get_posts', array( $this, 'setup_next_query' ), 200 );
+	    }
+	    else{
+		    $this->filter_next_skip--;
+	    }
 
-        remove_action( 'pre_get_posts', array( $this, 'setup_next_query' ), 200 );
+
     }
+	public function setup_wc_query($query){
+
+		//$this->prep_query();
+		$this->filter_pre_get_posts($query);
+	}
+
 	public function setup_archive_query($query, $is_custom_query = false)
 	{
 		if(!$is_custom_query)
@@ -169,8 +185,11 @@ class Search_Filter_Query {
         $enable_taxonomy_archives = $searchandfilter->get($this->sfid)->settings("enable_taxonomy_archives");
 
 		//for post_type_archive results
-		$post_types = array_keys($searchandfilter->get($this->sfid)->settings("post_types"));
-		
+		$post_types_arr = $searchandfilter->get($this->sfid)->settings("post_types");
+		$post_types = array();
+		if(is_array($post_types_arr)){
+			$post_types = array_keys($post_types_arr);
+		}
 		
 		$filter_query = false;
 
@@ -186,11 +205,12 @@ class Search_Filter_Query {
 				if(is_shop() && $query->is_main_query())
 				{
 					add_filter( 'woocommerce_redirect_single_search_result', '__return_false' );
-					$filter_query = true;
+					//$filter_query = true;
+					//add_action( 'woocommerce_product_query', array($this, 'setup_wc_query') );
 				}
 			}
 
-            $post_type = "product";
+            /*$post_type = "product";
             if(( $query->is_main_query() ) && ($enable_taxonomy_archives==1) && ( Search_Filter_Wp_Data::is_taxonomy_archive($query) ) )
             {
                 //now check to make sure this taxonomy belongs to the post type
@@ -207,11 +227,13 @@ class Search_Filter_Query {
 
                             if ($is_taxonomy_archive) {
                                 $filter_query = true;
+	                            //add_action( 'woocommerce_product_query', array($this, 'setup_wc_query') );
                             }
                         }
                     }
                 }
-            }
+            }*/
+
 
 		}
 		else if($display_results_as=="post_type_archive")
@@ -264,7 +286,6 @@ class Search_Filter_Query {
 		{
             $this->filter_pre_get_posts($query);
 		}
-		//return $query;
 	}
 
 	public function filter_pre_get_posts($query)
@@ -279,6 +300,7 @@ class Search_Filter_Query {
 
         global $searchandfilter;
         if(!$searchandfilter->has_pagination_init()) {
+
             add_filter('get_pagenum_link', array($this, 'pagination_fix_pagenum'), 100);
             add_filter('paginate_links', array($this, 'pagination_fix_paginate'), 100);
 
@@ -294,8 +316,6 @@ class Search_Filter_Query {
 	    if(has_filter('sf_main_query_pre_get_posts')) {
 		    $query = apply_filters('sf_main_query_pre_get_posts', $query, $this->sfid);
 	    }
-
-
 
         if($force_is_search==1)
         {
@@ -351,7 +371,19 @@ class Search_Filter_Query {
 		}
 		
 	}
-	/* ***************************** */
+	
+	public function remove_pagination()
+	{
+		global $searchandfilter;
+		if ( $searchandfilter->has_pagination_init() ) {
+			remove_filter('get_pagenum_link', array($this, 'pagination_fix_pagenum'), 100);
+			remove_filter('paginate_links', array($this, 'pagination_fix_paginate'), 100);
+			do_action("search_filter_pagination_unset");
+
+		}
+		
+	}
+	
 	public function prep_query($all_terms = false)
 	{
 		global $wpdb;
@@ -359,13 +391,12 @@ class Search_Filter_Query {
 
 		if($this->has_prep_query==false)
 		{//only run once
-			
+
 			$this->has_prep_query = true;
 
 			//apply filter logic from cache, and `sf_edit_query_args` filter
 			$this->query_args = $this->cache->filter_query_args($this->query_args, $all_terms);
 
-			//$this->query_args['post__in'] = array(10844, 11025, 11032, 11035 );
 
 			if(has_filter("sf_query_post__in")) {
 				$this->query_args['post__in'] = apply_filters('sf_query_post__in', $this->query_args['post__in'], $this->sfid);
@@ -389,8 +420,6 @@ class Search_Filter_Query {
 				}
 			}
 
-            //$this->query_args['search_filter_id'] = $this->sfid;
-
 			$this->add_permalink_filters();
 		}
         else if(($all_terms==true) && ($this->has_prep_terms==false))
@@ -399,14 +428,6 @@ class Search_Filter_Query {
             $this->cache->init_all_filter_terms();
         }
 
-        if(SEARCH_FILTER_QUERY_DEBUG==true)
-        {
-            echo "\r\n<!-- #sfdebug prep_query (".$this->sfid.") | query \r\n";
-            $query_args_new = $this->query_args;
-            $query_args_new['post__in'] = "Count: ".count($this->query_args['post__in']);
-            var_dump($query_args_new);
-            echo "\r\n -->\r\n";
-        }
 
 	}
 
@@ -414,25 +435,13 @@ class Search_Filter_Query {
 	{//apply any regular WP_Query logic
 		global $searchandfilter;
 
-		if($searchandfilter->get($this->sfid)->settings("maintain_state")==1)
-		{
-			add_filter( 'the_permalink', array($this, 'maintain_search_settings'), 20);
-			add_filter( 'post_link', array($this, 'maintain_search_settings'), 20);
-			add_filter( 'page_link', array($this, 'maintain_search_settings'), 20);
-			add_filter( 'post_type_link', array($this, 'maintain_search_settings'), 20);
-		}
+		
 	}
 	public function remove_permalink_filters()
 	{
 		global $searchandfilter;
 
-		if($searchandfilter->get($this->sfid)->settings("maintain_state")==1)
-		{
-			remove_filter( 'the_permalink', array($this, 'maintain_search_settings'), 20);
-			remove_filter( 'post_link', array($this, 'maintain_search_settings'), 20);
-			remove_filter( 'page_link', array($this, 'maintain_search_settings'), 20);
-			remove_filter( 'post_type_link', array($this, 'maintain_search_settings'), 20);
-		}
+		
 	}
 
 	public function maintain_search_settings($url) {
@@ -443,7 +452,7 @@ class Search_Filter_Query {
 		unset($tGET['sfid']);
 		unset($tGET['lang']);
 		unset($tGET['page_id']);
-		
+
 		if(isset($tGET['s']))
 		{
 			$tGET['_sf_s'] = $tGET['s'];
@@ -455,13 +464,15 @@ class Search_Filter_Query {
 		}
 		
 		return add_query_arg($tGET, $url);
+
+		//return $url;
 	}
 	
 	// grabs all post IDs for the filter name/term - possibly do 1 query for all??
 
 
 	public function sf_filter_query_args($query_args, $sfid) {
-		
+
 		if($this->sfid==$sfid)
 		{
 			$query_args = $this->get_wp_query_args($query_args);
@@ -479,8 +490,9 @@ class Search_Filter_Query {
 			$sfpaged = (int)$_GET['sf_paged'];
 			global $paged;
 			$paged = $sfpaged;
+			set_query_var("paged", $paged); //some plugins / themes use `get_query_var`, they often shouldn't
 		}
-		
+
 		//regular paged value - normally found when loading the page (non ajax)
 		$args['paged'] = $sfpaged;
 		$args['search_filter_id'] = $this->sfid;
@@ -506,8 +518,13 @@ class Search_Filter_Query {
         global $searchandfilter;
         $display_results_as = $searchandfilter->get($this->sfid)->settings("display_results_as");
         $enable_taxonomy_archives = $searchandfilter->get($this->sfid)->settings("enable_taxonomy_archives");
-        $post_types = array_keys($searchandfilter->get($this->sfid)->settings("post_types"));
-
+		
+		$post_types_arr = $searchandfilter->get($this->sfid)->settings("post_types");
+		$post_types = array();
+		if(is_array($post_types_arr)){
+			$post_types = array_keys($post_types_arr);
+		}
+		
         if ($display_results_as == "post_type_archive")
         {
             if($enable_taxonomy_archives == 1)
@@ -634,13 +651,13 @@ class Search_Filter_Query {
 		global $wp_query;
 		global $searchandfilter;
 		
-		
+
 		if(isset($_GET['_sf_s']))
 		{
 			$search_term = trim(urldecode(stripslashes($_GET['_sf_s'])));
-			$args['s'] = $search_term;	
+			$args['s'] = $search_term;
 		}
-		
+
 		return $args;
 	}
 
@@ -667,7 +684,7 @@ class Search_Filter_Query {
 				}
 			}
 			
-			$user_post_types = explode(",",esc_attr($_GET['post_types']));
+			$user_post_types = explode(",", esc_attr($_GET['post_types']));
 			
 			if(isset($user_post_types))
 			{
@@ -740,8 +757,7 @@ class Search_Filter_Query {
 			foreach ($authors as &$author)
 			{
 				$the_author = get_user_by('slug', esc_attr($author));
-
-				$author = (int)$the_author->ID;
+				$author = intval( $the_author->ID );
 			}
 			
 			$args['author'] = implode(",", $authors); //here we set the post types that we want WP to search
@@ -767,16 +783,19 @@ class Search_Filter_Query {
 		{
 			return $args;
 		}
-	
+
+		$built_in_sort_types = array('decimal', 'date', 'datetime');
+
 		if(isset($_GET['sort_order']))
 		{
 			$search_all = false;
 			
-			$sort_order_arr = explode("+",esc_attr(urlencode($_GET['sort_order'])));
+			//$sort_order_arr = explode("+",esc_attr(urlencode($_GET['sort_order'])));
+			$sort_order_arr = explode(" ",esc_attr($_GET['sort_order']));
 			$sort_arr_length = count($sort_order_arr);
 			
 			$this->sort_type = "user";
-			
+
 			//check both elems in arr exist - field name [0] and direction [1]
 			if($sort_arr_length>=2)
 			{
@@ -786,18 +805,28 @@ class Search_Filter_Query {
 					if($this->is_meta_value($sort_order_arr[0]))
 					{
 						$sort_by = "meta_value";
-						if(isset($sort_order_arr[2]))
-						{
-							if($sort_order_arr[2]=="num")
-							{
-								$sort_by = "meta_value_num";
-							}
+
+
+						$meta_type = "";
+						if(isset($sort_order_arr[2])){
+							$meta_type = strtolower($sort_order_arr[2]);
 						}
+
+						if($meta_type=="num")
+						{
+							$sort_by = "meta_value_num";
+							$meta_type = '';
+						}
+
 						$meta_key = substr($sort_order_arr[0], strlen(SF_META_PRE));
 						
 						$args['orderby'] = $sort_by;
 						$args['order'] = $sort_order_arr[1];
 						$args['meta_key'] = $meta_key;
+
+						if($meta_type!=''){
+							$args['meta_type'] = strtoupper($meta_type);
+						}
 					}
 					else
 					{
@@ -854,7 +883,12 @@ class Search_Filter_Query {
 						{
 							$order_by[$sort_order['meta_key']] = $sort_order['sort_dir'];
 
-							$meta_type = ( $sort_order['sort_type'] == "numeric" ) ? 'DECIMAL(12,4)' : 'CHAR';
+							if(in_array($sort_order['sort_type'], $built_in_sort_types)){
+								$meta_type = strtoupper($sort_order['sort_type']);
+							}
+							else{
+								$meta_type = ( $sort_order['sort_type'] == "numeric" ) ? 'DECIMAL(12,4)' : 'CHAR';
+							}
 							
 							$meta_query = array(
 								
@@ -1064,16 +1098,6 @@ class Search_Filter_Query {
         if((empty($query_trans))||($query_trans==false))
         {
             $query = new WP_Query($args);
-
-	        //echo "\r\n-------------------------------------\r\n\r\n";
-	        //var_dump($args);
-	        //echo implode(",", $args['post__in']);
-	        //echo "\r\n-------------------------------------\r\n\r\n";
-	        //var_dump($query);
-	        //var_dump($query->query);
-	        //var_dump($query->query_vars);
-
-	        //exit;
             /*if(($use_transients==1)&&($query_str=="")) {
                 Search_Filter_Wp_Cache::set_transient( $cache_key, $query);
             }*/
@@ -1134,8 +1158,6 @@ class Search_Filter_Query {
 
 	public function pagination_fix_pagenum($url)
 	{
-
-		//$new_url = $this->pagination_fix(remove_query_arg("sf_paged", $url));
 		$new_url = $this->pagination_fix($url);
 		return $new_url;
 	}
@@ -1153,20 +1175,29 @@ class Search_Filter_Query {
 		$url_query = parse_url($url, PHP_URL_QUERY);
 		$url_args = array();
 		parse_str($url_query, $url_args);
-		
 		$sf_page_no = 0;
-		
+
 		if(isset($url_args['paged']))
 		{
 			$sf_page_no = (int)$url_args['paged'];
 		}
 		else if($this->has_url_var($url, "page")) //check to see if this is different for different langs
 		{//try to get page number from permalink url
-			
 			$sf_page_no = (int)$this->get_url_var($url, "page");
 		}
+		else if($this->last_url_param_is_page_no($url)) //check to see if this is different for different langs
+		{//try to get page number from permalink url
+			$sf_page_no = (int)$this->last_url_param($url);
+		}
+
+		else if(isset($url_args['product-page']))
+		{//then its woocommerce product shortcode pagination
+
+			$sf_page_no = (int)($url_args['product-page']);
+		}
 		else if(isset($url_args['sf_paged']))
-		{
+		{ /* sf_paged check needs to be last, because we will always add it on anyway */
+
 			$current_page = 1;
 			if(isset($_GET['sf_paged']))
 			{
@@ -1180,7 +1211,7 @@ class Search_Filter_Query {
 				$sf_page_no = (int)$url_args['sf_paged'];
 			}
 		}
-		
+
 		return $sf_page_no;
 		
 	}
@@ -1312,10 +1343,6 @@ class Search_Filter_Query {
 				}
 			}
 		}
-		else if($display_results_as=="custom_edd_store")
-		{
-			$results_url = $searchform->settings('results_url');
-		}
 		else if($display_results_as=="custom")
 		{
 			$results_url = $searchform->settings('results_url');
@@ -1345,68 +1372,65 @@ class Search_Filter_Query {
 		return $url;		
 	}
 
-	public function add_url_args($source_url, $dest_url, $display_results_as)
-	{
-		$url_query = urldecode(parse_url($source_url, PHP_URL_QUERY));
+	public function add_url_args($source_url, $dest_url, $display_results_as) {
+
+		$url_query = (parse_url($source_url, PHP_URL_QUERY));
 		$url_args = array();
-		parse_str($url_query, $url_args);
-		
+
+		parse_str($url_query, $url_args); //url decodes the vals
+
 		$remove_args = array("sf_paged", "action", "sf_action", "sfid", "paged");
 		
 		//if archive method, without a slug, then we must keep in "sfid"
-		if($display_results_as=="archive")
-		{
-			if(!get_option('permalink_structure'))
-			{
+		if($display_results_as=="archive"){
+
+			if(!get_option('permalink_structure')) {
+
 				if(($key = array_search('sfid', $remove_args)) !== false) {
 					unset($remove_args[$key]); //remove "sfid" from the remove_args array
 				}
 			}
 		}
-		
 
-		foreach ($url_args as $key => $val)
-		{
-			if(!in_array($key, $remove_args))
-			{
-				$dest_url = add_query_arg($key, $val, $dest_url);
+		foreach ($url_args as $key => $val){
+
+			if(!in_array($key, $remove_args)){
+				$dest_url = add_query_arg($key, urlencode($val), $dest_url);
 			}
 		}
-
-		/*if(isset($url_args['paged']))
-		{
-			$sf_page_no = (int)$url_args['paged'];
-		}*/
-		
-		//add_query_arg("sf_paged", $page_no, $url);
 		
 		return $dest_url;
 	}
-	public function pagination_fix($url)
-	{
+
+	public function pagination_fix($url){
+
 		global $searchandfilter;
 		
-		$url = urldecode($url);
+		//$url = urldecode($url);
         $url = remove_query_arg("sf_data", $url);
 
 		$sf_url = "";
 
 		//get the page number
 		$page_no = $this->get_page_no_from_url($url);
-		
+
+		$url = remove_query_arg("product-page", $url);
+
 		//get the results url
 		$searchform = $searchandfilter->get($this->sfid);
 		$results_url = $this->get_results_url($searchform);
 
 		//remove args we know we don't want
 		$sf_url = $results_url;
-		
+
 		//add args from original URL to the url
 		$display_results_as = $searchform->settings('display_results_as');
+
 		$sf_url = $this->add_url_args($url, $sf_url, $display_results_as);
 
-		//add sf_paged variable to the url
+		//add sf_paged variable (back) to the url
 		$sf_url = $this->add_paged_to_url($sf_url, $page_no);
+
 
 		return $sf_url;
 	}
@@ -1437,6 +1461,45 @@ class Search_Filter_Query {
 			}
 		}
 		return false;
+	}
+	public function last_url_param($url){
+		//remove query string
+		$url = preg_replace('/\?.*/', '', $url);
+
+		//now get the last part
+		$url_parts = explode('/', rtrim($url, "/"));
+		$last_part = end($url_parts);
+
+		return $last_part;
+	}
+
+	public function last_url_param_is_page_no($url)
+	{
+		global $searchandfilter;
+		$current_page = $searchandfilter->get_queried_object();
+
+		//only do this on single posts/pages/custom post types
+		if(is_singular()){
+
+			$post = get_post(get_the_ID());
+			$slug = $post->post_name;
+
+			//remove query string
+			$url = preg_replace('/\?.*/', '', $url);
+
+			//now get the last part
+			$url_parts = explode('/', rtrim($url, "/"));
+			$last_part = end($url_parts);
+
+			//make sure the last part is not the doc name, and it looks numeric
+			if(($last_part!==$slug) && (is_numeric($last_part))){
+				return true;
+			}
+
+		}
+
+		return false;
+
 	}
 
 	public function filter_settings($args)
@@ -1623,7 +1686,7 @@ class Search_Filter_Query {
 							$meta_query = array(
 								
 								'key'		=> $post_meta['meta_key'],
-								'value'		=> date( 'Ymd' ),
+								'value'		=> date( 'Ymd', current_time( 'timestamp' ) ),
 								'type'		=> $post_meta['meta_type'],
 								'compare'	=> $compare_val
 							);
@@ -1698,7 +1761,7 @@ class Search_Filter_Query {
 			$res = array();
 			foreach ($ids_array as $id)
 			{
-				$xlat = Search_Filter_Helper::wpml_object_id($id,$type,false);
+				$xlat = Search_Filter_Helper::wpml_object_id($id, $type, true);
 				if(!is_null($xlat)) $res[] = $xlat;
 			}
 			return $res;

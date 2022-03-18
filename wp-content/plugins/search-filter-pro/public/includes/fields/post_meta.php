@@ -4,9 +4,14 @@
  * 
  * @package   Search_Filter_Field_Post_Meta
  * @author    Ross Morsali
- * @link      http://www.designsandcode.com/
- * @copyright 2015 Designs & Code
+ * @link      https://searchandfilter.com
+ * @copyright 2018 Search & Filter
  */
+
+// If this file is called directly, abort.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 class Search_Filter_Field_Post_Meta extends Search_Filter_Field_Base {
 	
@@ -84,7 +89,6 @@ class Search_Filter_Field_Post_Meta extends Search_Filter_Field_Base {
 		//$field_name_get = str_replace(" ", "_", $field_name); //replace space with `_` as this is done anyway - spaces are not allowed in GET variable names, and are automatically converted by server/browser to `_`
 		$fields_defaults = $this->current_query->get_field_values($field_name);
 		
-		//var_dump($this->current_query);
 		
 		if($field_data['all_items_label']=="")
 		{

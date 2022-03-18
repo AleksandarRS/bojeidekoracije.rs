@@ -4,9 +4,15 @@
  * 
  * @package   Search_Filter
  * @author    Ross Morsali
- * @link      http://www.designsandcode.com/
- * @copyright 2015 Designs & Code
+ * @link      https://searchandfilter.com
+ * @copyright 2018 Search & Filter
  */
+
+// If this file is called directly, abort.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 ?>
 <?php wp_nonce_field( 'search_form_nonce', $this->plugin_slug.'_nonce', true, true ); ?>
 

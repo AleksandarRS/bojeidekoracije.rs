@@ -1,11 +1,10 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: DrMorse
- * Date: 22/10/2016
- * Time: 17:56
- */
+// If this file is called directly, abort.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 class Search_Filter_Wp_Data
 {
     public static $wp_tax_terms = array();
@@ -41,7 +40,6 @@ class Search_Filter_Wp_Data
                 self::$wp_transients_loaded[$taxonomy_name] = true; //never do `get_transient` more than once
 
                 $wp_tax_terms = Search_Filter_Wp_Cache::get_transient(self::$wp_tax_terms_cache_key . $taxonomy_name);
-                //var_dump($wp_tax_terms);
 
                 if (!empty($wp_tax_terms)) {
                     foreach ($wp_tax_terms as $taxonomy_term) {
@@ -113,7 +111,7 @@ class Search_Filter_Wp_Data
     }
 
 
-    public static function get_taxonomy_term_by($by = "id", $term_name, $taxonomy_name)
+    public static function get_taxonomy_term_by($by, $term_name, $taxonomy_name)
     {
         self::setup($taxonomy_name);
 
@@ -131,8 +129,9 @@ class Search_Filter_Wp_Data
 
         //else, term name does not exist, so fetch it
         $term = get_term_by( $by, $term_name, $taxonomy_name );
-
-        if ( !is_wp_error( $term ) ) {
+		
+        //if ( !is_wp_error( $term ) ) {
+        if ( $term ) {
             self::$wp_tax_terms[$taxonomy_name]["id"][$term->term_id] = $term;
             self::$wp_tax_terms[$taxonomy_name]["slug"][$term->slug] = $term;
 

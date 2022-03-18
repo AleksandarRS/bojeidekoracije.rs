@@ -4,9 +4,16 @@
  * 
  * @package   Search_Filter
  * @author    Ross Morsali
- * @link      http://www.designsandcode.com/
- * @copyright 2015 Designs & Code
+ * @link      https://searchandfilter.com
+ * @copyright 2018 Search & Filter
  */
+
+// If this file is called directly, abort.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+
 global $searchandfilter;
 
 class Search_Filter {
@@ -61,7 +68,7 @@ class Search_Filter {
 		add_action( 'wp_enqueue_scripts', array( $this, 'register_scripts' ) );
 		
 		// Ajax
-		add_action( 'init', array($this, 'get_results'), 2000 ); /* todo - check consequence of setting this lower (we changed for VC) */
+		add_action( 'init', array($this, 'get_results'), 2000 );
         //add_action( 'init', array($this, 'get_results'), 200 );
 
 		//if(!is_admin())
@@ -81,6 +88,8 @@ class Search_Filter {
 
 		global $search_filter_third_party;
 		$this->third_party = $search_filter_third_party;
+
+		add_action( 'woocommerce_product_query', array($this, 'setup_wc_query'), 100000 );
 
 		//add_filter('rewrite_rules_array', array($this, 'sf_rewrite_rules'));
 	}
@@ -102,10 +111,17 @@ class Search_Filter {
 
 		if($query->query_vars['search_filter_id']!=0)
 		{
+			global $query_count_test;
+			$query_count_test++;
+
+			//remove_action( 'pre_get_posts', array($this, 'custom_query_init'), 10000 );
 			global $searchandfilter;
 			$searchandfilter->get($query->query_vars['search_filter_id'])->query->setup_custom_query($query);
+			//add_action( 'pre_get_posts', array($this, 'custom_query_init'), 10000 );
+
+
 		}
-		
+
 		return;
 	}
 	
@@ -138,7 +154,7 @@ class Search_Filter {
 			return;
 		}
 		
-		if(function_exists("is_shop"))
+		/*if(function_exists("is_shop"))
 		{
 			if($this->is_woo_shop($query))
 			{
@@ -162,9 +178,7 @@ class Search_Filter {
 					
 				}
 			}
-		}
-
-
+		}*/
 
 		if(is_post_type_archive()||is_home()||is_tag()||is_tax()||is_category())
 		{//then we know its a post type archive, see if any of our search forms
@@ -182,7 +196,6 @@ class Search_Filter {
                     {//this means its an archive and its already been init
                         return;
                     }
-
 
 					if($search_form_settings['display_results_as']=="post_type_archive")
 					{
@@ -203,7 +216,6 @@ class Search_Filter {
 								else if(($post_type=="post")&&(is_home()))
 								{//this then works on the blog page (is_home) set in `settings -> reading -> "a static page" -> posts page
 									$searchandfilter->set_active_sfid($search_form_id);
-									
 									$searchandfilter->get($search_form_id)->query->hook_setup_archive_query();
 									return;
 								}
@@ -217,7 +229,7 @@ class Search_Filter {
 						}
 						
 					}
-                    else if($search_form_settings['display_results_as']=="custom_woocommerce_store")
+                    /*else if($search_form_settings['display_results_as']=="custom_woocommerce_store")
                     {
                         $post_type = "product";
                         $enable_taxonomy_archives = $search_form_settings["enable_taxonomy_archives"];
@@ -232,12 +244,68 @@ class Search_Filter {
                         }
 
 
-                    }
+                    }*/
 				}
 			}
 		}
 	}
-	
+	public function setup_wc_query($query){
+
+		global $searchandfilter;
+
+		//filter the shop page
+		if(function_exists("is_shop")) {
+			if ( $this->is_woo_shop( $query ) ) {
+				foreach ( $this->all_search_form_ids as $search_form_id ) {
+					//as we only want to update "enabled", then load all settings and update only this key
+					$search_form_settings = Search_Filter_Helper::get_settings_meta( $search_form_id );
+
+					if ( isset( $search_form_settings['display_results_as'] ) ) {
+						if ( $search_form_settings['display_results_as'] == "custom_woocommerce_store" ) {
+							$searchandfilter->set_active_sfid( $search_form_id );
+							$searchandfilter->get( $search_form_id )->query->setup_wc_query( $query );
+							return;
+						}
+					}
+				}
+			}
+		}
+
+		//filter WC tax archives
+		if(is_post_type_archive()||is_home()||is_tag()||is_tax()||is_category())
+		{//then we know its a post type archive, see if any of our search forms
+
+			foreach($this->all_search_form_ids as $search_form_id)
+			{
+				//as we only want to update "enabled", then load all settings and update only this key
+				$search_form_settings = Search_Filter_Helper::get_settings_meta($search_form_id);
+
+				if(isset($search_form_settings['display_results_as']))
+				{
+					global $wp_query;
+					if(isset($wp_query->query_vars['sfid']))
+					{//this means its an archive and its already been init
+						return;
+					}
+					else if($search_form_settings['display_results_as']=="custom_woocommerce_store")
+					{
+						$post_type = "product";
+						$enable_taxonomy_archives = $search_form_settings["enable_taxonomy_archives"];
+
+						$searchandfilter->set_active_sfid($search_form_id);
+
+						if(($enable_taxonomy_archives==1) && (Search_Filter_Wp_Data::is_taxonomy_archive_of_post_type($post_type, false)))
+						{
+							$searchandfilter->set_active_sfid($search_form_id);
+							$searchandfilter->get( $search_form_id )->query->setup_wc_query( $query );
+							return;
+						}
+					}
+				}
+			}
+		}
+	}
+
 	function archive_query_init($wp)
 	{//here we test to see if we have an ID set - which if it is, then this means a user is on a results page, using archive method
 		
@@ -322,67 +390,14 @@ class Search_Filter {
 
                         $ajax_data = apply_filters("search_filter_ajax_object_$clean_data_type", $ajax_data);
                     }
-
                 }
 
                 do_action("search_filter_api_header");
-                echo Search_Filter_Helper::json_encode($ajax_data);
+				header('Content-Type: application/json; charset=utf-8');
+                echo wp_json_encode($ajax_data);
                 exit;
-
-				/*if($sf_data=="results")
-				{
-					if($sf_inst->settings("display_results_as")=="shortcode")
-					{
-						$results = array();
-						
-						//$results['form'] = $this->display_shortcode->display_shortcode(array("id" => $sfid));
-						$results['results'] = $sf_inst->query()->the_results();
-						
-						echo Search_Filter_Helper::json_encode($results);
-						exit;
-					}
-				}
-				else if($sf_data=="all")
-				{
-					if($sf_inst->settings("display_results_as")=="shortcode")
-					{
-						$results = array();
-
-						$results['form'] = $this->display_shortcode->display_shortcode(array("id" => $sfid));
-						$results['results'] = $sf_inst->query()->the_results();
-
-						echo Search_Filter_Helper::json_encode($results);
-						exit;
-					}
-				}
-				else if($sf_data=="form")
-				{
-					$results = array();
-                    $results['form'] = $this->display_shortcode->display_shortcode(array("id" => $sfid));
-					
-					echo Search_Filter_Helper::json_encode($results);
-					exit;
-				}
-				else if($sf_data=="vc_results")
-				{
-					$results = array();
-
-                    $results_output = "";
-                    if(has_filter("search_filter_ajax_results"))
-                    {
-                        $results['results'] = apply_filters("search_filter_ajax_results", $results_output);
-                    }
-					$results['form'] = $this->display_shortcode->display_shortcode(array("id" => $sfid));
-
-					echo Search_Filter_Helper::json_encode($results);
-					exit;
-				}*/
-
-				//do_action("");
-				
 			}
 		}
-        //exit;
 	}
 
 	public function handle_template($original_template)
@@ -401,7 +416,7 @@ class Search_Filter {
 			return $original_template;
 		}
 		
-		if(($searchandfilter->get($sfid)->settings("display_results_as")=="custom_woocommerce_store")||($searchandfilter->get($sfid)->settings("display_results_as")=="custom_edd_store")||($searchandfilter->get($sfid)->settings("display_results_as")=="post_type_archive"))
+		if(($searchandfilter->get($sfid)->settings("display_results_as")=="custom_woocommerce_store")||($searchandfilter->get($sfid)->settings("display_results_as")=="post_type_archive"))
 		{
 			return $original_template;
 		}
@@ -415,7 +430,7 @@ class Search_Filter {
 			}
 			global $paged;
 			$paged = $sfpaged;
-			
+			//set_query_var("paged", $paged);
 			
 			
 			$template_file_name = $searchandfilter->get($sfid)->get_template_name();
@@ -612,7 +627,7 @@ class Search_Filter {
 	public function register_scripts() {
 		
 		global $searchandfilter;
-		
+
 		$file_ext = '.min.js';
 		if(SEARCH_FILTER_DEBUG==true)
 		{
@@ -624,7 +639,12 @@ class Search_Filter {
 		wp_register_script( $this->plugin_slug . '-plugin-select2', plugins_url( 'assets/js/select2'.$file_ext, __FILE__ ), array('jquery'), self::VERSION );
 		wp_register_script( $this->plugin_slug . '-plugin-jquery-i18n', '//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/i18n/jquery-ui-i18n'.$file_ext, array('jquery'), self::VERSION );
 		//wp_register_script( $this->plugin_slug . '-plugin-jquery-i18n', '//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/i18n/datepicker-nl.js', array('jquery'), self::VERSION );
-		wp_localize_script($this->plugin_slug . '-plugin-build', 'SF_LDATA', array( 'ajax_url' => admin_url( 'admin-ajax.php' ), 'home_url' => (home_url('/')) ));
+		$js_data = array( 
+			'ajax_url'   => admin_url( 'admin-ajax.php' ),
+			'home_url'   => home_url('/'),
+			'extensions' => apply_filters( 'search_filter_extensions', array() ),
+		);
+		wp_localize_script($this->plugin_slug . '-plugin-build', 'SF_LDATA', $js_data );
 		
 		$lazy_load_js 				= Search_Filter_Helper::get_option( 'lazy_load_js' );
 		$load_js_css 				= Search_Filter_Helper::get_option( 'load_js_css' );
@@ -633,8 +653,6 @@ class Search_Filter {
 		{
 			$this->enqueue_scripts();
 		}
-		
-		
 	}
 	public function enqueue_scripts()
 	{
@@ -661,8 +679,7 @@ class Search_Filter {
 	 * @since    1.0.0
 	 */
 	public function create_custom_post_types() {
-		// @TODO: Define your action hook callback here
-		
+
 		$labels = array(
 		    'name'					=>	__( 'Search &amp; Filter', $this->plugin_slug ),
 			'singular_name'			=>	__( 'Search Form', $this->plugin_slug ),

@@ -11,15 +11,13 @@
         max-width: 50%;
         top: auto;
     }
-    .most-popular-products-title {
+    
+}
+.products-item-card {
+    .product-title {
         font-size: $font-size-large;
         font-weight: $font-weight-sb;
     }
-}
-.most-popular-products-section-wrapper {
-    @extend %left-calc;
-    position: relative;
-    z-index: 1;
     .most-popular-products-link {
         @extend %transition-color;
         &:hover {
@@ -29,8 +27,13 @@
                 }
             }
         }
-        
     }
+}
+
+.most-popular-products-section-wrapper {
+    @extend %left-calc;
+    position: relative;
+    z-index: 1;
 }
 .most-popular-products-slider {
     padding-right: 0;

@@ -4,10 +4,15 @@
  * 
  * @package   Search_Filter_Taxonomy_Walker
  * @author    Ross Morsali
- * @link      http://www.designsandcode.com/
- * @copyright 2015 Designs & Code
+ * @link      https://searchandfilter.com
+ * @copyright 2018 Search & Filter
  */
- 
+
+// If this file is called directly, abort.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 class Search_Filter_Taxonomy_Object_Walker extends Walker_Category {
 
 	
@@ -19,7 +24,7 @@ class Search_Filter_Taxonomy_Object_Walker extends Walker_Category {
     private $term_rewrite_depth = 0;
     private $parents_names = array();
 
-	function __construct($defaults = array(), &$options_obj)  {
+	function __construct( $defaults, &$options_obj )  {
 
 		$type = 'checkbox';
 		$this->type = $type;
@@ -28,21 +33,20 @@ class Search_Filter_Taxonomy_Object_Walker extends Walker_Category {
 		$this->options_obj = $options_obj;
 	}
 	
-	function display_element( $element, &$children_elements, $max_depth, $depth=0, $args, &$output ) {
-		
+	function display_element( $element, &$children_elements, $max_depth, $depth, $args, &$output ) {
+
 		parent::display_element( $element, $children_elements, $max_depth, $depth, $args, $output );
 	}
-	
-	
+
+
 	function start_el( &$output, $taxonomy_term, $depth = 0, $args = array(), $id = 0 )
 	{
 		global $searchandfilter;
-		
-		//extract($args);
-		
+
 		$sfid = $args['sfid'];
 		$defaults = $args['defaults'];
 		$hide_empty = $args['hide_empty'];
+		$sf_hide_empty = $args['sf_hide_empty'];
 		$show_option_all_sf = $args['show_option_all_sf'];
 		$show_default_option_sf = $args['show_default_option_sf'];
 		$show_count = $args['show_count'];
@@ -51,8 +55,7 @@ class Search_Filter_Taxonomy_Object_Walker extends Walker_Category {
 		$searchform = $searchandfilter->get($sfid);
 		$this->auto_count = $searchform->settings("enable_auto_count");
 		$this->auto_count_deselect_emtpy = $searchform->settings("auto_count_deselect_emtpy");
-		
-		
+
 		$field_name = $args['sf_name'];
 		
 		//insert a default "select all" or "choose category: " at the start of the options
@@ -126,7 +129,7 @@ class Search_Filter_Taxonomy_Object_Walker extends Walker_Category {
 				$current_depth = 0;
 				//and reset the array tracking the parent IDs of this tree
 				$this->depth_track = array( $taxonomy_term_id ); //reset the chain
-				//echo "\r\nHERE ";
+
 			}
 			else {
 
@@ -135,12 +138,11 @@ class Search_Filter_Taxonomy_Object_Walker extends Walker_Category {
 				$depth_length = count($this->depth_track);
 
 				$found_parent_depth = array_search( $taxonomy_term->parent, $this->depth_track );
-				//echo "\r\nLOOKING FOR PARENT ID: ".$taxonomy_term->parent." in depth_track | RES: ".$found_parent_depth."\r\n";
-				//var_dump($this->depth_track);
 
 				if($found_parent_depth !== false ) {
-					//echo "xxxx";
+
 					$current_depth = $found_parent_depth + 1;
+
 					//then we found a parent, but it was at the end of the chain, so we need to extend it by
 					$this->depth_track[$current_depth] =  $taxonomy_term_id;
 
@@ -149,10 +151,6 @@ class Search_Filter_Taxonomy_Object_Walker extends Walker_Category {
 					//depth does not yet exist, so add it
 					//array_push($this->depth_track, $current_depth);
 				}
-
-
-
-
 
 				//if the last item had the same parent ID as the previous item, then the depth stays the same
 				/*if($this->depth_track[$depth_length-1] == $taxonomy_term->parent) {
@@ -165,8 +163,7 @@ class Search_Filter_Taxonomy_Object_Walker extends Walker_Category {
 		}
 
         $this->parents_names[$current_depth] = $taxonomy_term->slug;
-
-		if((intval($hide_empty)!=1)||($option_count!=0))
+		if((intval($sf_hide_empty)!=1)||($option_count!=0))
 		{
 			
 			$option->value = $taxonomy_term_slug;
@@ -200,7 +197,7 @@ class Search_Filter_Taxonomy_Object_Walker extends Walker_Category {
 			//always last, after everything init
 			array_push($this->options, $option);
 		}
-		
+
 		$this->options_obj->set($this->options);
 
 		$output = '';
@@ -210,8 +207,10 @@ class Search_Filter_Taxonomy_Object_Walker extends Walker_Category {
         $taxonomy_name = $term->taxonomy;
 
         $term_slug = $term->slug;
+
 	    //is_taxonomy_hierarchical
         $term_link = get_term_link($term, $taxonomy_name);
+
         //$term_template_link = str_replace($taxonomy_name, "[taxonomy]", $term_link);
         $term_template_link = $term_link;
 
@@ -230,12 +229,14 @@ class Search_Filter_Taxonomy_Object_Walker extends Walker_Category {
             //$term_template_link = str_replace($term_name, "[$term_index]", $term_template_link);
             //$term_template_link = preg_replace('/'.preg_quote($term_name).'/', "[$term_index]", $term_template_link, 1);
 	        $term_template_link = $this->str_lreplace($term_name, "[$term_index]", $term_template_link);
+
             //$term_index++;
         }
 
-        $term_template_link = str_replace($term_slug, "[term]", $term_template_link);
+        //$term_template_link = str_replace($term_slug, "[term]", $term_template_link); // redundant, we don't user `[term]`
 
 	    if ($home_url_removed ===  true){
+
 		    $term_template_link = home_url().$term_template_link;
 	    }
 

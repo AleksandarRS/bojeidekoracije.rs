@@ -15,57 +15,38 @@ $main_title = get_sub_field('main_title');
                         </header>
                     </div>
                 <?php endif; ?>
-                <?php
-                    $args = array(
-                        'post_type' 		=> 'projekat',
-                        'posts_per_page'	=> -1
-                    );
-                    $queryall = new WP_Query( $args );
-                ?>
-                <?php if ( $queryall->have_posts() ) : ?>
-                    <div class="col-md-12 all-projects-posts-items">
-                        <div class="row">
-                            <?php while ( $queryall->have_posts() ) : $queryall->the_post(); ?>
-                                <div class="all-projects-posts-item our-potfolio-projects-item col-md-4">
-                                    <div class="all-projects-posts-item-inner">
-                                        <?php $portfolio_logo = get_field('portfolio_logo');
-                                            // $project_excerpt = get_field('project_excerpt');
-                                        ?>
-                                        <a href="<?php the_permalink() ?>" class="our-potfolio-projects-link">
-                                            <?php if( get_the_post_thumbnail() ): ?>
-                                                <div class="our-potfolio-projects-featured-img" style="background-image: url('<?php the_post_thumbnail_url(); ?>')">
-                                                </div>
-                                            <?php else: ?>
-                                                <div class="our-potfolio-projects-featured-img" style="background-image: url('<?php echo get_template_directory_uri(); ?>/assets/images/default-image.jpg')">
-                                                </div>
-                                            <?php endif; ?>
-                                            <div class="project-description-reference-logo-wrapper">
-                                                <div class="project-description<?php if( !$portfolio_logo ): ?> no-logo<?php endif; ?>">
-                                                    <header class="entry-header">
-                                                        <h2 class="entry-title our-potfolio-projects-title">
-                                                            <?php the_title(); ?>
-                                                        </h2>
-                                                        <?php //if( $project_excerpt ): ?>
-                                                            <!-- <div class="entry-content portfolio-excerpt">
-                                                                <?php // echo $project_excerpt; ?>
-                                                            </div> -->
-                                                        <?php //endif; ?>
-                                                    </header>
-                                                    <span class="link link-white link-arrow"><?php _e('Pogledajte projekat', 'arteco') ?> <i class="icon icon-arrow-right"></i></span>
-                                                </div>
-                                                <?php if( $portfolio_logo ): ?>
-                                                    <div class="project-reference-logo">
-                                                        <img src="<?php echo esc_url($portfolio_logo['url']); ?>" alt="<?php echo esc_attr($portfolio_logo['alt']); ?>" />
-                                                    </div>
-                                                <?php endif; ?>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-                            <?php endwhile; ?>
-                        </div>
-                    </div>
-                <?php endif; ?>
+                <div class="all-projects-related-to-taxomony col-md-12">
+                    <?php 
+                        // get posts
+                        $topics = get_sub_field('projects_items');
+                        if ($topics) {
+                        if (!is_array($topics)) {
+                            $topics = array($topics);
+                        }
+                        $args = array(
+                            'post_type' => 'projekat',
+                            'posts_per_page' => -1,
+                            'orderby' => 'rand',
+                            'tax_query' => array(
+                            array(
+                                'taxonomy' => 'kategorija-projekta',
+                                'terms' => $topics,
+                            ),
+                            ),
+                        );
+                        $quote_query = new WP_Query($args);
+                        if ($quote_query->have_posts()) { ?>
+                            <div class="our-potfolio-projects-logos-items all-projects-related-to-taxomony-our-potfolio-projects-logos-items row">
+                                <?php while($quote_query->have_posts()) {
+                                $quote_query->the_post(); ?>
+                                    <?php get_template_part( 'template-parts/content', 'project-card' ); ?>
+                                <?php } ?>
+                            </div>
+                        <?php }
+                        wp_reset_postdata();
+                    } ?>
+						
+				</div>
             </div> <!-- /.row -->
         </div> <!-- /.container container -->
     </div> <!-- /.image-text-section-wrapper -->

@@ -1,0 +1,71 @@
+.page-children-section {
+    padding-bottom: 80px;
+    padding-top: 80px;
+    .main-page-children-items {
+        padding-top: 35px;
+    }
+}
+.main-page-children-items {
+    flex-wrap: wrap;
+    .main-page-children-item {
+        flex: 0 0 55%;
+        max-width: 55%;
+        &:nth-child(2),
+        &:nth-child(3),
+        &:nth-child(6),
+        &:nth-child(7),
+        &:nth-child(10),
+        &:nth-child(11),
+        &:nth-child(14),
+        &:nth-child(15),
+        &:nth-child(18),
+        &:nth-child(19) {
+            flex: 0 0 45%;
+            max-width: 45%;
+            @include max-mq ($mb_p) {
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
+        }
+    }
+    .child-page-link {
+        display: block;
+        &:hover {
+            .child-page-card {
+                color: $secondary-color;
+                &:after {
+                    background-color: rgba($color: $primary-color, $alpha: 0.5);
+                }
+            }
+            .link {
+                color: $secondary-color;
+            }
+        }
+
+    }
+    .child-page-card {
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        height: 420px;
+        display: flex;
+        align-items: flex-end;
+        justify-content: flex-start;
+        padding: 25px;
+        flex-wrap: wrap;
+        position: relative;
+        color: $white;
+        &:after {
+            @extend %after-full;
+            background-color: rgba($color: $primary-color, $alpha: 0.35);
+        }
+        > div {
+            position: relative;
+            z-index: 1;
+        }
+    }
+    .child-page-title {
+        margin-bottom: 0.35em;
+        @extend %transition-color;
+    }
+}

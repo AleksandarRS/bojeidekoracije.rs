@@ -30,40 +30,12 @@ $link = get_sub_field('button_section');
                         <div class="col-md-12 our-potfolio-projects-logos-items our-potfolio-projects-logos-slider">
                                 <?php foreach( $choose_favorite_projects as $post ): 
                                     setup_postdata($post);
-                                    $portfolio_logo = get_field('portfolio_logo');
-                                    $project_excerpt = get_field('project_excerpt'); ?>
-                                        <div class="our-potfolio-projects-item">
-                                            <a href="<?php the_permalink() ?>" class="our-potfolio-projects-link">
-                                                <?php if( get_the_post_thumbnail() ): ?>
-                                                    <div class="our-potfolio-projects-featured-img" style="background-image: url('<?php the_post_thumbnail_url(); ?>')">
-                                                    </div>
-                                                <?php else: ?>
-                                                    <div class="our-potfolio-projects-featured-img" style="background-image: url('<?php echo get_template_directory_uri(); ?>/assets/images/default-image.jpg')">
-                                                    </div>
-                                                <?php endif; ?>
-                                                <div class="project-description-reference-logo-wrapper">
-                                                    <div class="project-description">
-                                                        <header class="entry-header">
-                                                            <h2 class="entry-title our-potfolio-projects-title">
-                                                                <?php the_title(); ?>
-                                                            </h2>
-                                                            <?php if( $project_excerpt ): ?>
-                                                                <div class="entry-content portfolio-excerpt">
-                                                                    <?php echo $project_excerpt; ?>
-                                                                </div>
-                                                            <?php endif; ?>
-                                                        </header>
-                                                        <span class="link link-white link-arrow"><?php _e('Pogledajte projekat', 'arteco') ?> <i class="icon icon-arrow-right"></i></span>
-                                                    </div>
-                                                    <div class="project-reference-logo">
-                                                        <img src="<?php echo esc_url($portfolio_logo['url']); ?>" alt="<?php echo esc_attr($portfolio_logo['alt']); ?>" />
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <div class="slick-slider-dots-projects"></div>
-                                        </div> <!-- /.our-potfolio-projects-item -->
+                                    // $portfolio_logo = get_field('portfolio_logo');
+                                    // $project_excerpt = get_field('project_excerpt'); 
+                                    ?>
+                                        <?php get_template_part( 'template-parts/content', 'project-card' ); ?>
                                 <?php endforeach; ?>
-                        </div> <!-- /.col-md-8 our-potfolio-projects-logos-items our-potfolio-projects-logos-slider -->
+                        </div> <!-- /.col-md-12 our-potfolio-projects-logos-items our-potfolio-projects-logos-slider -->
                     <?php wp_reset_postdata(); ?>
                 <?php endif; ?>
 

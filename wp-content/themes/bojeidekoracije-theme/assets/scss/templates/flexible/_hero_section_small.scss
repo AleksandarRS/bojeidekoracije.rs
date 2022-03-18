@@ -2,9 +2,13 @@
     align-items: center;
     color: $white;
     display: flex;
-    height: 320px;
+    height: 310px;
     justify-content: center;
     position: relative;
+    @include min-mq ($mac_l + 100) {
+        min-height: 340px;
+        height: 33vh;
+    }
     &:after {
         @extend %after-full;
         background-color: rgba($color: $primary-color, $alpha: 0.4);

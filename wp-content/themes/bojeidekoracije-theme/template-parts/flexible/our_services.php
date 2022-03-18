@@ -31,10 +31,10 @@ $link = get_sub_field('button_section');
                         'order'          => 'ASC',
                         'orderby'        => 'menu_order'
                     );
-                    $childrens = new WP_Query( $args );
-                    if ( $childrens->have_posts() ) : ?>
+                    $query = new WP_Query( $args );
+                    if ( $query->have_posts() ) : ?>
                         <div class="our-services-children-items col-md-12">
-                            <?php while ( $childrens->have_posts() ) : $childrens->the_post(); ?>
+                            <?php while ( $query->have_posts() ) : $query->the_post(); ?>
                                 <div class="our-services-children-item" id="child-<?php the_ID(); ?>">
                                     <a href="<?php the_permalink(); ?>" class="child-page-link">
                                         <?php if( get_the_post_thumbnail() ): ?>
@@ -52,6 +52,7 @@ $link = get_sub_field('button_section');
                                     </a>
                                 </div>
                             <?php endwhile; ?>
+                            
                         </div>
                     <?php endif;
                     wp_reset_query();

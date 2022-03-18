@@ -29,36 +29,12 @@ $link = get_sub_field('button_section');
                             <?php foreach( $choose_most_popular_products as $post ): 
                                 setup_postdata($post);
                                 $slider_short_description = get_field('hero_short_description'); ?>
-                                    <div class="most-popular-products-item">
-                                        <a href="<?php the_permalink() ?>" class="most-popular-products-link">
-                                            <header class="entry-header">
-                                                <span class="title-label">Ime kategorije</span>
-                                                <h2 class="entry-title most-popular-products-title">
-                                                    <?php the_title(); ?>
-                                                </h2>
-                                                <?php if( $slider_short_description ): ?>
-                                                    <div class="entry-content most-popular-products-excerpt">
-                                                        <?php echo $slider_short_description; ?>
-                                                    </div>
-                                                <?php endif; ?>
-                                            </header>
-                                            <div class="product-featured-image-wrapper">
-                                                <?php if( get_the_post_thumbnail() ): ?>
-                                                    <div class="most-popular-products-featured-img" style="background-image: url('<?php the_post_thumbnail_url(); ?>')">
-                                                        <span class="link link-white link-arrow"><?php _e('Pogledajte proizvod', 'arteco') ?><i class="icon icon-arrow-right"></i></span>
-                                                    </div>
-                                                <?php else: ?>
-                                                    <div class="most-popular-products-featured-img" style="background-image: url('<?php echo get_template_directory_uri(); ?>/assets/images/default-image.jpg')">
-                                                        <span class="link link-white link-arrow"><?php _e('Pogledajte proizvod', 'arteco') ?><i class="icon icon-arrow-right"></i></span>
-                                                    </div>
-                                                <?php endif; ?>
-                                            </div>
-                                        </a>
-                                    </div> <!-- /.products-slider-item -->
+                                    
+                                    <?php get_template_part( 'template-parts/content', 'products-card' ); ?>
                                 
                             <?php endforeach; ?>
                         </div> <!-- /.products-slider-wrapper -->
-                    <?php wp_reset_postdata(); ?>
+                    <?php  wp_reset_postdata(); ?>
                 <?php endif; ?>
 
                 <div class="see-all-products-button-wrapper align-center col-md-12">

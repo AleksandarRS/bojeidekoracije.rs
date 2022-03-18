@@ -37,44 +37,50 @@
 	@if $filename == arrow-right {
 		$char: "\E005";
 	}
-	@if $filename == check-solid {
+	@if $filename == arrow-trend-down-solid {
 		$char: "\E006";
 	}
-	@if $filename == envelope {
+	@if $filename == arrow-trend-up-solid {
 		$char: "\E007";
 	}
-	@if $filename == facebook {
+	@if $filename == check-solid {
 		$char: "\E008";
 	}
-	@if $filename == google-plus-g {
+	@if $filename == envelope {
 		$char: "\E009";
 	}
-	@if $filename == instagram {
+	@if $filename == facebook {
 		$char: "\E00A";
 	}
-	@if $filename == linkedin {
+	@if $filename == google-plus-g {
 		$char: "\E00B";
 	}
-	@if $filename == map-marker-alt {
+	@if $filename == instagram {
 		$char: "\E00C";
 	}
-	@if $filename == phone {
+	@if $filename == linkedin {
 		$char: "\E00D";
 	}
-	@if $filename == pinterest {
+	@if $filename == map-marker-alt {
 		$char: "\E00E";
 	}
-	@if $filename == search {
+	@if $filename == phone {
 		$char: "\E00F";
 	}
-	@if $filename == times {
+	@if $filename == pinterest {
 		$char: "\E010";
 	}
-	@if $filename == twitter {
+	@if $filename == search {
 		$char: "\E011";
 	}
-	@if $filename == youtube {
+	@if $filename == times {
 		$char: "\E012";
+	}
+	@if $filename == twitter {
+		$char: "\E013";
+	}
+	@if $filename == youtube {
+		$char: "\E014";
 	}
 
 	@return $char;
@@ -105,6 +111,12 @@
 }
 .icon-arrow-right {
 	@include icon(arrow-right);
+}
+.icon-arrow-trend-down-solid {
+	@include icon(arrow-trend-down-solid);
+}
+.icon-arrow-trend-up-solid {
+	@include icon(arrow-trend-up-solid);
 }
 .icon-check-solid {
 	@include icon(check-solid);

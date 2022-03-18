@@ -18,6 +18,15 @@ $order_product_description = get_field('order_the_product_description');
 $order_product_text_content = get_field('order_product_text_content', 'option');
 $order_product_form_content = get_field('order_product_form_content', 'option');
 
+$slider_or_text = get_field('slider_or_text');
+
+$half_section_f = get_field('half_section_f');
+$half_section_s = get_field('half_section_s');
+
+$background_image = get_field('background_image');
+$main_content = get_field('main_content');
+
+
 ?>
 
 <div class="breadcrumbs-wrapper">
@@ -80,11 +89,11 @@ $order_product_form_content = get_field('order_product_form_content', 'option');
 
 					<?php if( $order_product_option == true ): ?>
 						<div class="stocks-information">
-							<p><span><i class="icon icon-check-solid"></i> <?php _e('Ima na stanju','mwns') ?></span></p>
+							<p><span><i class="icon icon-arrow-trend-up-solid"></i> <?php _e('Ima na stanju','mwns') ?></span></p>
 						</div>
 					<?php else: ?>
 						<div class="stocks-information">
-							<p><span><i class="icon icon-times"></i> <?php _e('Nema na stanju','mwns') ?></span></p>
+							<p><span><i class="icon icon-arrow-trend-down-solid"></i> <?php _e('Nema na stanju','mwns') ?></span></p>
 						</div>
 					<?php endif; ?>
 
@@ -130,7 +139,122 @@ $order_product_form_content = get_field('order_product_form_content', 'option');
 				</div> <!-- /#order-form /.single-page-order-form-wrapper col-md-12 -->
 			<?php endif; ?>
 
+			<?php if( $half_section_f || $half_section_s ): ?>
+				<div class="single-half-section-wrapper col-md-12">
+					<div class="single-half-section-inner<?php if( have_rows('slider_images_half') ): ?> half-slider-activated<?php endif;?>">
+						<div class="container">
+							<div class="row row-half-sectction">
+								<?php if( $half_section_f ): ?>
+									<div class="single-half-item col-md-6">
+										<?php echo $half_section_f; ?>
+									</div>
+								<?php endif;?>
+								
+								<?php if( $half_section_s || get_field('slider_images_half') ): ?>
+									<div class="single-half-item col-md-6">
+										<?php if( $slider_or_text == true ): ?>
+											<?php echo $half_section_s; ?>
+										<?php else: ?>
+											<?php if( have_rows('slider_images_half') ): ?>
+												<div class="half-section-slider">
+													<?php while ( have_rows('slider_images_half') ) : the_row(); ?>
+														<?php
+															$images_for_slider_half = get_sub_field('images_for_slider_half');
+														?>
+														<div class="half-section-slider-item">
+														<!-- <div class="slider-half-image" style="background-image: url('<?php // echo esc_url($images_for_slider_half['url']); ?>')"></div> -->
+															<img src="<?php echo esc_url($images_for_slider_half['url']); ?>" alt="<?php echo esc_attr($images_for_slider_half['alt']); ?>" />
+														</div>
+													<?php endwhile; ?>
+												</div>
+											<?php  else : ?>
+												
+											<?php endif;?>
+										<?php endif;?>
+										
+									</div>
+								<?php endif;?>
+							</div>
+						</div>
+					</div>
+				</div> <!-- /.single-half-section-wrapper col-md-12 -->
+			<?php endif;?>
 
+
+			<?php if( $background_image && $main_content ): ?>
+				</div> <!-- /.row row-single-page row row-single-page single-post-product-content-wrapper -->
+			</div><!-- .container -->
+			<div class="single-bg-img-section-wrapper">
+				<div class="single-bg-img-section-inner" style="background-image: url('<?php echo esc_url($background_image['url']); ?>');" role="img" aria-label="<?php echo esc_attr($background_image['alt']); ?>">
+					<div class="container">
+						<div class="row row-bg-img-section">
+							<?php if( $main_content ): ?>
+								<div class="single-bg-img-item col-md-6">
+									<div class="single-bg-img-item-inner">
+										<?php echo $main_content; ?>
+									</div>
+								</div>
+							<?php endif;?>
+						</div>
+					</div> <!-- .container -->
+				</div>
+			</div> <!-- /.single-bg-img-section-wrapper -->
+			<div class="container">
+				<div class="row row-single-page row row-single-page single-post-product-content-wrapper">
+			<?php endif;?>
+
+			<div class="all-products-section col-md-12">
+    			<div class="all-products-section-wrapper">
+                    <div class="main-title-section-heading button-heading-wrap col-md-12">
+                        <header class="entry-header">
+                            <span class="title-label"><?php _e('Proizvodi', 'mwns'); ?></span>
+                            <h1 class="entry-title"><?php _e('Slični proizvodi', 'mwns'); ?></h1>
+                        </header>
+                    </div>
+					
+					<?php
+						// get the custom post type's taxonomy terms
+
+						$cat_id = get_post_meta($post->ID, '_yoast_wpseo_primary_kategorija-proizvoda',true);
+				
+						$args = array(
+							'post_type' => 'proizvod',
+							'post_status' => 'publish',
+							'posts_per_page' => 4, // you may edit this number
+							'orderby' => 'rand',
+							'post__not_in' => array ( $post->ID ),
+							'update_post_meta_cache' => false,
+							'update_post_term_cache' => false,
+							'ignore_sticky_posts' => true,
+							'tax_query' => array(
+								array(
+									'taxonomy' => 'kategorija-proizvoda',
+									'field' => 'id',
+									'terms' => [$cat_id]
+								)
+							)
+						);
+						$related_items = new WP_Query( $args );
+						// loop over query
+						if ( $related_items->have_posts() ) : ?>
+							
+							<div class="product-cards-wrapper category-cards-wrapper col-md-12">
+								<div class="row category-row">
+						
+									<?php while ( $related_items->have_posts() ) : $related_items->the_post(); ?>
+										<div class="col-md-3 item-wrapper">
+										<?php get_template_part( 'template-parts/content', 'products-card' ); ?>
+										</div>
+									<?php endwhile; ?>
+						
+								</div>
+							</div>
+
+						<?php endif; ?>
+					<?php wp_reset_query(); ?>
+
+				</div>  <!-- /.all-products-section-wrapper -->
+			</div>  <!-- /.all-products-section col-md-12 -->
 		</div>
 	</div>
 </article>
