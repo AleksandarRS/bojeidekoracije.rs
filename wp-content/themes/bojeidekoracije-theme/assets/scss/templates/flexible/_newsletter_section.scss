@@ -1,0 +1,102 @@
+.newsletter-section {
+    background-color: $primary-color;
+    padding-bottom: 45px;
+    padding-top: 50px;
+    position: relative;
+    // &:after {
+    //     background-color: $tertiary-color;
+    //     bottom: 45px;
+    //     content: '';
+    //     display: block;
+    //     height: 1px;
+    //     margin-left: auto;
+    //     margin-right: auto;
+    //     left: 0;
+    //     right: 0;
+    //     max-width: 1440px;
+    //     width: 100%;
+    //     position: absolute;
+    // }
+    .title-header {
+        h1, h2, h3 {
+            color: $white;
+            font-size: $font-size-h2 - 5;
+        }
+    }
+}
+
+.newsletter-row {
+    align-items: center;
+    color: $white;
+    > div {
+        padding-bottom: 20px;
+        padding-top: 15px;
+    }
+    .newsletter-heading {
+        
+        .title-header {
+            width: 100%;
+            line-height: 1.2;
+        }
+    }
+    input {
+        color: $primary-color;
+        &[type="email"] {
+            padding: 14px 10px;
+            max-width: 64.5%;
+            width: 100%;
+        }
+        
+    }
+    .checkbox-label {
+        position: relative;
+        display: block;
+        font-size: $font-size-small;
+        padding-top: 5px;
+        cursor: pointer;
+        span {
+            background-color: transparent;
+            border: 1px solid $white;
+            display: block;
+            height: 14px;
+            left: 0;
+            position: absolute;
+            width: 15px;
+            border-radius: 2px;
+            top: 8px;
+            @extend %transition-global;
+        }
+        input[type="checkbox"] {
+            opacity: 0;
+            margin-right: 5px;
+            cursor: pointer;
+            &:checked {
+                + span {
+                    background-color: $secondary-color;
+                }
+            }
+        }
+    }
+    .button {
+        margin-left: -10px;
+        padding: 14px 10px;
+        position: relative;
+        z-index: 9;
+        &:hover {
+            border-color: $secondary-color;
+        }
+    }
+    a {
+        color: $white;
+        @extend %transition-color;
+        &:hover {
+            color: $secondary-color;
+        }
+    }
+    .newsletter-cta {
+        .mc4wp-form-fields {
+            padding-left: 86px;
+            padding-right: 48px;
+        }
+    }
+}

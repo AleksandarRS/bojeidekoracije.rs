@@ -11,8 +11,21 @@
         }
     }
 }
+
+.all-blog-posts-items {
+    padding-bottom: 15px;
+    padding-top: 15px;
+    .latest-posts-item {
+        padding-bottom: 15px;
+        padding-top: 15px;
+    }
+}
+
 .latest-posts-item {
     .latest-posts-item-featured-img {
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
         height: 312px;
     }
     .latest-posts-main-content-wrapper {

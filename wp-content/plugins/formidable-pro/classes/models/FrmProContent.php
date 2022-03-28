@@ -799,14 +799,20 @@ class FrmProContent {
 		}
 	}
 
+	/**
+	 * @param array    $atts
+	 * @param string   $replace_with
+	 * @param stdClass $field
+	 * @return void
+	 */
 	private static function eval_equals_condition( $atts, &$replace_with, $field ) {
 		if ( $replace_with != $atts['equals'] ) {
-			if ( $field && $field->type == 'data' ) {
+			if ( $field && ( in_array( $field->type, array( 'data', 'quiz_score' ), true ) ) ) {
 				$replace_with = FrmFieldsHelper::get_display_value( $replace_with, $field, $atts );
 				if ( $replace_with != $atts['equals'] ) {
 					$replace_with = '';
 				}
-			} else if ( isset( $field->field_options['post_field'] ) && $field->field_options['post_field'] === 'post_category' ) {
+			} elseif ( isset( $field->field_options['post_field'] ) && $field->field_options['post_field'] === 'post_category' ) {
 				$cats         = explode( ', ', $replace_with );
 				$replace_with = '';
 				foreach ( $cats as $cat ) {
@@ -818,18 +824,28 @@ class FrmProContent {
 			} else {
 				$replace_with = '';
 			}
-		} else if ( $atts['equals'] == '' && $replace_with == '' ) {
+		} elseif ( $atts['equals'] == '' && $replace_with == '' ) {
 			//if the field is blank, give it a value
 			$replace_with = true;
 		}
 	}
 
+	/**
+	 * @param array    $atts
+	 * @param string   $replace_with
+	 * @param stdClass $field
+	 * @return void
+	 */
 	private static function eval_not_equal_condition( $atts, &$replace_with, $field ) {
+		if ( $field && 'quiz_score' === $field->type ) {
+			$replace_with = FrmFieldsHelper::get_display_value( $replace_with, $field, $atts );
+		}
+
 		if ( $replace_with == $atts['not_equal'] ) {
 			$replace_with = '';
-		} else if ( $replace_with == '' && $atts['not_equal'] !== '' ) {
+		} elseif ( $replace_with == '' && $atts['not_equal'] !== '' ) {
 			$replace_with = true;
-		} else if ( ! empty( $replace_with ) && isset( $field->field_options['post_field'] ) && $field->field_options['post_field'] == 'post_category' ) {
+		} elseif ( ! empty( $replace_with ) && isset( $field->field_options['post_field'] ) && $field->field_options['post_field'] == 'post_category' ) {
 			$cats = explode( ', ', $replace_with );
 			foreach ( $cats as $cat ) {
 				if ( $atts['not_equal'] == strip_tags( $cat ) ) {

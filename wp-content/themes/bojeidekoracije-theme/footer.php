@@ -8,7 +8,37 @@
  */
 
 ?>
+<?php 
+	$newsletter_title = get_field('newsletter_title', 'option');
+	$newsletter_shortcode = get_field('newsletter_shortcode', 'option');
+?>
 			</div><!-- #content -->
+
+			<section class="newsletter-section">
+				<div class="newsletter-section-wrapper">
+					<div class="newsletter-section-inner">
+						<div class="container">
+							<div class="newsletter-row-wrapper">
+								<div class="row newsletter-row dark-bg">
+									<?php if($newsletter_title): ?>
+										<div class="col-md-6 newsletter-heading">
+											<header class="title-header">
+												<h2><?php echo $newsletter_title; ?></h2>
+											</header>
+										</div>
+									<?php endif ?>
+									<?php if($newsletter_shortcode): ?>
+										<div class="col-md-6 newsletter-cta">
+											<?php echo $newsletter_shortcode; ?>
+										</div>
+									<?php endif ?>
+								</div>
+							</div> <!-- /.newsletter-row-wrapper -->
+						</div>
+							
+					</div>
+				</div>
+			</section>
 
 			<footer id="colophon" class="site-footer" role="contentinfo">
 				<div class="widget-wrapper">

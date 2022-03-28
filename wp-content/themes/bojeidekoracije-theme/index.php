@@ -19,30 +19,37 @@ get_header(); ?>
 			<main id="main" class="site-main" role="main">
 
 				<?php if ( have_posts() ) : ?>
+					<div class="row all-blog-posts-items latest-posts-row latest-posts-items">
+						<div class="col-md-12">
+							<header class="entry-header">
+								<h1 class="entry-title"><?php _e('Blog posts', 'arteco') ?></h1>
+							</header>
+						</div>
+					
+						<?php /* Start the Loop */ ?>
+						<?php while ( have_posts() ) : ?>
+							<?php
 
-					<?php /* Start the Loop */ ?>
-					<?php while ( have_posts() ) : ?>
-						<?php
-
-						the_post();
+							the_post();
 
 
-						/*
-						 * Include the Post-Format-specific template for the content.
-						 * If you want to override this in a child theme, then include a file
-						 * called content-___.php (where ___ is the Post Format name) and that will be used instead.
-						 */
-						get_template_part( 'template-parts/content', get_post_format() );
+							/*
+							* Include the Post-Format-specific template for the content.
+							* If you want to override this in a child theme, then include a file
+							* called content-___.php (where ___ is the Post Format name) and that will be used instead.
+							*/
+							// get_template_part( 'template-parts/content', get_post_format() );
+							get_template_part( 'template-parts/content', 'blog-posts' );
 
-						?>
-					<?php endwhile; ?>
+							?>
+						<?php endwhile; ?>
 
-					<?php arteco_post_navigation(); ?>
+						<?php arteco_post_navigation(); ?>
 
-				<?php else : ?>
+					<?php else : ?>
 
-					<?php get_template_part( 'template-parts/content', 'none' ); ?>
-
+						<?php get_template_part( 'template-parts/content', 'none' ); ?>
+					</div>
 				<?php endif; ?>
 			</main><!-- #main -->
 		</div><!-- #primary -->

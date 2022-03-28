@@ -282,6 +282,11 @@ if ( ! empty( $vars ) && is_callable( 'FrmStylesHelper::output_vars' ) ) {
 	-moz-box-sizing:border-box;
 	box-sizing:border-box;
 	display: inline;
+	color: <?php echo esc_html( $defaults['text_color'] ); ?>;
+}
+
+.ui-datepicker-calendar {
+	margin: 0 !important;
 }
 
 <?php if ( $use_default_date ) { ?>

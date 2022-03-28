@@ -1,0 +1,28 @@
+.archive-main-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    .page-children-section {
+        width: 100%;
+    }
+    .our-potfolio-projects-item {
+        flex: 0 0 33.33333334%;
+        max-width: 33.33333334%;
+        padding: 0 10px 20px;
+        &:hover {
+            .title-label {
+                background-color: $primary-color;
+            }
+        }
+        .our-potfolio-projects-link {
+            min-height: 420px;
+        }
+        .title-label {
+            background-color: $secondary-color;
+            color: $white;
+            float: right;
+            padding: 3px 5px;
+            @extend %transition-global;
+        }
+    }
+    
+}

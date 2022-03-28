@@ -1,0 +1,16 @@
+.single-post-content-wrapper {
+    a {
+        color: $secondary-color;
+        @extend %transition-color;
+        &:hover {
+            color: $primary-color;
+        }
+    }
+}
+.single-post-main-image-wrapper {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    min-height: 350px;
+    margin-top: 35px;
+}

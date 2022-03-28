@@ -279,3 +279,11 @@ if ( isset( $settings['progress_border_color'] ) && $settings['progress_border_c
 		}
 	<?php } ?>
 <?php } ?>
+
+/* Datepicker */
+.<?php echo esc_html( $settings['style_class'] ); ?> ~ .ui-datepicker .ui-datepicker-title > select,
+.<?php echo esc_html( $settings['style_class'] ); ?> .ui-datepicker .ui-datepicker-title > select{
+	color: <?php echo esc_html( $settings['text_color'] ) . esc_html( $important ); ?>;
+	background-color:<?php echo esc_html( $settings['bg_color'] . $important ); ?>;
+}
+/* End Datepicker */

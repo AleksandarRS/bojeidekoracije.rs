@@ -535,7 +535,6 @@ class FrmProFieldFile extends FrmFieldType {
 		}
 
 		$this->entry_id  = FrmAppHelper::get_param( 'id', '', 'post', 'absint' );
-		$entry_id        = $this->entry_id;
 		$was_array       = is_array( $value );
 		$assigned_ids    = array();
 		$unsafe_file_ids = array_filter( array_map( 'absint', (array) $value ) );
@@ -545,8 +544,8 @@ class FrmProFieldFile extends FrmFieldType {
 			return;
 		}
 
-		if ( $entry_id ) {
-			$assigned_ids              = self::get_assigned_file_ids( $unsafe_file_ids );
+		if ( $this->entry_id ) {
+			$assigned_ids              = $this->get_assigned_file_ids( $unsafe_file_ids );
 			$all_ids_have_been_matched = count( $assigned_ids ) === count( $unsafe_file_ids );
 			if ( $all_ids_have_been_matched ) {
 				$this->adjust_value( $value, $assigned_ids, $was_array );
@@ -592,6 +591,7 @@ class FrmProFieldFile extends FrmFieldType {
 			$this->field,
 			array(
 				'entry_ids' => $item_ids,
+				'is_draft'  => 'both',
 			)
 		);
 

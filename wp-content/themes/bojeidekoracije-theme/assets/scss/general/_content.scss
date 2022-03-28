@@ -20,6 +20,35 @@
 
 .content-area {
     width: 100%;
+    ul:not(.slick-dots) {
+        list-style: none;
+        padding-left: 0;
+        li {
+            padding-bottom: 5px;
+            padding-left: 25px;
+            position: relative;
+            &:after {
+                content: "";
+                font-family: "font-icons";
+                font-style: normal;
+                font-variant: normal;
+                font-weight: normal;
+                text-decoration: none;
+                text-transform: none;
+                position: absolute;
+                color: $secondary-color;
+                font-size: $font-size-large;
+                width: 15px;
+                height: 12px;
+                top: 0;
+                bottom: auto;
+                margin: auto;
+                left: 0;
+                cursor: pointer;
+            }
+        }
+    }
+    
 }
 
 .right-calc {

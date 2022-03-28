@@ -1,6 +1,6 @@
 <?php
-$main_hero_title = get_sub_field('main_hero_title');
-// $hero_small_description = get_sub_field('hero_small_description');
+$main_hero_title = get_sub_field('main_title');
+$hero_small_description = get_sub_field('hero_small_description');
 $hero_image = get_sub_field('hero_image');
 ?>
 <section class="hero-section hero-section-small">
@@ -15,15 +15,14 @@ $hero_image = get_sub_field('hero_image');
                             <?php else: ?>
                                 <h1 class="main-hero-title main-title"><?php the_title(); ?></h1>
                             <?php endif; ?>
-                            <?php // if ( $hero_small_description ) : ?>
+                            <?php  if ( $hero_small_description ) : ?>
                                 <div class="col-md-12 main-hero-description align-center">
-                                    <?php // echo $hero_small_description; ?>
-                                    <?php the_excerpt(); ?>
+                                    <?php echo $hero_small_description; ?>
+                                    <?php // the_excerpt(); ?>
                                 </div>
-                            <?php // endif; ?>
+                            <?php endif; ?>
                         </header>
                     </div>
-                    
                 </div>
             </div>
             <div class="hero-section-small-image-wrap-inner">

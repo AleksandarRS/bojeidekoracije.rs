@@ -11,7 +11,7 @@
 
 <section class="no-results not-found">
 	<header class="page-header">
-		<h1 class="page-title"><?php esc_html_e( 'Nothing Found', 'arteco' ); ?></h1>
+		<h1 class="page-title"><?php esc_html_e( 'Ništa nije pronađeno', 'arteco' ); ?></h1>
 	</header><!-- .page-header -->
 
 	<div class="page-content">
@@ -26,8 +26,8 @@
 
 		<?php else : ?>
 
-			<p><?php esc_html_e( 'It seems we can&rsquo;t find what you&rsquo;re looking for. Perhaps searching can help.', 'arteco' ); ?></p>
-			<?php get_search_form(); ?>
+			<p><?php esc_html_e( 'Izgleda da ni jedan rezultat ne odgovara kriterijumima Vašoje pretrage. Pokušajte druge parametre da koristite ze pretragu.', 'arteco' ); ?></p>
+			<?php //get_search_form(); ?>
 
 		<?php endif; ?>
 	</div><!-- .page-content -->
