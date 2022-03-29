@@ -26,19 +26,21 @@ get_header(); ?>
                         <?php echo do_shortcode('[searchandfilter id="335"]'); ?>
                     </div>
                     <main id="main" class="archive-main-wrapper site-main col-md-9" role="main">
-                        <?php  if (have_posts()) : ?>
+                    <?php
+                                //  get_template_part('template-parts/content', 'product-cards');
+                                echo do_shortcode('[searchandfilter id="335" show="results"]');
+                                // echo do_shortcode('[custom-layout id="369"]');
+                                ?>
+                        <?php //if (have_posts()) : ?>
                             
                             <?php /* Start the Loop */ ?>
-                            <?php  while (have_posts()) : the_post(); ?>
-                                <?php
-                                 get_template_part('template-parts/content', 'product-cards');
-                                // echo do_shortcode('[searchandfilter id="335" show="results"]');
-                                ?>
-                            <?php  endwhile; ?>
-                            <?php arteco_post_navigation(); ?>
+                            <?php  //while (have_posts()) : the_post(); ?>
+                                
+                            <?php // endwhile; ?>
+                            <?php //arteco_post_navigation(); ?>
                         <?php //else : ?>
                             <?php //get_template_part('template-parts/content', 'none'); ?>
-                        <?php  endif; ?>
+                        <?php // endif; ?>
                     </main><!-- #main -->
                 </div>
             </div><!-- #primary -->

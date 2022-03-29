@@ -4,7 +4,7 @@
  *
  * Learn more: http://codex.wordpress.org/Template_Hierarchy
  *
- * @package mwns
+ * @package arteco
  */
 
 get_header(); ?>
@@ -30,7 +30,7 @@ get_header(); ?>
                     <?php if( $main_title): ?>
                         <h1 class="page-title main-hero-title main-title"><?php echo $main_title; ?></h1>
                     <?php else:?>
-                        <?php echo mwns_archive_title('<h1 class="page-title main-hero-title main-title">', '</h1>'); ?>
+                        <?php echo arteco_archive_title('<h1 class="page-title main-hero-title main-title">', '</h1>'); ?>
                     <?php endif;?>
                     <div class="col-md-12 main-hero-description align-center">
                         <?php echo $short_description; ?>

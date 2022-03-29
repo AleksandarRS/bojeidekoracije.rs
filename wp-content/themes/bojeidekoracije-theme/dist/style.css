@@ -2803,7 +2803,7 @@ html {
   }
 }
 
-.site-header-inner .contact-details .contact-details-item:after, .products-slider-wrapper > .slick-dots .products-featured-thumbnail:after, .single-page-thumbnail-slider .slick-slide .single-page-thumbnail:after, .single-page-thumbnail-slider .slick-slide.slick-current .single-page-thumbnail:after, .hero-section-small-image-wrap:after, .most-popular-products-section:after, .all-projects-posts-section-wrapper:after, .our-potfolio-projects-section:after, .our-services-children-items .our-services-children-item .our-services-children-page-featured-img:before, .our-services-children-items .our-services-children-item .entry-title:after, .image-text-section:after, .main-page-children-items .child-page-card:after, .most-popular-products-item .most-popular-products-featured-img:after, .our-services-children-items .our-services-children-item .our-services-children-page-featured-img:after, .button, .single-page-thumbnail-slider .slick-arrow, .slick-dots button, .most-popular-products-slider .slick-arrow, .our-potfolio-projects-item .our-potfolio-projects-link, .our-potfolio-projects-item .project-description, .newsletter-row .checkbox-label span, .archive-main-wrapper .our-potfolio-projects-item .title-label, .content-area .searchandfilter [class^="sf-level"] label {
+.site-header-inner .contact-details .contact-details-item:after, .products-slider-wrapper > .slick-dots .products-featured-thumbnail:after, .single-page-thumbnail-slider .slick-slide .single-page-thumbnail:after, .single-page-thumbnail-slider .slick-slide.slick-current .single-page-thumbnail:after, .hero-section-small-image-wrap:after, .most-popular-products-section:after, .all-projects-posts-section-wrapper:after, .our-potfolio-projects-section:after, .our-services-children-items .our-services-children-item .our-services-children-page-featured-img:before, .our-services-children-items .our-services-children-item .entry-title:after, .image-text-section:after, .main-page-children-items .child-page-card:after, .most-popular-products-item .most-popular-products-featured-img:after, .our-services-children-items .our-services-children-item .our-services-children-page-featured-img:after, .button, .single-page-thumbnail-slider .slick-arrow, .slick-dots button, .most-popular-products-slider .slick-arrow, .our-potfolio-projects-item .our-potfolio-projects-link, .our-potfolio-projects-item .project-description, .newsletter-row .checkbox-label span, .archive-main-wrapper .our-potfolio-projects-item .title-label, .project-gallery-slider .slick-slide.slick-current, .content-area .searchandfilter [class^="sf-level"] label {
   -webkit-transition: all .5s;
   -o-transition: all .5s;
   transition: all .5s;
@@ -2811,7 +2811,7 @@ html {
 
 .site-header-inner a, .logo-menu-wrapper .main-navigation .main-menu-container ul li a, .site-footer a, .link, #breadcrumbs a, .slick-arrow i:before, .frm_radio a,
 .frm_checkbox a, .products-slider-section .title-label a, .products-slider-section .products-title a, .products-item-card .most-popular-products-link, .our-services-children-items .our-services-children-item .title-label,
-.our-services-children-items .our-services-children-item .entry-title, .latest-posts-item-link, .two-column-section .contact-details-phone-email-wrapper a, .main-page-children-items .child-page-title, .newsletter-row a, .single-page-order-form-inner a, .single-post-content-wrapper a {
+.our-services-children-items .our-services-children-item .entry-title, .latest-posts-item-link, .two-column-section .contact-details-phone-email-wrapper a, .main-page-children-items .child-page-title, .newsletter-row a, .single-page-order-form-inner a, .search-filter-results a, .single-post-content-wrapper a {
   -webkit-transition: color .5s;
   -o-transition: color .5s;
   transition: color .5s;
@@ -4470,6 +4470,10 @@ fieldset {
   background-color: #F8A116;
 }
 
+.slick-dots .slick-active button {
+  background-color: #F8A116;
+}
+
 .select2-container--default {
   color: #000000;
   font-family: "Quicksand", sans-serif;
@@ -4953,10 +4957,12 @@ html.with-featherlight {
 
 .hero-section-small-image-wrap .main-hero-title {
   font-size: 44px;
+  margin: 0.2em 0;
 }
 
 .hero-section-small-image-wrap .main-hero-description {
-  font-size: 18px;
+  font-size: 19px;
+  letter-spacing: 0.2px;
 }
 
 .hero-section-small-image-wrap > div {
@@ -6444,6 +6450,7 @@ html.with-featherlight {
           flex-wrap: wrap;
 }
 
+.archive-main-wrapper .cl-layout-container,
 .archive-main-wrapper .page-children-section {
   width: 100%;
 }
@@ -6472,6 +6479,52 @@ html.with-featherlight {
   padding: 3px 5px;
 }
 
+.search-filter-results {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap;
+  font-size: 0;
+  color: transparent;
+  width: 100%;
+}
+
+.search-filter-results hr {
+  display: none;
+}
+
+.search-filter-results .pagination {
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 0 100%;
+      -ms-flex: 0 0 100%;
+          flex: 0 0 100%;
+  max-width: 100%;
+}
+
+.search-filter-results > div {
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 0 33.3333334%;
+      -ms-flex: 0 0 33.3333334%;
+          flex: 0 0 33.3333334%;
+  max-width: 33.3333334%;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-size: 16px;
+  color: #1E2227;
+}
+
+.search-filter-results > div > h2 {
+  margin: 0.2em 0;
+  font-size: 18px;
+}
+
+.search-filter-results > div > p:first-of-type {
+  display: none;
+}
+
 .single-post-content-wrapper a {
   color: #F8A116;
 }
@@ -6488,6 +6541,113 @@ html.with-featherlight {
   margin-top: 35px;
 }
 
+.single-projekat .single-post-main-image-wrapper {
+  margin-top: 0;
+}
+
+.single-post-main-image-inner {
+  width: 100%;
+}
+
+.single-project-hero-wrapper .main-hero-description {
+  max-width: 850px;
+}
+
+.single-project-logo-description-wrapper {
+  padding-bottom: 20px;
+  padding-top: 60px;
+  border-bottom: 5px solid #F8A116;
+  margin-bottom: 40px;
+}
+
+.single-project-logo-description-wrapper .single-project-logo-inner {
+  max-width: 280px;
+}
+
+.project-gallery-wrapper {
+  padding-bottom: 70px;
+  padding-top: 30px;
+}
+
+.project-gallery-wrapper .project-title {
+  padding-bottom: 35px;
+}
+
+.project-gallery-slider {
+  padding-top: 60px;
+}
+
+.project-gallery-slider .slider__counter__project {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  text-align: center;
+  font-size: 26px;
+  font-weight: 700;
+  z-index: 1;
+}
+
+.project-gallery-slider .slider__counter__project span:last-child {
+  opacity: 0.49;
+}
+
+.project-gallery-slider .slick-arrow {
+  bottom: auto;
+  top: 0;
+  z-index: 2;
+}
+
+.project-gallery-slider .slick-arrow i::before {
+  font-size: 40px;
+  line-height: 0.8;
+}
+
+.project-gallery-slider .slick-arrow.slick-prev {
+  left: -webkit-calc(32vw);
+  left: calc(32vw);
+}
+
+.project-gallery-slider .slick-arrow.slick-next {
+  right: -webkit-calc(32vw);
+  right: calc(32vw);
+}
+
+.project-gallery-slider .slick-slide {
+  -webkit-transform: scale(0.9);
+      -ms-transform: scale(0.9);
+          transform: scale(0.9);
+}
+
+.project-gallery-slider .slick-slide.slick-current {
+  -webkit-transform: scale(1);
+      -ms-transform: scale(1);
+          transform: scale(1);
+}
+
+.project-gallery-slider .slick-slide.slick-current .project-gallery-slider-item-image {
+  -webkit-box-shadow: 0 32px 40px -25px #1E2227;
+          box-shadow: 0 32px 40px -25px #1E2227;
+}
+
+.project-gallery-slider .slick-dots {
+  text-align: center;
+}
+
+.project-gallery-slider-item {
+  padding-bottom: 45px;
+  padding-left: 25px;
+  padding-right: 25px;
+}
+
+.project-gallery-slider-item-image {
+  height: 600px;
+  width: 850px;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
 .archive-sidebar-wrapper {
   padding: 30px;
   max-width: 100%;
@@ -6496,6 +6656,11 @@ html.with-featherlight {
           box-shadow: 0px 0px 46px 0px rgba(30, 34, 39, 0.16);
   background-color: #fff;
   z-index: 1;
+}
+
+.content-area .searchandfilter h4 {
+  font-size: 22px;
+  margin-bottom: 0.75em;
 }
 
 .content-area .searchandfilter ul,

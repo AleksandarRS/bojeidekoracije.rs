@@ -2,7 +2,7 @@
 /**
  * Template part for displaying single posts.
  *
- * @package mwns
+ * @package arteco
  */
 
 ?>
@@ -31,7 +31,7 @@
 			<?php the_title( '<h1 class="entry-title">', '</h1>' ); ?>
 			<?php if (get_the_date()): ?>
 				<div class="post-date-published">
-					<?php _e('Članak objavljen:','mwns') ?> <span><?php the_date(); ?></span>
+					<?php _e('Članak objavljen:','arteco') ?> <span><?php the_date(); ?></span>
 				</div>
 			<?php endif; ?>
 		</div>

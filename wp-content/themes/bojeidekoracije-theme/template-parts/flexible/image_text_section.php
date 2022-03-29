@@ -29,7 +29,7 @@ $add_page_link = get_sub_field('add_page_link');
                         </div> <!-- /.image-text-section-main-image -->
                         <?php if ( $add_page_link ) : ?>
                             <div class="image-text-section-read-more-button-wrap read-more-button-wrap">
-                                <a class="button button-secondary button-arrow" href="<?php echo $add_page_link; ?>"><?php _e('Saznaj više','mwns'); ?> <i class="icon icon-arrow-right"></i></a>
+                                <a class="button button-secondary button-arrow" href="<?php echo $add_page_link; ?>"><?php _e('Saznaj više','arteco'); ?> <i class="icon icon-arrow-right"></i></a>
                             </div>
                         <?php endif; ?>
                     </div>

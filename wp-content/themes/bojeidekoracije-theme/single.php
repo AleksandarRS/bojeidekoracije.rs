@@ -2,7 +2,7 @@
 /**
  * The template for displaying all single posts.
  *
- * @package mwns
+ * @package arteco
  */
 
 get_header(); ?>
@@ -21,9 +21,9 @@ get_header(); ?>
 						<!-- <div class="post-navigation">
 							<div class="container">
 								<div class="navigation"> -->
-									<?php // previous_post_link('%link', '<i class="icon icon-left icon-arrow-left"></i> ' . '<span>' . __('Prethodni članak', 'mwns') . '</span>'); ?>
+									<?php // previous_post_link('%link', '<i class="icon icon-left icon-arrow-left"></i> ' . '<span>' . __('Prethodni članak', 'arteco') . '</span>'); ?>
 
-									<?php // next_post_link('%link', '<span>' . __('Sledeći članak', 'mwns') . '</span>' . ' <i class="icon icon-right icon-arrow-right"></i>'); ?>
+									<?php // next_post_link('%link', '<span>' . __('Sledeći članak', 'arteco') . '</span>' . ' <i class="icon icon-right icon-arrow-right"></i>'); ?>
 								<!-- </div>
 							</div>
 						</div> -->

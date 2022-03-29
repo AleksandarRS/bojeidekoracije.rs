@@ -301,7 +301,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
    	# Cache dom and strings
    -------------------------------------------------------------------------------*/
 			$dom: {
-				lightbox: $('.featherlight-gallery-init')
+				lightbox: $('.featherlight-gallery-init'),
+				lightboxGallery: $('.project-gallery-slider .project-gallery-lightbox-link')
 			},
 
 			/*-------------------------------------------------------------------------------
@@ -311,6 +312,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 				// this.$dom.lightbox.featherlight();
 				this.$dom.lightbox.featherlightGallery();
+				this.$dom.lightboxGallery.featherlightGallery();
 			}
 		};
 	}, { "featherlight/src/featherlight": 11, "featherlight/src/featherlight.gallery": 10 }], 6: [function (require, module, exports) {
@@ -636,6 +638,40 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 						}
 					}]
 				});
+
+				if ($(".project-gallery-slider").length) {
+					var currentSlideProject;
+					var slidesCountProject;
+					var sliderCounterProject = document.createElement('div');
+					sliderCounterProject.classList.add('slider__counter__project');
+
+					var updateSliderCounterProject = function updateSliderCounterProject(slick) {
+						currentSlideProject = slick.slickCurrentSlide() + 1;
+						slidesCountProject = slick.slideCount;
+						$(sliderCounterProject).html('<span>' + currentSlideProject + '/</span>' + '<span>' + slidesCountProject + '</span>');
+					};
+
+					$(".project-gallery-slider").on('init', function (event, slick) {
+						$(".project-gallery-slider").append(sliderCounterProject);
+						updateSliderCounterProject(slick);
+					});
+
+					$(".project-gallery-slider").on('afterChange', function (event, slick, currentSlideProject) {
+						updateSliderCounterProject(slick, currentSlideProject);
+					});
+					$(".project-gallery-slider").slick({
+						slidesToScroll: 1,
+						slidesToShow: 3,
+						infinite: true,
+						variableWidth: true,
+						centerMode: true,
+						centerPadding: 100,
+						dots: true,
+						arrows: true,
+						prevArrow: "<button type='button' class='slick-prev pull-left'><i class='icon icon-angle-left' aria-hidden='true'></i></button>",
+						nextArrow: "<button type='button' class='slick-next pull-right'><i class='icon icon-angle-right' aria-hidden='true'></i></button>"
+					});
+				}
 
 				// this.$dom.slickSliderSingleinstructions.slick({
 				// 	slidesToScroll: 1,

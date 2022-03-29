@@ -19,6 +19,7 @@ module.exports = {
 	-------------------------------------------------------------------------------*/
 	$dom: {
 		lightbox: $('.featherlight-gallery-init'),
+		lightboxGallery: $('.project-gallery-slider .project-gallery-lightbox-link'),
 	},
 	
 
@@ -29,5 +30,6 @@ module.exports = {
 
 		// this.$dom.lightbox.featherlight();
 		this.$dom.lightbox.featherlightGallery();
+		this.$dom.lightboxGallery.featherlightGallery();
 	}
 };

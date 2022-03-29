@@ -33,7 +33,7 @@ $link = get_sub_field('button_section');
                                     // $portfolio_logo = get_field('portfolio_logo');
                                     // $project_excerpt = get_field('project_excerpt'); 
                                     ?>
-                                        <?php get_template_part( 'template-parts/content', 'project-card' ); ?>
+                                    <?php get_template_part( 'template-parts/content', 'project-card' ); ?>
                                 <?php endforeach; ?>
                         </div> <!-- /.col-md-12 our-potfolio-projects-logos-items our-potfolio-projects-logos-slider -->
                     <?php wp_reset_postdata(); ?>

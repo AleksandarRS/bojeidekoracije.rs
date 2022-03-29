@@ -2,7 +2,7 @@
 /**
  * Template part for displaying single posts.
  *
- * @package mwns
+ * @package arteco
  */
 
 ?>
@@ -89,11 +89,11 @@ $main_content = get_field('main_content');
 
 					<?php if( $order_product_option == true ): ?>
 						<div class="stocks-information">
-							<p><span><i class="icon icon-arrow-trend-up-solid"></i> <?php _e('Ima na stanju','mwns') ?></span></p>
+							<p><span><i class="icon icon-arrow-trend-up-solid"></i> <?php _e('Ima na stanju','arteco') ?></span></p>
 						</div>
 					<?php else: ?>
 						<div class="stocks-information">
-							<p><span><i class="icon icon-arrow-trend-down-solid"></i> <?php _e('Nema na stanju','mwns') ?></span></p>
+							<p><span><i class="icon icon-arrow-trend-down-solid"></i> <?php _e('Nema na stanju','arteco') ?></span></p>
 						</div>
 					<?php endif; ?>
 
@@ -103,7 +103,7 @@ $main_content = get_field('main_content');
 
 					<?php if( $order_product_option == true ): ?>
 						<div class="single-page-button-wrap order-product-button">
-							<a href="#order-form" id="order-product-button" class="button button-secondary"><?php _e('Naručite proizvod', 'mwns'); ?></a>
+							<a href="#order-form" id="order-product-button" class="button button-secondary"><?php _e('Naručite proizvod', 'arteco'); ?></a>
 						</div>
 					<?php endif; ?>
 					
@@ -207,8 +207,8 @@ $main_content = get_field('main_content');
     			<div class="all-products-section-wrapper">
                     <div class="main-title-section-heading button-heading-wrap col-md-12">
                         <header class="entry-header">
-                            <span class="title-label"><?php _e('Proizvodi', 'mwns'); ?></span>
-                            <h1 class="entry-title"><?php _e('Slični proizvodi', 'mwns'); ?></h1>
+                            <span class="title-label"><?php _e('Proizvodi', 'arteco'); ?></span>
+                            <h1 class="entry-title"><?php _e('Slični proizvodi', 'arteco'); ?></h1>
                         </header>
                     </div>
 					
