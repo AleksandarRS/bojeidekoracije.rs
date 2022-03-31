@@ -301,7 +301,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
    	# Cache dom and strings
    -------------------------------------------------------------------------------*/
 			$dom: {
-				lightbox: $('.featherlight-gallery-init'),
+				// lightbox: $('.featherlight-gallery-init'),
 				lightboxGallery: $('.project-gallery-slider .project-gallery-lightbox-link')
 			},
 
@@ -311,8 +311,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			init: function init() {
 
 				// this.$dom.lightbox.featherlight();
-				this.$dom.lightbox.featherlightGallery();
-				this.$dom.lightboxGallery.featherlightGallery();
+				// this.$dom.lightbox.featherlightGallery();
+				if ($(".project-gallery-slider .project-gallery-lightbox-link").length) {
+					this.$dom.lightboxGallery.featherlightGallery();
+				}
 			}
 		};
 	}, { "featherlight/src/featherlight": 11, "featherlight/src/featherlight.gallery": 10 }], 6: [function (require, module, exports) {
@@ -565,7 +567,20 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 					dots: false,
 					arrows: true,
 					prevArrow: "<button type='button' class='slick-prev pull-left'><i class='icon icon-angle-left' aria-hidden='true'></i></button>",
-					nextArrow: "<button type='button' class='slick-next pull-right'><i class='icon icon-angle-right' aria-hidden='true'></i></button>"
+					nextArrow: "<button type='button' class='slick-next pull-right'><i class='icon icon-angle-right' aria-hidden='true'></i></button>",
+					responsive: [{
+						breakpoint: 1199,
+						settings: {
+							slidesToShow: 2,
+							slidesToScroll: 1
+						}
+					}, {
+						breakpoint: 420,
+						settings: {
+							slidesToShow: 2,
+							slidesToScroll: 1
+						}
+					}]
 				});
 
 				if ($(".our-potfolio-projects-logos-slider").length) {
@@ -865,10 +880,12 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 		};
 		jQuery(window).on("load", function () {
-			jQuery(".page-loader-wrapper").fadeOut("slow", function () {
-				jQuery('body').addClass('page-loaded');
-			});
-			jQuery("body").css("overflow-y", "visible");
+			setTimeout(function () {
+				jQuery(".page-loader-wrapper").fadeOut("slow", function () {
+					jQuery('body').addClass('page-loaded');
+				});
+				jQuery("body").css("overflow-y", "visible");
+			}, 1000);
 		});
 	}, {}], 10: [function (require, module, exports) {
 		/**

@@ -3,6 +3,10 @@
     padding-bottom: 75px;
     padding-top: 75px;
     position: relative;
+    @include max-mq ($ls) {
+        padding-bottom: 50px;
+        padding-top: 50px;
+    }
     &:after {
         @extend %after-full;
         background-color: $white;
@@ -40,6 +44,12 @@
     .slick-slide {
         opacity: 0.5;
         width: 389px;
+        @include max-mq ($mac_l) {
+            width: 359px;
+        }
+        @include max-mq ($mac) {
+            width: 329px;
+        }
         &.slick-active {
             opacity: 1;
         }
@@ -87,6 +97,9 @@
 
 .most-popular-products-items {
     padding-top: 67px;
+    @include max-mq ($ls) {
+        padding-top: 35px;
+    }
     .most-popular-products-excerpt {
         margin-top: 0;
         p {

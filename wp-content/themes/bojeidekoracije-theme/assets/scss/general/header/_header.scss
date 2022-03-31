@@ -2,6 +2,8 @@
   background-color: $tertiary-color;
   padding-bottom: 5px;
   padding-top: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
   .top-header-details {
     align-items: center;
     i {
@@ -62,6 +64,10 @@
 .logo-menu-wrapper {
   padding-bottom: 15px;
   padding-top: 15px;
+  @include max-mq ($mac) {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
 }
 
 .main-logo-nav-wrapper {

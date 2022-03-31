@@ -26,6 +26,9 @@
     padding-bottom: 40px;
     padding-top: 82px;
     position: relative;
+    @include max-mq ($ls) {
+        padding-top: 50px;
+    }
     &:after {
         @extend %after-full;
         background-color: $tertiary-color;
@@ -41,12 +44,33 @@
 }
 .our-potfolio-projects-logos-slider {
     padding-bottom: 74px;
+    @include max-mq ($ls) {
+        padding-bottom: 58px;
+    }
     .slick-slide {
         width: 900px;
+        @include max-mq ($ls) {
+            width: 600px;
+        }
+        // @include max-mq ($tab) {
+        //     width: 450px;
+        // }
     }
     .our-potfolio-projects-item {
         padding-left: 80px;
         padding-right: 80px;
+        @include max-mq ($mac) {
+            padding-left: 50px;
+            padding-right: 50px;
+        }
+        @include max-mq ($ls) {
+            padding-left: 35px;
+            padding-right: 35px;
+        }
+        @include max-mq ($tab) {
+            padding-left: 20px;
+            padding-right: 20px;
+        }
     }
     .slick-arrow {
         position: absolute;
@@ -97,6 +121,9 @@
 .our-potfolio-projects-logos-items,
 .all-projects-posts-items {
     padding-top: 38px;
+    @include max-mq ($ls) {
+        padding-top: 25px;
+    }
 }
 .our-potfolio-projects-item  {
     &.all-projects-posts-item {
@@ -194,4 +221,7 @@
 .see-all-projects-button-wrapper {
     padding-bottom: 25px;
     padding-top: 15px;
+    @include max-mq ($ls) {
+        padding-bottom: 15px;
+    }
 }

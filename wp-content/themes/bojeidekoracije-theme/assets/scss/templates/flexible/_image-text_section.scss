@@ -2,6 +2,10 @@
     padding-bottom: 50px;
     padding-top: 30px;
     position: relative;
+    @include max-mq ($ls) {
+        padding-bottom: 30px;
+        padding-top: 20px;
+    }
     &:after {
         @extend %after-full;
         background-color: $tertiary-color;

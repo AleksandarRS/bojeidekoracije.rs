@@ -36,17 +36,17 @@ $link = get_sub_field('button_section');
                         </div> <!-- /.products-slider-wrapper -->
                     <?php  wp_reset_postdata(); ?>
                 <?php endif; ?>
-
-                <div class="see-all-products-button-wrapper align-center col-md-12">
-                    <?php
-                        if( $link ): 
-                            $link_url = $link['url'];
-                            $link_title = $link['title'];
-                            $link_target = $link['target'] ? $link['target'] : '_self';
-                        ?>
+                
+                <?php
+                    if( $link ): 
+                        $link_url = $link['url'];
+                        $link_title = $link['title'];
+                        $link_target = $link['target'] ? $link['target'] : '_self';
+                    ?>
+                    <div class="see-all-products-button-wrapper align-center col-md-12">
                         <a class="button button-secondary button-arrow" href="<?php echo esc_url( $link_url ); ?>" target="<?php echo esc_attr( $link_target ); ?>"><?php echo esc_html( $link_title ); ?> <i class="icon icon-arrow-right"></i></a>
-                    <?php endif; ?>
-                </div>
+                    </div>
+                <?php endif; ?>
 
             </div> <!-- /.row -->
         </div> <!-- /.container-fluid -->

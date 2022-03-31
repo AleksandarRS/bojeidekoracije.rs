@@ -100,6 +100,22 @@ module.exports = {
 			arrows: true,
 			prevArrow: "<button type='button' class='slick-prev pull-left'><i class='icon icon-angle-left' aria-hidden='true'></i></button>",
 			nextArrow: "<button type='button' class='slick-next pull-right'><i class='icon icon-angle-right' aria-hidden='true'></i></button>",
+			responsive: [
+				{
+					breakpoint: 1199,
+					settings: {
+						slidesToShow: 2,
+						slidesToScroll: 1
+					}
+				},
+				{
+					breakpoint: 420,
+					settings: {
+						slidesToShow: 2,
+						slidesToScroll: 1
+					}
+				}
+			  ]
 		});
 
 

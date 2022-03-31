@@ -2,6 +2,10 @@
     background-color: $tertiary-color;
     padding-bottom: 80px;
     padding-top: 80px;
+    @include max-mq ($ls) {
+        padding-bottom: 55px;
+        padding-top: 55px;
+    }
     .contact-details-title {
         margin-bottom: 0.55em;
     }

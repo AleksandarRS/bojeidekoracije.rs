@@ -15,7 +15,7 @@
                             $slider_short_description = get_field('hero_short_description'); ?>
                             <div class="products-slider-item">
                                 <div class="container-fluid">
-                                    <div class="row">
+                                    <div class="row product-hero-row">
                                         <div class="col-md-6 product-hero-image-section">
                                             <?php if( get_the_post_thumbnail() ): ?>
                                                 <div class="products-featured-img-wrap" style="background-image: url('<?php the_post_thumbnail_url(); ?>')">

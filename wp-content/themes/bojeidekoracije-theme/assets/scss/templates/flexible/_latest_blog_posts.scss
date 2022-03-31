@@ -2,6 +2,10 @@
 .latest-posts-section {
     padding-bottom: 80px;
     padding-top: 80px;
+    @include max-mq ($ls) {
+        padding-bottom: 50px;
+        padding-top: 40px;
+    }
 }
 .latest-posts-item-link {
     @extend %transition-color;
