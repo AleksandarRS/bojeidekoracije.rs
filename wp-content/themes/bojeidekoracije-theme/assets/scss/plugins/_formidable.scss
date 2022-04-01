@@ -5,20 +5,32 @@
 	}
 	.frm_fields_container {
 	  padding-top: 40px;
-	}
-	.frm_checkbox {
-	  position: relative;
-	  input[type="checkbox"] {
-		position: absolute;
-		left: 0;
-		top: 0;
+	  @include max-mq ($mb) {
+		padding-top: 10px;
 	  }
 	}
-  }
-  .with_frm_style .vertical_radio .frm_checkbox label, 
-  .with_frm_style .vertical_radio .frm_radio label {
+	.frm_checkbox {
+		position: relative;
+		input[type="checkbox"] {
+			position: absolute;
+			left: 0;
+			top: 0;
+		}
+	}
+	.frm_radio {
+		margin-bottom: 5px !important;
+	}
+}
+.with_frm_style .vertical_radio .frm_checkbox label, 
+.with_frm_style .vertical_radio .frm_radio label {
 	padding-left: 0;
 	text-indent: 0;
+}
+.with_frm_style .frm_radio input[type=radio], 
+.with_frm_style .frm_checkbox input[type=checkbox] {
+	position: absolute;
+	left: 0;
+	top: 0;
 }
 .frm_radio,
 .frm_checkbox {

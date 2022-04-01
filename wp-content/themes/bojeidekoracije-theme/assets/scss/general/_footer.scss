@@ -6,7 +6,6 @@
     .widget-wrapper {
         padding-bottom: 20px;
     }
-    
     a {
         text-decoration: underline;
     }
@@ -27,6 +26,10 @@
         font-size: $font-size-base;
         flex: 0 0 43%;
         max-width: 43%;
+        @include max-mq ($sm) {
+            flex: 0 0 100%;
+            max-width: 100%;
+        }
         .widget_text {
             @include min-mq ($ls) {
                 padding-right: 30px;
@@ -36,18 +39,44 @@
     .footer-column-2 {
         flex: 0 0 15%;
         max-width: 15%;
-        
+        @include max-mq ($sm) {
+            flex: 0 0 33.333334%;
+            max-width: 33.333334%;
+        }
+        @include max-mq ($mb) {
+            flex: 0 0 100%;
+            max-width: 100%;
+        }
     }
     .footer-column-3 {
         flex: 0 0 21%;
         max-width: 21%;
+        @include max-mq ($sm) {
+            flex: 0 0 33.333334%;
+            max-width: 33.333334%;
+        }
+        @include max-mq ($mb) {
+            flex: 0 0 100%;
+            max-width: 100%;
+        }
     }
     .footer-column-4 {
         flex: 0 0 21%;
         max-width: 21%;
+        @include max-mq ($sm) {
+            flex: 0 0 33.333334%;
+            max-width: 33.333334%;
+        }
+        @include max-mq ($mb) {
+            flex: 0 0 100%;
+            max-width: 100%;
+        }
     }
     aside {
         padding-bottom: 15px;
+        @include max-mq ($mb) {
+            padding-bottom: 3px;
+        }
     }
     ul {
         list-style: none;

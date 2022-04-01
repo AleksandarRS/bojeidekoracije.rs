@@ -5,12 +5,15 @@
     background-position: center;
     color: $white;
     display: flex;
-    height: 310px;
+    min-height: 310px;
     justify-content: center;
     position: relative;
     @include min-mq ($mac_l + 100) {
         min-height: 340px;
         height: 33vh;
+    }
+    @include max-mq ($ip) {
+        min-height: 250px;
     }
     &:after {
         @extend %after-full;
@@ -19,6 +22,15 @@
     .main-hero-title {
         font-size: $font-size-h1 + 7;
         margin: 0.2em 0;
+        @include max-mq ($tab) {
+            font-size: $font-size-h1 + 2;
+        }
+        @include max-mq ($mb) {
+            font-size: $font-size-h1 - 1;
+        }
+        @include max-mq ($ip) {
+            font-size: $font-size-h1 - 3;
+        }
     }
     .main-hero-description {
         font-size: $font-size-large + 1;

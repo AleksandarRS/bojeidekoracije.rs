@@ -11,6 +11,9 @@
         background-color: $tertiary-color;
         bottom: auto;
         height: 50%;
+        @include max-mq ($sm) {
+            height: 100%;
+        }
     }
     &.image-first-text-second {
         .image-text-section-main-image {
@@ -36,11 +39,17 @@
         background-position: center;
         background-repeat: no-repeat;
         background-size: cover;
+        @include max-mq ($sm) {
+            height: 350px;
+        }
     }
     .image-text-section-main-text-content-description {
         padding: 60px 45px;
         @include min-mq ($mac) {
             padding: 128px 105px;
+        }
+        @include max-mq ($sm) {
+            padding: 25px 15px;
         }
     }
     .image-text-section-read-more-button-wrap {

@@ -7,6 +7,10 @@
         padding-bottom: 50px;
         padding-top: 50px;
     }
+    @include max-mq ($mb_p) {
+        padding-bottom: 35px;
+        padding-top: 35px;
+    }
     &:after {
         @extend %after-full;
         background-color: $white;
@@ -38,6 +42,9 @@
     @extend %left-calc;
     position: relative;
     z-index: 1;
+    @include max-mq ($mb_p) {
+        padding-left: 0;
+    }
 }
 .most-popular-products-slider {
     padding-right: 0;
@@ -49,6 +56,12 @@
         }
         @include max-mq ($mac) {
             width: 329px;
+        }
+        @include max-mq ($ip - 20) {
+            width: 309px;
+        }
+        @include max-mq ($xs) {
+            width: 280px;
         }
         &.slick-active {
             opacity: 1;
@@ -82,6 +95,9 @@
         }
         &.slick-next {
             right: 150px;
+            @include max-mq ($tab) {
+                right: 45px;
+            }
             i {
                 right: -1px;
             }
@@ -100,6 +116,9 @@
     @include max-mq ($ls) {
         padding-top: 35px;
     }
+    @include max-mq ($mb_p) {
+        padding-top: 15px;
+    }
     .most-popular-products-excerpt {
         margin-top: 0;
         p {
@@ -109,8 +128,42 @@
     }
 }
 
+.all-products-section {
+    .single-projekat & {
+        @include max-mq ($sm) {
+            padding-left: 0;
+            padding-right: 0;
+        }
+    }
+    .item-wrapper {
+        @include min-max-mq($sm, $ipad) {
+            flex: 0 0 50%;
+            max-width: 50%;
+            margin-bottom: 30px;
+        }
+        @include max-mq ($sm) {
+            margin-bottom: 20px;
+        }
+        .single-projekat & {
+            @include min-max-mq($tab, $mac + 100) {
+                flex: 0 0 50%;
+                max-width: 50%;
+                margin-bottom: 30px;
+            }
+            @include max-mq ($tab) {
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
+        }
+   }
+}
+
+
 .most-popular-products-item {
     padding-right: 30px;
+    .all-products-section & {
+        padding-right: 0;
+    }
     .most-popular-products-featured-img {
         background-repeat: no-repeat;
         background-repeat: no-repeat;

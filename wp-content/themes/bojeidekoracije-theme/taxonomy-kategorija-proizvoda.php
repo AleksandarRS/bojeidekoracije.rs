@@ -23,6 +23,10 @@ get_header(); ?>
                         </header>
                     </div>
                     <div class="archive-sidebar-wrapper col-md-3">
+                        <div class="archive-filter-inner">
+                            <span class="archive-filter-content"><h3><?php _e('Filtriraj kategorije','arteco'); ?> <i class="icon icon-filter-solid"></i></h3></span>
+                            
+                        </div>
                         <?php echo do_shortcode('[searchandfilter id="335"]'); ?>
                     </div>
                     <main id="main" class="archive-main-wrapper site-main col-md-9" role="main">

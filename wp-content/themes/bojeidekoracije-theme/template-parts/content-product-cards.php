@@ -14,23 +14,23 @@
 	<a href="<?php the_permalink() ?>" class="our-potfolio-projects-link">
 		<?php if( get_the_post_thumbnail() ): ?>
 			<div class="our-potfolio-projects-featured-img" style="background-image: url('<?php the_post_thumbnail_url(); ?>')">
-			<?php $term_list = wp_get_post_terms($post->ID, 'kategorija-proizvoda', ['fields' => 'all']);
-				foreach($term_list as $term) {
-					if( get_post_meta($post->ID, '_yoast_wpseo_primary_kategorija-proizvoda',true) == $term->term_id ) { ?>
-						<span class="title-label"><?php print $term->name ; ?></span>
-					<?php }
-				}
-			?>
+				<?php $term_list = wp_get_post_terms($post->ID, 'kategorija-projekta', ['fields' => 'all']);
+					foreach($term_list as $term) {
+						if( get_post_meta($post->ID, '_yoast_wpseo_primary_kategorija-projekta',true) == $term->term_id ) { ?>
+							<span class="title-label"><?php print $term->name ; ?></span>
+						<?php }
+					}
+				?>
 			</div>
 		<?php else: ?>
 			<div class="our-potfolio-projects-featured-img" style="background-image: url('<?php echo get_template_directory_uri(); ?>/assets/images/default-image.jpg')">
-			<?php $term_list = wp_get_post_terms($post->ID, 'kategorija-proizvoda', ['fields' => 'all']);
-				foreach($term_list as $term) {
-					if( get_post_meta($post->ID, '_yoast_wpseo_primary_kategorija-proizvoda',true) == $term->term_id ) { ?>
-						<span class="title-label"><?php print $term->name ; ?></span>
-					<?php }
-				}
-			?>
+				<?php $term_list = wp_get_post_terms($post->ID, 'kategorija-projekta', ['fields' => 'all']);
+					foreach($term_list as $term) {
+						if( get_post_meta($post->ID, '_yoast_wpseo_primary_kategorija-projekta',true) == $term->term_id ) { ?>
+							<span class="title-label"><?php print $term->name ; ?></span>
+						<?php }
+					}
+				?>
 			</div>
 		<?php endif; ?>
 		<div class="project-description-reference-logo-wrapper">

@@ -1,28 +1,63 @@
 .single-post-main-image-inner {
     width: 100%;
 }
-
 .single-project-hero-wrapper {
     .main-hero-description {
         max-width: 850px;
     }
 }
 .single-project-logo-description-wrapper {
-    // align-items: center;
-    padding-bottom: 20px;
-    padding-top: 60px;
     border-bottom: 5px solid $secondary-color;
     margin-bottom: 40px;
+    padding-bottom: 20px;
+    padding-top: 60px;
+    @include max-mq ($ls) {
+        padding-top: 40px;
+        margin-bottom: 20px;
+    }
+    .single-project-logo {
+        @include min-max-mq($sm, $ipad) {
+            flex: 0 0 20%;
+            max-width: 20%;
+        }
+    }
+    .single-project-short-content-description {
+        @include min-max-mq($sm, $ipad) {
+            flex: 0 0 80%;
+            max-width: 80%;
+        }
+        @include max-mq ($sm) {
+            padding-top: 15px;
+        }
+        @include max-mq ($ip) {
+            padding-left: 0;
+            padding-right: 0;
+        }
+    }
     .single-project-logo-inner {
         max-width: 280px;
+        @include max-mq ($sm) {
+            max-width: 100px;
+            margin-left: auto;
+            margin-right: auto;
+        }
     }
 }
 
 .project-gallery-wrapper {
     padding-bottom: 70px;
     padding-top: 30px;
+    @include max-mq ($mac) {
+        padding-bottom: 30px;
+    }
     .project-title {
         padding-bottom: 35px;
+    }
+    > div {
+        @include max-mq ($sm) {
+            padding-left: 0;
+            padding-right: 0;
+        }
     }
 }
 
@@ -61,6 +96,9 @@
     }
     .slick-slide {
         transform: scale(0.9);
+        // @include max-mq ($lg) {
+        //     transform: scale(0.91);
+        // }
         &.slick-current {
             transform: scale(1);
             @extend %transition-global;
@@ -78,10 +116,42 @@
     padding-bottom: 45px;
     padding-left: 25px;
     padding-right: 25px;
+    @include max-mq ($lg) {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    @include max-mq ($md) {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+    @include max-mq ($mb) {
+        padding-left: 2px;
+        padding-right: 2px;
+    }
 }
 .project-gallery-slider-item-image {
     height: 600px;
     width: 850px;
     background-repeat: no-repeat;
     background-size: cover;
+    @include max-mq ($lg) {
+        height: 500px;
+        width: 650px;
+    }
+    @include max-mq ($md) {
+        height: 450px;
+        width: 550px;
+    }
+    @include max-mq ($mb_p) {
+        height: 380px;
+        width: 430px;
+    }
+    @include max-mq ($mb) {
+        height: 285px;
+        width: 320px;
+    }
+    @include max-mq ($ip - 20) {
+        height: 230px;
+        width: 270px;
+    }
 }

@@ -1,8 +1,21 @@
 .page-children-section {
-    padding-bottom: 80px;
-    padding-top: 80px;
+    padding-bottom: 60px;
+    padding-top: 60px;
+    @include max-mq ($mac) {
+        padding-bottom: 40px;
+        padding-top: 40px;
+    }
+    @include max-mq ($mb) {
+        padding-bottom: 30px;
+        padding-top: 30px;
+    }
     .main-page-children-items {
+        padding-bottom: 35px;
         padding-top: 35px;
+        @include max-mq ($mac) {
+            padding-bottom: 22px;
+            padding-top: 15px;
+        }
     }
 }
 .main-page-children-items {
@@ -10,6 +23,10 @@
     .main-page-children-item {
         flex: 0 0 55%;
         max-width: 55%;
+        @include max-mq ($mb_p) {
+            flex: 0 0 100%;
+            max-width: 100%;
+        }
         &:nth-child(2),
         &:nth-child(3),
         &:nth-child(6),
@@ -55,6 +72,9 @@
         flex-wrap: wrap;
         position: relative;
         color: $white;
+        @include max-mq ($mb) {
+            height: 350px;
+        }
         &:after {
             @extend %after-full;
             background-color: rgba($color: $primary-color, $alpha: 0.35);

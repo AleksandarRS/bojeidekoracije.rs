@@ -26,6 +26,9 @@
 }
 
 .latest-posts-item {
+    @include max-mq ($sm) {
+        padding-bottom: 25px;
+    }
     .latest-posts-item-featured-img {
         background-position: center;
         background-repeat: no-repeat;

@@ -11,6 +11,12 @@
         margin-bottom: 0.5em;
         margin-top: 0.2em;
         line-height: 1.1;
+        @include max-mq ($sm) {
+            font-size: $font-size-h1 - 5;
+        }
+        @include max-mq ($mb) {
+            font-size: $font-size-h1 - 10;
+        }
     }
 }
 .entry-content {

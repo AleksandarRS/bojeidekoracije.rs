@@ -575,9 +575,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 							slidesToScroll: 1
 						}
 					}, {
-						breakpoint: 420,
+						breakpoint: 650,
 						settings: {
-							slidesToShow: 2,
+							slidesToShow: 1,
 							slidesToScroll: 1
 						}
 					}]
@@ -858,7 +858,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
    -------------------------------------------------------------------------------*/
 			$dom: {
 				toggleOrderForm: $('#order-product-button'),
-				toggleOrderFormClose: $('.order-product-close-button')
+				toggleOrderFormClose: $('.order-product-close-button'),
+
+				archiveFilter: $('.archive-filter-inner')
 			},
 
 			vars: {},
@@ -874,6 +876,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 					});
 					this.$dom.toggleOrderFormClose.click(function () {
 						$(this).parents('.single-post-product-content-wrapper').find('#order-form').removeClass("order-form-activated").slideToggle("slow");
+					});
+
+					this.$dom.archiveFilter.click(function () {
+						$('.archive-sidebar-wrapper form.searchandfilter').slideToggle('slow');
 					});
 				}
 			}

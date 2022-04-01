@@ -115,23 +115,25 @@ $main_content = get_field('main_content');
 					<div class="single-page-order-form-inner">
 						<div class="container">
 							<div class="row">
-							<div class="order-product-close col-md-12">
-								<i class="icon icon-times order-product-close-button"></i>
-							</div>
-							<div class="row row-order-form col-md-12">
-								<?php if( $order_product_description ): ?>
-									<div class="order-text-wrapper col-md-6">
-										<?php echo $order_product_description; ?>
-									</div>
-								<?php else: ?>
-									<div class="order-text-wrapper col-md-6">
-										<?php echo $order_product_text_content; ?>
-									</div>
-								<?php endif; ?>
-								<div class="col-md-6 order-form-wrapper">
-									<?php echo $order_product_form_content; ?>
+								<div class="order-product-close col-md-12">
+									<i class="icon icon-times order-product-close-button"></i>
 								</div>
-							</div>
+								<div class="col-md-12">
+									<div class="row row-order-form">
+										<?php if( $order_product_description ): ?>
+											<div class="order-text-wrapper col-md-6">
+												<?php echo $order_product_description; ?>
+											</div>
+										<?php else: ?>
+											<div class="order-text-wrapper col-md-6">
+												<?php echo $order_product_text_content; ?>
+											</div>
+										<?php endif; ?>
+										<div class="col-md-6 order-form-wrapper">
+											<?php echo $order_product_form_content; ?>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
 						

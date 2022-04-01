@@ -1,9 +1,13 @@
 .site-header-inner {
   background-color: $tertiary-color;
   padding-bottom: 5px;
-  padding-top: 5px;
   padding-left: 15px;
   padding-right: 15px;
+  padding-top: 5px;
+  @include max-mq ($xs) {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
   .top-header-details {
     align-items: center;
     i {
@@ -16,19 +20,37 @@
     display: flex;
     font-size: $font-size-small;
     flex-wrap: wrap;
+    @include max-mq ($ip - 20) {
+      font-size: $font-size-small - 1;
+    }
+    @include max-mq ($xs) {
+      font-size: $font-size-small - 2;
+    }
     .contact-details-item {
       margin-right: 15px;
       padding-right: 15px;
       position: relative;
+      @include max-mq ($sm) {
+        margin-right: 0;
+        padding-right: 0;
+      }
       &:after {
         @extend %after-full;
         width: 2px;
         left: auto;
         background-color: $primary-color;
+        @include max-mq ($sm) {
+          display: none;
+          content: none;
+        }
       }
       &:last-child {
         margin-right: 0;
         padding-right: 0;
+        @include max-mq ($sm) {
+          display: none;
+          content: none;
+        }
         &:after {
           content: none;
           display: none;
@@ -53,6 +75,9 @@
     }
     .contact-details-phone {
       margin-right: 10px;
+      @include max-mq ($ip - 20) {
+        margin-right: 3px;
+      }
     }
   }
   a {
@@ -64,8 +89,8 @@
 .logo-menu-wrapper {
   padding-bottom: 15px;
   padding-top: 15px;
-  @include max-mq ($mac) {
-    padding-left: 30px;
+  @include max-mq ($mac_l) {
+    padding-left: 20px;
     padding-right: 30px;
   }
 }
@@ -76,4 +101,19 @@
 
 .site-branding {
   max-width: 180px;
+  @include max-mq ($xs) {
+    max-width: 150px;
+  }
+}
+
+.social-icons-wrapper {
+  @include max-mq ($md) {
+    display: none;
+  }
+  @include max-mq ($sm) {
+    display: block;
+  }
+  @include max-mq ($mb) {
+    display: none;
+  }
 }

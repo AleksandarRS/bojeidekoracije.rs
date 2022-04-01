@@ -52,35 +52,38 @@
 	@if $filename == facebook {
 		$char: "\E00A";
 	}
-	@if $filename == google-plus-g {
+	@if $filename == filter-solid {
 		$char: "\E00B";
 	}
-	@if $filename == instagram {
+	@if $filename == google-plus-g {
 		$char: "\E00C";
 	}
-	@if $filename == linkedin {
+	@if $filename == instagram {
 		$char: "\E00D";
 	}
-	@if $filename == map-marker-alt {
+	@if $filename == linkedin {
 		$char: "\E00E";
 	}
-	@if $filename == phone {
+	@if $filename == map-marker-alt {
 		$char: "\E00F";
 	}
-	@if $filename == pinterest {
+	@if $filename == phone {
 		$char: "\E010";
 	}
-	@if $filename == search {
+	@if $filename == pinterest {
 		$char: "\E011";
 	}
-	@if $filename == times {
+	@if $filename == search {
 		$char: "\E012";
 	}
-	@if $filename == twitter {
+	@if $filename == times {
 		$char: "\E013";
 	}
-	@if $filename == youtube {
+	@if $filename == twitter {
 		$char: "\E014";
+	}
+	@if $filename == youtube {
+		$char: "\E015";
 	}
 
 	@return $char;
@@ -126,6 +129,9 @@
 }
 .icon-facebook {
 	@include icon(facebook);
+}
+.icon-filter-solid {
+	@include icon(filter-solid);
 }
 .icon-google-plus-g {
 	@include icon(google-plus-g);

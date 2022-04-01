@@ -1,7 +1,8 @@
 
 .logo-menu-wrapper{
 	@include max-mq($sm) {
-		padding: 10px 15px;
+		padding-bottom: 10px;
+		padding-top: 10px;
 	}
 	.site-branding{
 		margin-right: auto;

@@ -3,24 +3,17 @@
     padding-bottom: 45px;
     padding-top: 50px;
     position: relative;
-    // &:after {
-    //     background-color: $tertiary-color;
-    //     bottom: 45px;
-    //     content: '';
-    //     display: block;
-    //     height: 1px;
-    //     margin-left: auto;
-    //     margin-right: auto;
-    //     left: 0;
-    //     right: 0;
-    //     max-width: 1440px;
-    //     width: 100%;
-    //     position: absolute;
-    // }
+    @include max-mq ($ipad - 10) {
+        padding-bottom: 65px;
+        padding-top: 40px;
+    }
     .title-header {
         h1, h2, h3 {
             color: $white;
             font-size: $font-size-h2 - 5;
+            @include max-mq ($mb) {
+                font-size: $font-size-h2 - 9;
+            }
         }
     }
 }
@@ -34,6 +27,8 @@
         @include max-mq ($ipad - 10) {
             flex: 0 0 100%;
             max-width: 100%;
+            padding-bottom: 0;
+            padding-top: 0;
         }
     }
     .newsletter-heading {
@@ -53,6 +48,12 @@
             width: 100%;
             @include max-mq ($ipad - 10) {
                 max-width: 80%;
+            }
+            @include max-mq ($mb) {
+                max-width: 71%;
+            }
+            @include max-mq ($ip - 10) {
+                max-width: 60%;
             }
         }
         
@@ -112,6 +113,12 @@
                 max-width: 600px;
                 padding-left: 15px;
                 padding-right: 15px;
+            }
+            @include max-mq ($mb) {
+                max-width: 390px;
+            }
+            @include max-mq ($ip - 10) {
+                max-width: 300px;
             }
         }
     }

@@ -27,6 +27,9 @@
         align-items: center;
         justify-content: center;
         margin-top: -150px;
+        @include max-mq ($mb_p) {
+            margin-top: -1px;
+        }
         > li {
             color: $white;
             flex: 0 0 25%;
@@ -34,10 +37,18 @@
             margin: 0;
             max-width: 25%;
             transition: all .5s;
+            @include max-mq ($ip) {
+                flex: 0 0 33.3333334%;
+                max-width: 33.3333334%;
+            }
             &.slick-active {
                 flex: 0 0 50%;
                 font-size: $font-size-large;
                 max-width: 50%;
+                @include max-mq ($ip) {
+                    flex: 0 0 33.3333334%;
+                    max-width: 33.3333334%;
+                }
                 .products-featured-thumbnail {
                     &:after {
                         background-color: $primary-color;
@@ -155,6 +166,9 @@
         display: inline-block;
         vertical-align: middle;
         margin-right: 10px;
+        @include max-mq ($ip - 20) {
+            margin-right: 5px;
+        }
         &:last-of-type {
             margin-right: 0;
         }

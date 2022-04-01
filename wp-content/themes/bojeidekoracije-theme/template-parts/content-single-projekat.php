@@ -104,7 +104,14 @@ $project_gallery_short_description = get_field('project_gallery_short_descriptio
 		<div class="project-gallery-wrapper">
 			<div class="container">
 				<header class="project-title entry-header align-center">
-					<span class="title-label"><?php _e('Galerija', 'arteco') ?></span>
+					<!-- <span class="title-label"><?php // _e('Galerija', 'arteco') ?></span> -->
+					<?php $term_list = wp_get_post_terms($post->ID, 'kategorija-projekta', ['fields' => 'all']);
+						foreach($term_list as $term) {
+							if( get_post_meta($post->ID, '_yoast_wpseo_primary_kategorija-projekta',true) == $term->term_id ) { ?>
+								<span class="title-label"><?php print $term->name ; ?></span>
+							<?php }
+						}
+					?>
 					<h2 class="entry-title"><?php _e('Pogledajte galeriju', 'arteco') ?></h2>
 					<div class="products-description entry-content">
 						<?php if ($project_gallery_short_description) : ?>

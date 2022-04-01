@@ -10,7 +10,6 @@
 <div class="most-popular-products-item products-item-card">
 	<a href="<?php the_permalink() ?>" class="most-popular-products-link">
 		<header class="entry-header">
-			<!-- <span class="title-label">Ime kategorije</span> -->
 			<?php $term_list = wp_get_post_terms($post->ID, 'kategorija-proizvoda', ['fields' => 'all']);
 				foreach($term_list as $term) {
 					if( get_post_meta($post->ID, '_yoast_wpseo_primary_kategorija-proizvoda',true) == $term->term_id ) { ?>

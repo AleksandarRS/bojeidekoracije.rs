@@ -1,9 +1,14 @@
 .full-width-section {
     padding-bottom: 65px;
     padding-top: 65px;
-    // + .two-column-section {
-    //     padding-top: 40px;
-    // }
+    @include max-mq ($ls) {
+        padding-bottom: 50px;
+        padding-top: 50px;
+    }
+    @include max-mq ($mb_p) {
+        padding-bottom: 35px;
+        padding-top: 35px;
+    }
     .main-title-section-heading {
         padding-bottom: 18px;
     }

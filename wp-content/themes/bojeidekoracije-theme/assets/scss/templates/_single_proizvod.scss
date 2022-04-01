@@ -9,12 +9,14 @@
 .single-page-main-content {
     padding-bottom: 30px;
     padding-left: 0;
+    @include max-mq ($sm) {
+        padding-right: 0;
+    } 
     @include max-mq ($md) {
         padding-bottom: 45px;
     }
-    @include max-mq ($sm) {
-        padding-left: 0;
-        padding-right: 0;
+    @include max-mq ($mb) {
+        padding-bottom: 20px;
     }
 }
 .single-page-main-content {
@@ -22,6 +24,10 @@
     padding-top: 30px;
     @include max-mq ($sm) {
         padding-bottom: 30px;
+    }
+    @include max-mq ($tab) {
+        padding-left: 8px;
+        padding-top: 0;
     }
     .main-title-section-heading {
         position: relative;
@@ -84,12 +90,16 @@
     width: 100%;
     height: 77vh;
     transition: all .5s;
-    // transform: scale(1);
+    @include max-mq ($sm) {
+        height: 450px;
+        min-height: 20px;
+    }
     @include max-mq ($mb) {
-        height: 320px;
+        height: 350px;
+        min-height: 20px;
     }
     @include max-mq ($ip) {
-        height: 280px;
+        height: 300px;
     }
 }
 #order-form {
@@ -98,6 +108,16 @@
 
 .single-page-thumbnail-slider {
     margin-top: -150px;
+    @include max-mq ($lt) {
+        margin-top: -140px;
+    }
+    @include max-mq ($md) {
+        margin-top: -100px;
+    }
+    @include max-mq ($sm) {
+        margin-top: -10px;
+    }
+    
 }
 
 .single-page-thumbnail {
@@ -113,9 +133,10 @@
     @include max-mq ($sm) {
         height: 150px;
     }
-    @include max-mq ($xs) {
-        height: 130px;
+    @include max-mq ($ip) {
+        height: 120px;
     }
+    
     &:hover {
         border-color: $tertiary-color;
     }
@@ -431,8 +452,8 @@
 }
 
 .single-bg-img-section-wrapper {
-    margin-left: -15px;
-    margin-right: -15px;
+    // margin-left: -15px;
+    // margin-right: -15px;
     .single-bg-img-section-inner {
         padding: 70px 0;
         background-repeat: no-repeat;

@@ -26,8 +26,8 @@
     width: 330px;
     z-index: 999;
 
-    @include max-mq($mb) {
-        width: 210px;
+    @include max-mq($ip - 20) {
+        padding: 2px;
     }
 }
 

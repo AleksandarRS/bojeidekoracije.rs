@@ -109,9 +109,9 @@ module.exports = {
 					}
 				},
 				{
-					breakpoint: 420,
+					breakpoint: 650,
 					settings: {
-						slidesToShow: 2,
+						slidesToShow: 1,
 						slidesToScroll: 1
 					}
 				}
