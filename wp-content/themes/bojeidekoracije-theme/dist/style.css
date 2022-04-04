@@ -5301,8 +5301,9 @@ html.with-featherlight {
 }
 
 .products-featured-img-wrap {
-  height: 91.5vh;
+  height: 83vh;
   min-height: 750px;
+  max-height: 950px;
   width: 100%;
 }
 
@@ -7618,6 +7619,11 @@ html.with-featherlight {
 
 .search-filter-results > div > p:first-of-type {
   display: none;
+}
+
+.archive-taxonomy-section-wrapper .main-title-section-heading {
+  padding-bottom: 35px;
+  padding-top: 15px;
 }
 
 .single-post-content-wrapper a {

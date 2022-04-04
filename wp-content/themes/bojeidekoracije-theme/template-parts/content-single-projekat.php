@@ -142,12 +142,7 @@ $project_gallery_short_description = get_field('project_gallery_short_descriptio
 </article><!-- #post-## -->
 <div class="all-products-section col-md-12">
 	<div class="all-products-section-wrapper">
-		<div class="main-title-section-heading button-heading-wrap col-md-12">
-			<header class="entry-header">
-				<span class="title-label"><?php _e('Projekti', 'arteco'); ?></span>
-				<h1 class="entry-title"><?php _e('Slični projekti', 'arteco'); ?></h1>
-			</header>
-		</div>
+		
 
 		<?php
 		// get the custom post type's taxonomy terms
@@ -174,6 +169,12 @@ $project_gallery_short_description = get_field('project_gallery_short_descriptio
 		$related_items = new WP_Query($args);
 		// loop over query
 		if ($related_items->have_posts()) : ?>
+			<div class="main-title-section-heading button-heading-wrap col-md-12">
+				<header class="entry-header">
+					<span class="title-label"><?php _e('Projekti', 'arteco'); ?></span>
+					<h1 class="entry-title"><?php _e('Slični projekti', 'arteco'); ?></h1>
+				</header>
+			</div>
 
 			<div class="product-cards-wrapper category-cards-wrapper col-md-12">
 				<div class="row category-row">

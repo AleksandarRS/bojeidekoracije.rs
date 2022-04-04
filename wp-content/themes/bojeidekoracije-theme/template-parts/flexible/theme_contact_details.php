@@ -8,6 +8,7 @@
     $email = get_field('email', 'option');
     $title_s = get_field('title_s', 'option');
     $phone_number_s = get_field('phone_number_s', 'option');
+    $phone_number_tr = get_field('phone_number_tr', 'option');
     $email_s = get_field('email_cs', 'option');
 
     $lokacija = get_field('lokacija', 'option');
@@ -71,12 +72,18 @@
                                 <h3 class="contact-details-title"><?php echo $title_s; ?></h3>
                             </div>
                         <?php endif; ?>
-                        <?php if ( $phone_number_s || $email_s ) : ?>
+                        <?php if ( $phone_number_s || $phone_number_tr || $email_s ) : ?>
                             <div class="contact-details-phone-email-wrapper">
                                 <?php if ( $phone_number_s ) : ?>
                                     <div class="contact-details-phone">
                                         <i class="icon icon-phone"></i>
                                         <a href="tel:<?php echo $phone_number_s; ?>"><?php echo $phone_number_s; ?></a>
+                                    </div>
+                                <?php endif; ?>
+                                <?php if ( $phone_number_tr ) : ?>
+                                    <div class="contact-details-phone">
+                                        <i class="icon icon-phone"></i>
+                                        <a href="tel:<?php echo $phone_number_tr; ?>"><?php echo $phone_number_tr; ?></a>
                                     </div>
                                 <?php endif; ?>
                                 <?php if ( $email_s ) : ?>

@@ -101,8 +101,10 @@
     }
 }
 .products-featured-img-wrap {
-    height: 91.5vh;
+    // height: 91.5vh;
+    height: 83vh;
     min-height: 750px;
+    max-height: 950px;
     width: 100%;
     @include max-mq ($ls) {
         height: 85vh;

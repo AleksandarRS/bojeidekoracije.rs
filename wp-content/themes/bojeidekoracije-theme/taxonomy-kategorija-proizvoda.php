@@ -8,7 +8,7 @@
  */
 
 get_header(); ?>
-<div class="archive-section-wrapper">
+<div class="archive-section-wrapper archive-taxonomy-section-wrapper">
     <div id="primary" class="content-area">
         <div class="archive-content">
             <div class="container">
