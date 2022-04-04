@@ -6381,6 +6381,36 @@ html.with-featherlight {
   padding-top: 15px;
 }
 
+@media (max-width: 1199px) {
+  .all-blog-posts-items .latest-posts-item {
+    -webkit-box-flex: 0;
+    -webkit-flex: 0 0 33.333334%;
+        -ms-flex: 0 0 33.333334%;
+            flex: 0 0 33.333334%;
+    max-width: 33.333334%;
+  }
+}
+
+@media (max-width: 800px) {
+  .all-blog-posts-items .latest-posts-item {
+    -webkit-box-flex: 0;
+    -webkit-flex: 0 0 50%;
+        -ms-flex: 0 0 50%;
+            flex: 0 0 50%;
+    max-width: 50%;
+  }
+}
+
+@media (max-width: 580px) {
+  .all-blog-posts-items .latest-posts-item {
+    -webkit-box-flex: 0;
+    -webkit-flex: 0 0 100%;
+        -ms-flex: 0 0 100%;
+            flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+
 @media (max-width: 767px) {
   .latest-posts-item {
     padding-bottom: 25px;
@@ -6737,13 +6767,13 @@ html.with-featherlight {
   color: #F8A116;
 }
 
-.newsletter-row .newsletter-cta .mc4wp-form-fields {
+.newsletter-row .newsletter-cta .mc4wp-form {
   padding-left: 86px;
   padding-right: 48px;
 }
 
 @media (max-width: 1020px) {
-  .newsletter-row .newsletter-cta .mc4wp-form-fields {
+  .newsletter-row .newsletter-cta .mc4wp-form {
     margin-left: auto;
     margin-right: auto;
     max-width: 600px;
@@ -6753,15 +6783,20 @@ html.with-featherlight {
 }
 
 @media (max-width: 580px) {
-  .newsletter-row .newsletter-cta .mc4wp-form-fields {
+  .newsletter-row .newsletter-cta .mc4wp-form {
     max-width: 390px;
   }
 }
 
 @media (max-width: 410px) {
-  .newsletter-row .newsletter-cta .mc4wp-form-fields {
+  .newsletter-row .newsletter-cta .mc4wp-form {
     max-width: 300px;
   }
+}
+
+.newsletter-row .newsletter-cta .mc4wp-response {
+  padding-top: 15px;
+  text-decoration: underline;
 }
 
 .single-page-img,
@@ -7603,6 +7638,13 @@ html.with-featherlight {
 
 .single-projekat .single-post-main-image-wrapper {
   margin-top: 0;
+}
+
+@media (max-width: 1280px) {
+  .single-page-content-area {
+    padding-left: 0;
+    padding-right: 0;
+  }
 }
 
 .single-post-main-image-inner {

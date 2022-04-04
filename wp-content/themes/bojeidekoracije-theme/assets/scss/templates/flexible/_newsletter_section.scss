@@ -104,7 +104,7 @@
         }
     }
     .newsletter-cta {
-        .mc4wp-form-fields {
+        .mc4wp-form {
             padding-left: 86px;
             padding-right: 48px;
             @include max-mq ($ipad - 10) {
@@ -121,5 +121,10 @@
                 max-width: 300px;
             }
         }
+        .mc4wp-response {
+            padding-top: 15px;
+            text-decoration: underline;
+        }
+        
     }
 }

@@ -17,3 +17,10 @@
         margin-top: 0;
     }
 }
+
+.single-page-content-area {
+    @include max-mq ($ls) {
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
