@@ -6,6 +6,14 @@
         padding-bottom: 55px;
         padding-top: 55px;
     }
+    .main-content-section {
+        a {
+            color: $primary-color;
+            &:hover {
+                color: $secondary-color;
+            }
+        }
+    }
     .contact-details-title {
         margin-bottom: 0.55em;
     }

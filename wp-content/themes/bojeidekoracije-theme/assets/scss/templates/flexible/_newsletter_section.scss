@@ -120,6 +120,9 @@
             @include max-mq ($ip - 10) {
                 max-width: 300px;
             }
+            a {
+                text-decoration: underline;
+            }
         }
         .mc4wp-response {
             padding-top: 15px;

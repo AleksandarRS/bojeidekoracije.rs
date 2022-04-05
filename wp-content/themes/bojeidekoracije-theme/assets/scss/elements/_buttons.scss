@@ -9,6 +9,7 @@
 		border: 1px solid $primary-color;
 		background-color: $primary-color;
 		color: $white;
+		@extend %transition-global;
 		&:hover {
 			border: 1px solid $secondary-color;
 			background-color: $secondary-color;
@@ -20,6 +21,7 @@
 		border: 1px solid $secondary-color;
 		background-color: $secondary-color;
 		color: $white;
+		@extend %transition-global;
 		&:hover {
 			border-color: $primary-color;
 			background-color: $primary-color;

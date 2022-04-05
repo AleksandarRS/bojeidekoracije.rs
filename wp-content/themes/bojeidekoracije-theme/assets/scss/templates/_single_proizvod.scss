@@ -76,20 +76,13 @@
         }
     }
 }
-// .featherlight-gallery-init {
-//     display: block;
-//     overflow: hidden;
-//     &:hover {
-//         .single-page-img {
-//             transform: scale(1.03);
-//         }
-//     }
-// }
+
 .single-page-img {
+    height: 77vh;
+    max-height: 950px;
     min-height: 680px;
     width: 100%;
-    height: 77vh;
-    transition: all .5s;
+    @extend %transition-global;
     @include max-mq ($sm) {
         height: 450px;
         min-height: 20px;

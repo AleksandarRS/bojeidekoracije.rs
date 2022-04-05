@@ -181,6 +181,12 @@
             z-index: 1;
         }
     }
+    a {
+        color: $primary-color;
+        &:hover {
+            color: $secondary-color;
+        }
+    }
 }
 
 .see-all-products-button-wrapper {

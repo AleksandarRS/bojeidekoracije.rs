@@ -301,7 +301,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
    	# Cache dom and strings
    -------------------------------------------------------------------------------*/
 			$dom: {
-				// lightbox: $('.featherlight-gallery-init'),
+				lightboxSingleProduct: $('.featherlight-gallery-init'),
 				lightboxGallery: $('.project-gallery-slider .project-gallery-lightbox-link')
 			},
 
@@ -311,6 +311,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			init: function init() {
 
 				// this.$dom.lightbox.featherlight();
+				if ($(".featherlight-gallery-init").length) {
+					this.$dom.lightboxSingleProduct.featherlightGallery();
+				}
 				// this.$dom.lightbox.featherlightGallery();
 				if ($(".project-gallery-slider .project-gallery-lightbox-link").length) {
 					this.$dom.lightboxGallery.featherlightGallery();

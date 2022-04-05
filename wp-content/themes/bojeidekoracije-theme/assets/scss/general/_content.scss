@@ -26,6 +26,13 @@
 
 .content-area {
     width: 100%;
+    a {
+        color: $secondary-color;
+        @extend %transition-color;
+        &:hover {
+            color: $primary-color;
+        }
+    }
     ul:not(.slick-dots) {
         list-style: none;
         padding-left: 0;

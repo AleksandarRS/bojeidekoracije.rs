@@ -57,7 +57,7 @@
 			right: -4px;
 			bottom: 0;
 			margin: auto;
-			top: 0;
+			top: 3px;
 			cursor: pointer;
 			padding: 0 2px;
 			height: 100%;
@@ -99,8 +99,11 @@
 							content: none;
 						}
 					}
-					&.current-menu-item, &.current_page_parent{
-						color: $primary-color;
+					&.current-menu-item, 
+					&.current-menu-parent {
+						> a {
+							color: $secondary-color;
+						}
 					}
 
 					&:hover{
@@ -114,6 +117,9 @@
 						color: $primary-color;
 						width: 100%;
 						@extend %transition-color;
+						@include min-mq($mac) {
+							font-size: $font-size-base + 2;
+						}
 						@include max-mq($mac) {
 							padding: 8px;
 							// font-size: $font-size-small;
@@ -166,6 +172,9 @@
 	
 						@include max-mq($lg - 1) {
 							padding: 10px 0;
+						}
+						@include min-mq($mac) {
+							font-size: $font-size-base;
 						}
 					}
 	

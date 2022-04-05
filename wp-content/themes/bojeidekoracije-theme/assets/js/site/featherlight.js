@@ -18,7 +18,7 @@ module.exports = {
 		# Cache dom and strings
 	-------------------------------------------------------------------------------*/
 	$dom: {
-		// lightbox: $('.featherlight-gallery-init'),
+		lightboxSingleProduct: $('.featherlight-gallery-init'),
 		lightboxGallery: $('.project-gallery-slider .project-gallery-lightbox-link'),
 	},
 	
@@ -29,6 +29,9 @@ module.exports = {
 	init: function () {
 
 		// this.$dom.lightbox.featherlight();
+		if ($(".featherlight-gallery-init").length) {
+			this.$dom.lightboxSingleProduct.featherlightGallery();
+		}
 		// this.$dom.lightbox.featherlightGallery();
 		if ($(".project-gallery-slider .project-gallery-lightbox-link").length) {
 			this.$dom.lightboxGallery.featherlightGallery();

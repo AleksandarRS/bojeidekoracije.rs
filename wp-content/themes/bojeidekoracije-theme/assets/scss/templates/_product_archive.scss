@@ -51,7 +51,11 @@
         max-width: 100%;
     }
     a {
+        color: $primary-color;
         @extend %transition-color;
+        &:hover {
+            color: $secondary-color;
+        }
     }
     > div {
         flex: 0 0 33.3333334%;

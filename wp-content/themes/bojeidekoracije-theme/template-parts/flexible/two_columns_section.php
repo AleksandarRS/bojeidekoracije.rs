@@ -12,8 +12,9 @@ $contact_class = get_sub_field('contact_class');
             <div class="row two-column-row<?php if ( $contact_class ) : ?> <?php echo $contact_class; ?><?php endif; ?>">
                 <?php if ( $main_title ) : ?>
                     <div class="col-md-12 main-title-section-heading align-center">
-                        <header>
-                            <h1 class="title-h2-size"><?php echo $main_title; ?></h1>
+                        <header class="entry-header">
+                            <span class="title-label"><?php echo $title_label; ?></span>
+                            <h1 class="entry-title"><?php echo $main_title; ?></h1>
                         </header>
                     </div>
                 <?php endif; ?>

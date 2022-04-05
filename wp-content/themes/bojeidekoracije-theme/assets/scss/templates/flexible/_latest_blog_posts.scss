@@ -7,9 +7,11 @@
         padding-top: 40px;
     }
 }
-.latest-posts-item-link {
+a.latest-posts-item-link {
     @extend %transition-color;
+    color: $primary-color;
     &:hover {
+        color: $secondary-color;
         .link {
             color: $secondary-color;
         }

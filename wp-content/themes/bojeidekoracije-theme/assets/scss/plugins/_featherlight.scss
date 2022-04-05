@@ -35,9 +35,16 @@
         transition: all .5s;
         width: 55px;
         z-index: 9;
+        @include max-mq ($mb_p) {
+            height: 43px;
+            width: 43px;
+        }
         &:before {
             font-family: "font-icons";
             font-size: $font-size-xlarge + 15;
+            @include max-mq ($mb_p) {
+                font-size: $font-size-xlarge + 4;
+            }
         }
         &:hover {
             background-color: $secondary-color;
