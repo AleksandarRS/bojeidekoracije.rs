@@ -44,7 +44,7 @@ $main_content = get_field('main_content');
 </div>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(''); ?>>
-	<div class="<?php if( have_rows('slider_images') ): ?>container-fluid<?php  else : ?>container<?php endif;?>">
+	<div class="<?php if( have_rows('slider_images') ): ?>container<?php  else : ?>container<?php endif;?>">
 		<div class="row row-single-page single-post-product-content-wrapper">
 			<?php if( have_rows('slider_images') ): ?>
 				<div class="single-page-main-slider-wrapper col-md-6">
@@ -76,7 +76,7 @@ $main_content = get_field('main_content');
 			<?php endif;?>
 
 
-			<div class="single-page-main-content single-page-entry-content<?php if( have_rows('slider_images') ): ?> col-md-6 right-calc<?php  else : ?> col-md-12<?php endif;?>">
+			<div class="single-page-main-content single-page-entry-content<?php if( have_rows('slider_images') ): ?> col-md-6<?php  else : ?> col-md-12<?php endif;?>">
 				<header class="main-title-section-heading entry-header">
 					<?php $term_list = wp_get_post_terms($post->ID, 'kategorija-proizvoda', ['fields' => 'all']);
 						foreach($term_list as $term) {

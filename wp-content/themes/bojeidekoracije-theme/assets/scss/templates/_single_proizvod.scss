@@ -29,6 +29,10 @@
         padding-left: 8px;
         padding-top: 0;
     }
+    @include max-mq ($sm) {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
     .main-title-section-heading {
         position: relative;
         padding-right: 175px;
@@ -78,7 +82,7 @@
 }
 
 .single-page-img {
-    height: 77vh;
+    height: 70vh;
     max-height: 950px;
     min-height: 680px;
     width: 100%;

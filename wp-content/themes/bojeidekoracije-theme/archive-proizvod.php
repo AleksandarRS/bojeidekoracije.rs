@@ -84,7 +84,7 @@ get_header(); ?>
                                                                 <div class="child-page-card">
                                                                     <div class="child-page-card-header-link-wrap">
                                                                         <h2 class="child-page-title"><?php echo $term->name; ?></h2>
-                                                                        <span class="link link-white link-arrow"><?php _e('Pogledajte uslugu', 'arteco') ?><i class="icon icon-arrow-right"></i></span>
+                                                                        <span class="link link-white link-arrow"><?php _e('Pogledajte proizvode', 'arteco') ?><i class="icon icon-arrow-right"></i></span>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -93,7 +93,7 @@ get_header(); ?>
                                                                 <div class="child-page-card">
                                                                     <div class="child-page-card-header-link-wrap">
                                                                         <h2 class="child-page-title"><?php echo $term->name; ?></h2>
-                                                                        <span class="link link-white link-arrow"><?php _e('Pogledajte uslugu', 'arteco') ?><i class="icon icon-arrow-right"></i></span>
+                                                                        <span class="link link-white link-arrow"><?php _e('Pogledajte proizvode', 'arteco') ?><i class="icon icon-arrow-right"></i></span>
                                                                     </div>
                                                                 </div>    
                                                             </div>

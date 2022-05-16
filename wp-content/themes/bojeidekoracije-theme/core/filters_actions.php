@@ -206,9 +206,9 @@ if (!function_exists('lf_acf_init')):
             if( is_admin() ){
                 add_action( 'admin_notices', function(){
                     ?>
-                    <div class="notice notice-error is-dismissible">
-                        <p><?php _e( "Please define ACF_GOOGLE_API_KEY in wp-config.php: <strong>define('ACF_GOOGLE_API_KEY', 'YOUR_API_KEY_HERE');</strong>", 'arteco' ); ?></p>
-                    </div>
+                    <!-- <div class="notice notice-error is-dismissible">
+                        <p><?php // _e( "Please define ACF_GOOGLE_API_KEY in wp-config.php: <strong>define('ACF_GOOGLE_API_KEY', 'YOUR_API_KEY_HERE');</strong>", 'arteco' ); ?></p>
+                    </div> -->
                     <?php
                 } );
             }

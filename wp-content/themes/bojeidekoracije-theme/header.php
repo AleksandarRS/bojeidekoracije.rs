@@ -175,7 +175,10 @@
 						</a>
 					</div>
 					<?php if ( bloginfo( 'description' ) != '' ) : ?>
-						<p class="site-description"><?php bloginfo( 'description' ); ?></p>
+						<p class="site-description">
+							<span><?php _e('Dekorativni elementi', 'arteco'); ?></span>
+							<span><?php bloginfo( 'description' ); ?></span>
+						</p>
 					<?php endif; ?>
 				</div><!-- .site-branding -->
 			

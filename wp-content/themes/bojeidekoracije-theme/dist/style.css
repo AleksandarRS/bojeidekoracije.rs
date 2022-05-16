@@ -3512,7 +3512,11 @@ h6 {
 }
 
 .site-branding {
-  max-width: 180px;
+  max-width: 184px;
+  font-size: 0.5625em;
+  text-transform: uppercase;
+  text-align: right;
+  font-weight: 600;
 }
 
 @media (max-width: 350px) {
@@ -6915,6 +6919,13 @@ a.latest-posts-item-link:hover .link {
   }
 }
 
+@media (max-width: 767px) {
+  .single-page-main-content {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
+
 .single-page-main-content .main-title-section-heading {
   position: relative;
   padding-right: 175px;
@@ -6988,7 +6999,7 @@ a.latest-posts-item-link:hover .link {
 }
 
 .single-page-img {
-  height: 77vh;
+  height: 70vh;
   max-height: 950px;
   min-height: 680px;
   width: 100%;
@@ -7693,6 +7704,18 @@ a.latest-posts-item-link:hover .link {
 .archive-taxonomy-section-wrapper .main-title-section-heading {
   padding-bottom: 35px;
   padding-top: 15px;
+}
+
+.archive-taxonomy-section-wrapper .main-category-content {
+  max-width: 980px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.term-featured-image {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .single-post-content-wrapper a {
