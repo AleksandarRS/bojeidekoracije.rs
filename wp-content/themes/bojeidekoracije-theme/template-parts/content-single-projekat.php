@@ -172,7 +172,7 @@ $project_gallery_short_description = get_field('project_gallery_short_descriptio
 			<div class="main-title-section-heading button-heading-wrap col-md-12">
 				<header class="entry-header">
 					<span class="title-label"><?php _e('Projekti', 'arteco'); ?></span>
-					<h1 class="entry-title"><?php _e('Slični projekti', 'arteco'); ?></h1>
+					<h2 class="entry-title"><?php _e('Slični projekti', 'arteco'); ?></h2>
 				</header>
 			</div>
 

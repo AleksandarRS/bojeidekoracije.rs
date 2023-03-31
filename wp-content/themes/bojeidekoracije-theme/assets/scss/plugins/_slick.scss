@@ -3,7 +3,7 @@
 .products-slider-wrapper {
     .slider__counter,
     > .slick-dots {
-        max-width: 800px;
+        max-width: 990px;
         margin-left: auto;
         margin-right: auto;
     }
@@ -32,37 +32,53 @@
         }
         > li {
             color: $white;
-            flex: 0 0 25%;
-            font-size: $font-size-xsmall;
+            // flex: 0 0 25%;
+            font-size: $font-size-xsmall + 5;
             margin: 0;
-            max-width: 25%;
+            // max-width: 25%;
+            flex: 1 1;
             transition: all .5s;
-            @include max-mq ($ip) {
-                flex: 0 0 33.3333334%;
-                max-width: 33.3333334%;
+            @include max-mq ($mb_p + 20) {
+                font-size: 0;
             }
+            // @include max-mq ($ip) {
+            //     flex: 0 0 33.3333334%;
+            //     max-width: 33.3333334%;
+            // }
             &.slick-active {
-                flex: 0 0 50%;
+                flex: 0 0 33.33334%;
                 font-size: $font-size-large;
-                max-width: 50%;
-                @include max-mq ($ip) {
-                    flex: 0 0 33.3333334%;
-                    max-width: 33.3333334%;
+                max-width: 33.33334%;
+                @include max-mq ($mb_p + 20) {
+                    font-size: 0;
+                    flex: 0 0 28%;
+                    max-width: 28%;
                 }
+                @include max-mq ($mb) {
+                    flex: 0 0 23%;
+                    max-width: 23%;
+                }
+                
                 .products-featured-thumbnail {
                     &:after {
                         background-color: $primary-color;
+                        opacity: 0.65;
                     }
                 }
             }
         }
         .products-featured-thumbnail {
             height: 150px;
-            padding: 20px;
+            padding: 20px 15px;
             position: relative;
             cursor: pointer;
+            @include max-mq ($mb) {
+                height: 120px;
+            }
             &:after {
                 @extend %after-full;
+                background-color: $primary-color;
+                opacity: 0.25;
             }
             .pagination-title {
                 position: relative;

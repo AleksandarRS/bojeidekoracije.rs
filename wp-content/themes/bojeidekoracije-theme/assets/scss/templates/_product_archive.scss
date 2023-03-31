@@ -3,7 +3,7 @@
         padding-left: 15px;
         // padding-right: 15px;
     }
-    @include max-mq ($sm) {
+    @include max-mq ($md) {
         padding-right: 15px;
     }
 }
@@ -11,6 +11,12 @@
     display: flex;
     flex-wrap: wrap;
     margin-bottom: 35px;
+    @include max-mq ($md) {
+        flex: 0 0 100%;
+        max-width: 100%;
+        padding-left: 0;
+        padding-right: 0;
+    }
     .cl-layout-container,
     .page-children-section {
         width: 100%;
@@ -76,7 +82,14 @@
         }
         > h2 {
             margin: 0.2em 0;
-            font-size: $font-size-large;
+            font-size: $font-size-xlarge + 6;
+            @include max-mq ($ip -20) {
+                font-size: $font-size-xlarge + 4;
+            }
+            @include max-mq ($xs) {
+                font-size: $font-size-xlarge + 2;
+            }
+
         }
         > p {
             &:first-of-type {
@@ -105,4 +118,57 @@
     background-position: center;
 }
 
-
+.archive-section-wrapper.archive-taxonomy-section-wrapper {
+    padding: 0 15px;
+}
+.archive-filter-products-item {
+    position: relative;
+    padding-bottom: 50px;
+    @include max-mq ($sm) {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+    @include max-mq ($mb) {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+    .archive-filter-products-link {
+        &:hover {
+            .archive-filter-products-featured-img {
+                transform: scale(1.05);
+            }
+        }
+    }
+    .product-featured-image-wrapper {
+        overflow: hidden;
+        
+    }
+    .archive-filter-products-featured-img {
+        height: 450px;
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        transform: scale(1);
+        transition: all .5s;
+        @include max-mq ($ls) {
+            height: 320px;
+        }
+    }
+    .product-post-title-cat-wrapper {
+        padding-top: 10px;
+        color: $primary-color;
+    }
+    .see-more-wrapper {
+        position: absolute;
+        bottom: 35px;
+        left: 15px;
+        right: 0;
+        width: 100%;
+        .link {
+            color: $secondary-color;
+            &:hover {
+                color: $primary-color;
+            }
+        }
+    }
+}

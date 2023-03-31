@@ -30,7 +30,7 @@
             max-width: 50%;
             padding-bottom: 30px;
         }
-        @include max-mq ($ip) {
+        @include max-mq ($ip_max) {
             flex: 0 0 100%;
             max-width: 100%;
         }

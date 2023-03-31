@@ -8,14 +8,13 @@
     z-index: 9999999;
 }
 .page-loader {
-    // animation: animate 6s linear infinite;
+    animation: animate 6s linear infinite;
     background-color: transparent;
-    // background-image: url('../assets/images/magic-walls-NS-logo.png');
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
     bottom: 0;
-    height: 330px;
+    height: 140px;
     left: 0;
     margin: auto;
     overflow: hidden;
@@ -26,19 +25,22 @@
     width: 330px;
     z-index: 999;
 
+    @include max-mq($mb) {
+        padding: 14px;
+    }
     @include max-mq($ip - 20) {
-        padding: 2px;
+        padding: 9px;
     }
 }
 
-// @keyframes animate {
-//     0% {
-//         transform: scale(0.45);
-//     }
-//     50% {
-//         transform: scale(1.35);
-//     }
-//     100% {
-//         transform: scale(0.45);
-//     }
-// }
+@keyframes animate {
+    0% {
+        transform: scale(0.6);
+    }
+    // 50% {
+    //     transform: scale(1.35);
+    // }
+    100% {
+        transform: scale(1.8);
+    }
+}

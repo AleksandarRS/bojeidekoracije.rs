@@ -11,6 +11,10 @@
         }
         i {
             font-size: $font-size-xlarge + 1;
+
+            @include min-mq ($mac) {
+                font-size: $font-size-xlarge + 8;
+            }
         }
         a {
             text-decoration: none;

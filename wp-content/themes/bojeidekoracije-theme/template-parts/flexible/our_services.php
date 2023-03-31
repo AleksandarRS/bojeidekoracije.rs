@@ -13,7 +13,7 @@ $link = get_sub_field('button_section');
                     <?php if ( $title_label || $main_title ) : ?>
                         <header class="entry-header">
                             <span class="title-label"><?php echo $title_label; ?></span>
-                            <h1 class="entry-title"><?php echo $main_title; ?></h1>
+                            <h2 class="entry-title"><?php echo $main_title; ?></h2>
                         </header>
                     <?php endif; ?>
                     <?php if ( $section_description ) : ?>

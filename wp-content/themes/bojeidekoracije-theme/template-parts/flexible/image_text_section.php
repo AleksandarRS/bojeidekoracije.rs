@@ -13,7 +13,7 @@ $add_page_link = get_sub_field('add_page_link');
         <div class="container">
             <div class="row image-text-row">
                 <?php if ( $main_image ) : ?>
-                    <div class="col-md-6 image-text-section-main-image" style="background-image: url('<?php echo esc_url($main_image['url']); ?>')" rel="img" area-label="<?php echo esc_attr($main_image['alt']); ?>">
+                    <div class="col-md-6 image-text-section-main-image" style="background-image: url('<?php echo esc_url($main_image['url']); ?>')" rel="img" aria-label="<?php echo esc_attr($main_image['alt']); ?>">
                     </div>
                 <?php endif; ?>
                 <?php if ( $add_main_content || $add_page_link ) : ?>
@@ -22,7 +22,7 @@ $add_page_link = get_sub_field('add_page_link');
                         <?php if ( $title_label || $main_title ) : ?>
                             <header class="entry-header">
                                 <span class="title-label"><?php echo $title_label; ?></span>
-                                <h1 class="entry-title"><?php echo $main_title; ?></h1>
+                                <h2 class="entry-title"><?php echo $main_title; ?></h2>
                             </header>
                         <?php endif; ?>
                             <?php echo $add_main_content; ?>

@@ -95,11 +95,16 @@
 .site-info {
     border-top: 1px solid $primary-color;
     padding-bottom: 8px;
-    padding-top: 10px;
+    padding-top: 18px;
 }
 
 .privacy-policy-menu {
     text-align: right;
+    @include max-mq ($sm) {
+        text-align: left;
+        padding-bottom: 5px;
+        padding-top: 15px;
+    }
     .menu-item {
         a {
             text-decoration: underline;

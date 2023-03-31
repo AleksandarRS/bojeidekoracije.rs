@@ -145,6 +145,31 @@
     padding-right: 0;
     
 }
+
+.projekat-archive {
+    padding: 0 15px;
+}
+
+.our-all-potfolio-projects-logos-items {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -10px;
+    
+    .our-potfolio-projects-item {
+        flex: 0 0 25%;
+        max-width: 25%;
+        padding: 0 10px;
+        @include max-mq ($mac + 100) {
+            flex: 0 0 50%;
+            max-width: 50%;
+        }
+        @include max-mq ($tab) {
+            flex: 0 0 100%;
+            max-width: 100%;
+        }
+    }
+}
+
 .our-potfolio-projects-logos-items,
 .all-projects-posts-items {
     padding-top: 38px;
@@ -164,6 +189,7 @@
         min-height: 600px;
         padding-top: 0;
         position: relative;
+        overflow: hidden;
         @extend %transition-global;
         @include max-mq ($mb_p) {
             min-height: 490px;
@@ -181,11 +207,14 @@
             .project-description {
                 background-color: $primary-color;
             }
+            .our-potfolio-projects-featured-img {
+                transform: scale(1.015);
+            }
         }
     }
     .our-potfolio-projects-featured-img {
-        background-repeat: no-repeat;
         background-position: center;
+        background-repeat: no-repeat;
         background-size: cover;
         bottom: 0;
         height: 100%;
@@ -193,6 +222,8 @@
         position: absolute;
         right: 0;
         top: 0;
+        transform: scale(1);
+        transition: all .5s;
         width: 100%;
         z-index: 0;
         .title-label {

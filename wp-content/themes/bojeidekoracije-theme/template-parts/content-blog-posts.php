@@ -27,7 +27,7 @@
 							<?php the_excerpt(); ?>
 						</div>
 					</header>
-					<span class="link link-primary link-arrow"><?php _e('Pogledajte projekat', 'arteco') ?> <i class="icon icon-arrow-right"></i></span>
+					<span class="link link-primary link-arrow"><?php _e('Pogledajte više', 'arteco') ?> <i class="icon icon-arrow-right"></i></span>
 				</div>
 			</div>
 		</a>

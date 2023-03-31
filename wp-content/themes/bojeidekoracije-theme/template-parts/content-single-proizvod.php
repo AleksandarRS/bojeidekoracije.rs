@@ -18,7 +18,10 @@ $order_product_description = get_field('order_the_product_description');
 $order_product_text_content = get_field('order_product_text_content', 'option');
 $order_product_form_content = get_field('order_product_form_content', 'option');
 
+$manual_gallery = get_field('manual_gallery');
+
 $slider_or_text = get_field('slider_or_text');
+
 
 $half_section_f = get_field('half_section_f');
 $half_section_s = get_field('half_section_s');
@@ -76,7 +79,7 @@ $main_content = get_field('main_content');
 			<?php endif;?>
 
 
-			<div class="single-page-main-content single-page-entry-content<?php if( have_rows('slider_images') ): ?> col-md-6<?php  else : ?> col-md-12<?php endif;?>">
+			<section class="single-page-main-content single-page-entry-content<?php if( have_rows('slider_images') ): ?> col-md-6<?php  else : ?> col-md-12<?php endif;?>">
 				<header class="main-title-section-heading entry-header">
 					<?php $term_list = wp_get_post_terms($post->ID, 'kategorija-proizvoda', ['fields' => 'all']);
 						foreach($term_list as $term) {
@@ -108,7 +111,7 @@ $main_content = get_field('main_content');
 					<?php endif; ?>
 					
 				</div><!-- .entry-content -->
-			</div> <!-- /.single-page-main-content single-page-entry-content col-md-6 -->
+			</section> <!-- /.single-page-main-content single-page-entry-content col-md-6 -->
 
 			<?php if( $order_product_option == true ): ?>
 				<div id="order-form" class="single-page-order-form-wrapper col-md-12">
@@ -140,6 +143,60 @@ $main_content = get_field('main_content');
 					</div> <!-- /.single-page-order-form-inner -->
 				</div> <!-- /#order-form /.single-page-order-form-wrapper col-md-12 -->
 			<?php endif; ?>
+
+
+			<section class="single-page-gallery col-md-12">
+				<div class="single-page-gallery-wrap row">
+					<header class="main-title-section-heading entry-header col-md-12 align-center">
+						<h2 class="entry-title"><?php _e('Galerija proizvoda', 'arteco') ?></h2>
+					</header>
+					<?php if( $manual_gallery == true ): ?>
+						<?php if( have_rows('add_manual_gallery_images') ): ?>
+							<?php while ( have_rows('add_manual_gallery_images') ) : the_row(); ?>
+								<?php $add_manual_image = get_sub_field('manual_gallery_image'); ?>
+								<?php $manual_gallery_image_title = get_sub_field('manual_gallery_image_title'); ?>
+								<?php $manual_gallery_image_price = get_sub_field('manual_gallery_image_price'); ?>
+								<?php if( $add_manual_image ): ?>
+									<div class="single-page-gallery-img-wrap single-page-gallery-img-wrap-with-title">
+										<a class="featherlight-gallery-init" href="<?php echo esc_url($add_manual_image['url']); ?>">
+											<div class="single-page-gallery-img" style="background-image: url(<?php echo esc_url($add_manual_image['url']); ?>);" role="img" aria-label="<?php echo esc_attr($add_manual_image['alt']); ?>">
+											</div>
+											<div class="title-price-wrapper">
+												<h3 class="gallery-image-title"><?php echo $manual_gallery_image_title; ?></h3>
+												<p class="gallery-image-price"><span>Cena šablona je: </span><?php echo $manual_gallery_image_price; ?>RSD</p>
+											</div>
+										</a>
+									</div>
+								<?php endif; ?>
+							<?php endwhile; ?>
+						<?php endif; ?>
+					<?php else: ?>
+						<?php if( have_rows('slider_images') ): ?>
+							<?php while ( have_rows('slider_images') ) : the_row(); ?>
+								<?php $add_image = get_sub_field('add_image'); ?>
+								<?php $add_title = get_sub_field('add_title'); ?>
+								<?php $ad_unique_id = get_sub_field('ad_unique_id'); ?>
+								<?php if( $add_image ): ?>
+									<div class="single-page-gallery-img-wrap">
+										<a class="featherlight-gallery-init" href="<?php echo esc_url($add_image['url']); ?>">
+											<div class="single-page-gallery-img" style="background-image: url(<?php echo esc_url($add_image['url']); ?>);" role="img" aria-label="<?php echo esc_attr($add_image['alt']); ?>">
+											</div>
+											<div class="title-price-wrapper">
+												<?php if( $add_title ): ?>
+													<h3 class="gallery-image-title"><?php echo $add_title; ?></h3>
+												<?php endif; ?>
+												<?php if( $ad_unique_id ): ?>
+													<p class="gallery-image-price"><span>Broj pod kojim se proizvod vodi: </span><?php echo $ad_unique_id; ?><span> No#</span></p>
+												<?php endif; ?>
+											</div>
+										</a>
+									</div>
+								<?php endif; ?>
+							<?php endwhile; ?>
+						<?php endif; ?>
+					<?php endif; ?>
+				</div>
+			</section>
 
 			<?php if( $half_section_f || $half_section_s ): ?>
 				<div class="single-half-section-wrapper col-md-12">
@@ -207,12 +264,7 @@ $main_content = get_field('main_content');
 
 			<div class="all-products-section col-md-12">
     			<div class="all-products-section-wrapper">
-                    <div class="main-title-section-heading button-heading-wrap col-md-12">
-                        <header class="entry-header">
-                            <span class="title-label"><?php _e('Proizvodi', 'arteco'); ?></span>
-                            <h1 class="entry-title"><?php _e('Slični proizvodi', 'arteco'); ?></h1>
-                        </header>
-                    </div>
+                    
 					
 					<?php
 						// get the custom post type's taxonomy terms
@@ -239,6 +291,12 @@ $main_content = get_field('main_content');
 						$related_items = new WP_Query( $args );
 						// loop over query
 						if ( $related_items->have_posts() ) : ?>
+							<div class="main-title-section-heading button-heading-wrap col-md-12">
+								<header class="entry-header">
+									<span class="title-label"><?php _e('Proizvodi', 'arteco'); ?></span>
+									<h2 class="entry-title"><?php _e('Slični proizvodi', 'arteco'); ?></h2>
+								</header>
+							</div>
 							
 							<div class="product-cards-wrapper category-cards-wrapper col-md-12">
 								<div class="row category-row">

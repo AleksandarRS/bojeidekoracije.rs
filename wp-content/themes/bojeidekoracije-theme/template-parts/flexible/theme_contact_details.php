@@ -32,9 +32,9 @@
                                 <span class="title-label"><?php echo $contact_label; ?></span>
                             <?php endif; ?>
                             <?php if ( $main_title ) : ?>
-                                <h1 class="entry-title"><?php echo $main_title; ?></h1>
+                                <h2 class="entry-title"><?php echo $main_title; ?></h2>
                             <?php else: ?>
-                                <h1 class="entry-title"><?php echo $contact_title; ?></h1>
+                                <h2 class="entry-title"><?php echo $contact_title; ?></h2>
                             <?php endif; ?>
                         </header>
                     </div>

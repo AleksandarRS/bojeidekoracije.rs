@@ -20,6 +20,9 @@
     display: flex;
     font-size: $font-size-small;
     flex-wrap: wrap;
+    @include min-mq ($mac) {
+      font-size: $font-size-small + 1;
+    }
     @include max-mq ($ip - 20) {
       font-size: $font-size-small - 1;
     }
@@ -105,6 +108,9 @@
   text-transform: uppercase;
   text-align: right;
   font-weight: 600;
+  @include max-mq ($mb) {
+    max-width: 155px;
+  }
   @include max-mq ($xs) {
     max-width: 150px;
   }

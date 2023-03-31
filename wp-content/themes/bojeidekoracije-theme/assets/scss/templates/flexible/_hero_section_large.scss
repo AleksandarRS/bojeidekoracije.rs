@@ -25,6 +25,9 @@
             @include max-mq ($ipad) {
                 font-size: $font-size-h1-large - 14;
             }
+            @include max-mq ($md) {
+                font-size: $font-size-h1-large - 18;
+            }
             @include max-mq ($mb_p) {
                 font-size: $font-size-h1;
             }
@@ -106,16 +109,22 @@
     min-height: 750px;
     max-height: 950px;
     width: 100%;
-    @include max-mq ($ls) {
-        height: 85vh;
-        min-height: 650px;
+    @include max-mq ($mac) {
+        height: 73vh;
+        min-height: 620px;
+    }
+    @include max-mq ($ipad) {
+        height: 70vh;
     }
     @include max-mq ($sm) {
         height: auto;
-        min-height: 550px;
+        min-height: 500px;
     }
     @include max-mq ($mb_p) {
         min-height: 400px;
+    }
+    @include max-mq ($ip) {
+        min-height: 340px;
     }
 }
 .products-featured-img-wrap,

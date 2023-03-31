@@ -9,19 +9,33 @@
     @include max-mq ($lg) {
         padding: 10px 20px;
     }
-    // form.searchandfilter {
-    //     display: none;
-    // }
+    @include min-max-mq($md, $ipad) {
+        padding-left: 0;
+        padding-right: 0;
+    }
+    @include max-mq ($md) {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+    form.searchandfilter {
+        @include max-mq ($md) {
+            display: none;
+        }
+    }
 }
 .archive-filter-content {
     text-align: center;
     display: none;
+    @include max-mq ($md) {
+        display: block;
+    }
     i {
         display: inline-block;
         vertical-align: middle;
         margin-left: 7px;
     }
 }
+
 
 .content-area {
     .searchandfilter {

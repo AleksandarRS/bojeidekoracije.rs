@@ -1,3 +1,4 @@
+.single-page-gallery-img,
 .single-page-img,
 .single-page-thumbnail {
     background-position: center center;
@@ -81,6 +82,85 @@
     }
 }
 
+.single-page-gallery-wrap {
+    flex-wrap: wrap;
+    padding-top: 60px;
+    padding-bottom: 60px;
+    flex: 0 0 100%;
+    @include max-mq ($mac) {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    .main-title-section-heading {
+        padding-bottom: 35px;
+    }
+    .single-page-gallery-img-wrap {
+        border: 2px solid $white;
+        flex: 0 0 33.3333333334%;
+        max-width: 33.3333333334%;
+        transition: all .5s;
+        @include max-mq ($sm - 5) {
+            flex: 0 0 50%;
+            max-width: 50%;
+        }
+        @include max-mq ($mb) {
+            flex: 0 0 100%;
+            max-width: 100%;
+        }
+        &:hover {
+            border-color: $secondary-color;
+            .single-page-gallery-img {
+                transform: scale(1.05);
+            }
+            a {
+                cursor: zoom-in;
+            }
+        }
+        &.single-page-gallery-img-wrap {
+            border: 2px solid $secondary-color;
+            @include max-mq ($md) {
+                flex: 0 0 50%;
+                max-width: 50%;
+            }
+            @include max-mq ($mb) {
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
+        }
+        a {
+            display: block;
+            overflow: hidden;
+        }
+    }
+    .single-page-gallery-img {
+        height: 343px;
+        transform: scale(1);
+        transition: all .5s;
+    }
+    .title-price-wrapper {
+        padding: 1px 15px;
+    }
+    .gallery-image-title {
+        margin-bottom: 0.6em;
+        margin-top: 0.6em;
+        color: $primary-color;
+    }
+    .gallery-image-price {
+        @include max-mq ($mb) {
+            font-size: 16px;
+        }
+        span {
+            color: $primary-color;
+            font-size: $font-size-large;
+            @include max-mq ($mb) {
+                font-size: 16px;
+            }
+        }
+    }
+
+}
+
+
 .single-page-img {
     height: 70vh;
     max-height: 950px;
@@ -104,13 +184,13 @@
 }
 
 .single-page-thumbnail-slider {
-    margin-top: -150px;
-    @include max-mq ($lt) {
-        margin-top: -140px;
-    }
-    @include max-mq ($md) {
-        margin-top: -100px;
-    }
+    margin-top: -100px;
+    // @include max-mq ($lt) {
+    //     margin-top: -140px;
+    // }
+    // @include max-mq ($md) {
+    //     margin-top: -100px;
+    // }
     @include max-mq ($sm) {
         margin-top: -10px;
     }

@@ -13,7 +13,6 @@ get_header(); ?>
         <div class="archive-content">
             <div class="container">
                 <div class="row">
-                    
                     <div class="col-md-12 main-title-section-heading align-center">
                         <header class="entry-header">
                             <span class="title-label"><?php _e('Naši proizvodi', 'arteco') ?></span>
@@ -23,36 +22,29 @@ get_header(); ?>
                             </div>
                         </header>
                     </div>
-
                     <div class="archive-sidebar-wrapper col-md-3">
                         <div class="archive-filter-inner">
                             <span class="archive-filter-content"><h3><?php _e('Filtriraj kategorije','arteco'); ?> <i class="icon icon-filter-solid"></i></h3></span>
                             
                         </div>
-                        <?php get_sidebar(); ?>
-                        <?php //echo do_shortcode('[searchandfilter id="335"]'); ?>
+                        <?php echo do_shortcode('[searchandfilter id="335"]'); ?>
                     </div>
                     <main id="main" class="archive-main-wrapper site-main col-md-9" role="main">
                     <?php
                                 //  get_template_part('template-parts/content', 'product-cards');
-                                // echo do_shortcode('[searchandfilter id="335" show="results"]');
+                                echo do_shortcode('[searchandfilter id="335" show="results"]');
                                 // echo do_shortcode('[custom-layout id="369"]');
                                 ?>
-                        <?php if (have_posts()) : ?>
+                        <?php //if (have_posts()) : ?>
                             
                             <?php /* Start the Loop */ ?>
-                            <?php  while (have_posts()) : the_post(); ?>
-                            <?php get_template_part('template-parts/content', 'products-filter-cards'); ?>
-                            <?php  endwhile; ?>
-                            <?php arteco_post_navigation(); ?>
-                        <?php else : ?>
-                            <div class="col-md-12">
-                                <h3><?php _e('Kategorije pretrage se ne poklapaju!','arteco'); ?></h3>
-                                <p><?php _e('Proverite da li Vam je greškom ostao obeležen proizvod iz druge kategorije.', 'arteco'); ?></p>
-                                <p><?php _e('Hvala.', 'arteco'); ?></p>
-                            </div>
-                            <?php // get_template_part('template-parts/content', 'none'); ?>
-                        <?php  endif; ?>
+                            <?php  //while (have_posts()) : the_post(); ?>
+                                
+                            <?php // endwhile; ?>
+                            <?php //arteco_post_navigation(); ?>
+                        <?php //else : ?>
+                            <?php //get_template_part('template-parts/content', 'none'); ?>
+                        <?php // endif; ?>
                     </main><!-- #main -->
                 </div>
             </div><!-- #primary -->

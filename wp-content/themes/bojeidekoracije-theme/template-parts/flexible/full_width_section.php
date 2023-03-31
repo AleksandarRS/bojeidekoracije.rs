@@ -11,7 +11,7 @@ $main_content = get_sub_field('main_content');
                     <div class="col-md-12 main-title-section-heading align-center">
                         <header class="entry-header">
                             <span class="title-label"><?php echo $title_label; ?></span>
-                            <h1 class="entry-title"><?php echo $main_title; ?></h1>
+                            <h2 class="entry-title"><?php echo $main_title; ?></h2>
                         </header>
                     </div>
                 <?php endif; ?>

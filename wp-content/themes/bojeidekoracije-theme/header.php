@@ -15,86 +15,38 @@
 	<link rel="profile" href="http://gmpg.org/xfn/11">
 	<link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>">
 	<?php wp_head(); ?>
-	<?php echo wp_kses( get_theme_mod( 'google_analytics_code' ), [ 'script' => [] ] ); ?>
-	<meta name="theme-color" content="#010101">
+	<?php  echo wp_kses( get_theme_mod( 'google_analytics_code' ), [ 'script' => [] ] ); ?>
+
+    <!-- Google tag (gtag.js) -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-H1VESZY41V"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+
+		gtag('config', 'G-H1VESZY41V');
+	</script>
+    <!-- Facebook Pixel Code -->
+    <script>
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window,document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+         fbq('init', '475718288097469'); 
+        fbq('track', 'PageView');
+	</script>
+	<!-- <noscript><img src="https://www.facebook.com/tr?id=475718288097469&ev=PageView&noscript=1" alt="Facebook pixel image" height="1" width="1" /></noscript> -->
+    <!-- End Facebook Pixel Code -->
 </head>
 
 <body <?php body_class(); ?>>
 <div class="page-loader-wrapper">
     <div class="page-loader">
-	<svg id="wrap" width="300" height="300">
-  
-  <!-- background -->
-  <svg>
-    <circle cx="150" cy="150" r="130" style="stroke: #1E2227; stroke-width:18; fill:transparent"/>
-    <circle cx="150" cy="150" r="115" style="fill:#1E2227"/>
-    <path style="stroke: #F8A116; stroke-dasharray:820; stroke-dashoffset:820; stroke-width:18; fill:transparent" d="M150,150 m0,-130 a 130,130 0 0,1 0,260 a 130,130 0 0,1 0,-260">
-      <animate attributeName="stroke-dashoffset" dur="6s" to="-820" repeatCount="indefinite"/>
-    </path>
-  </svg>
-  
-  <!-- image -->
-  <svg>
-    <path id="hourglass" d="M150,150 C60,85 240,85 150,150 C60,215 240,215 150,150 Z" style="stroke: white; stroke-width:5; fill:white;" />
-    
-    <path id="frame" d="M100,97 L200, 97 M100,203 L200,203 M110,97 L110,142 M110,158 L110,200 M190,97 L190,142 M190,158 L190,200 M110,150 L110,150 M190,150 L190,150" style="stroke:#F8A116; stroke-width:6; stroke-linecap:round" />
-    
-    <animateTransform xlink:href="#frame" attributeName="transform" type="rotate" begin="0s" dur="3s" values="0 150 150; 0 150 150; 180 150 150" keyTimes="0; 0.8; 1" repeatCount="indefinite" />
-    <animateTransform xlink:href="#hourglass" attributeName="transform" type="rotate" begin="0s" dur="3s" values="0 150 150; 0 150 150; 180 150 150" keyTimes="0; 0.8; 1" repeatCount="indefinite" />
-  </svg>
-  
-  <!-- sand -->
-  <svg>
-    <!-- upper part -->
-    <polygon id="upper" points="120,125 180,125 150,147" style="fill:#F8A116;">
-      <animate attributeName="points" dur="3s" keyTimes="0; 0.8; 1" values="120,125 180,125 150,147; 150,150 150,150 150,150; 150,150 150,150 150,150" repeatCount="indefinite"/>
-    </polygon>
-    
-    <!-- falling sand -->
-    <path id="line" stroke-linecap="round" stroke-dasharray="1,4" stroke-dashoffset="200.00" stroke="#F8A116" stroke-width="2" d="M150,150 L150,198">
-      <!-- running sand -->
-      <animate attributeName="stroke-dashoffset" dur="3s" to="1.00" repeatCount="indefinite"/>
-      <!-- emptied upper -->
-      <animate attributeName="d" dur="3s" to="M150,195 L150,195" values="M150,150 L150,198; M150,150 L150,198; M150,198 L150,198; M150,195 L150,195" keyTimes="0; 0.65; 0.9; 1" repeatCount="indefinite"/>
-      <!-- last drop -->
-      <animate attributeName="stroke" dur="3s" keyTimes="0; 0.65; 0.8; 1" values="#F8A116;#F8A116;transparent;transparent" to="transparent" repeatCount="indefinite"/>
-    </path>
-    
-    <!-- lower part -->
-    <g id="lower">
-      <path d="M150,180 L180,190 A28,10 0 1,1 120,190 L150,180 Z" style="stroke: transparent; stroke-width:5; fill:#F8A116;">
-        <animateTransform attributeName="transform" type="translate" keyTimes="0; 0.65; 1" values="0 15; 0 0; 0 0" dur="3s" repeatCount="indefinite" />
-      </path>
-      <animateTransform xlink:href="#lower" attributeName="transform"
-                    type="rotate"
-                    begin="0s" dur="3s"
-                    values="0 150 150; 0 150 150; 180 150 150"
-                    keyTimes="0; 0.8; 1"
-                    repeatCount="indefinite"/>
-    </g>
-    
-    <!-- lower overlay - hourglass -->
-    <path d="M150,150 C60,85 240,85 150,150 C60,215 240,215 150,150 Z" style="stroke: white; stroke-width:5; fill:transparent;">
-      <animateTransform attributeName="transform"
-                    type="rotate"
-                    begin="0s" dur="3s"
-                    values="0 150 150; 0 150 150; 180 150 150"
-                    keyTimes="0; 0.8; 1"
-                    repeatCount="indefinite"/>
-    </path>
-    
-    <!-- lower overlay - frame -->
-    <path id="frame" d="M100,97 L200, 97 M100,203 L200,203" style="stroke:#F8A116; stroke-width:6; stroke-linecap:round">
-      <animateTransform attributeName="transform"
-                    type="rotate"
-                    begin="0s" dur="3s"
-                    values="0 150 150; 0 150 150; 180 150 150"
-                    keyTimes="0; 0.8; 1"
-                    repeatCount="indefinite"/>
-    </path>
-  </svg>
-  
-</svg>
+		<img src="<?php echo get_template_directory_uri(); ?>/assets/images/Arteco-logo-tapete-dekorativni-materijali.png" alt="<?php _e('Arteco logo loader', 'arteco') ?>">
 	</div>
 </div>
 <div id='toTop'><i class="icon icon-angle-up"></i></div>
@@ -173,10 +125,12 @@
 						<a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home">
 							<img src="<?php echo( esc_url( get_header_image() ) ); ?>" alt="<?php echo( esc_attr( get_bloginfo( 'title' ) ) ); ?>"/>
 						</a>
+						<span><?php _e('Dekorativni elementi', 'arteco'); ?></span>
 					</div>
 					<?php if ( bloginfo( 'description' ) != '' ) : ?>
+					
 						<p class="site-description">
-							<span><?php _e('Dekorativni elementi', 'arteco'); ?></span>
+							
 							<span><?php bloginfo( 'description' ); ?></span>
 						</p>
 					<?php endif; ?>
